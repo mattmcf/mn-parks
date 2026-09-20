@@ -2,8 +2,11 @@
 
 if ! gem list foreman -i --silent; then
   echo "Installing foreman..."
-  gem install foreman
+  gem install foreman || gem install --user-install foreman
 fi
+
+# User-install gems land in Gem.user_dir/bin; prepend so `exec foreman` finds them.
+export PATH="$(ruby -e 'print File.join(Gem.user_dir, "bin")'):$PATH"
 
 # Do not export PORT here. Foreman would treat it as a base port and
 # reassign processes; Procfile.dev already pins API 3451 and Vite 4174.
