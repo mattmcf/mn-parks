@@ -241,7 +241,7 @@ export default function App() {
       )}
 
       <div className="relative min-h-0 flex-1">
-        <div className="absolute inset-0">
+        <div className="absolute inset-0 min-h-0">
           {loading ? (
             <div className="flex h-full items-center justify-center bg-[#d7e4d8] text-[hsl(var(--muted-foreground))]">
               Loading Minnesota parks…

@@ -50,6 +50,19 @@ body {
   overflow: hidden;
 }
 
+.maplibregl-map,
+.maplibregl-canvas-container {
+  width: 100%;
+  height: 100%;
+}
+
+.maplibregl-canvas {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  display: block;
+}
+
 .maplibregl-ctrl-attrib {
   font-size: 10px;
 }

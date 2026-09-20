@@ -1,8 +1,32 @@
 import { useEffect, useRef } from "react"
-import * as maplibregl from "maplibre-gl"
-import type { GeoJSONSource, MapLayerMouseEvent, Map as MapLibreMap } from "maplibre-gl"
+import {
+  Map as MapLibreMap,
+  Marker,
+  NavigationControl,
+  Popup,
+  type GeoJSONSource,
+  type MapLayerMouseEvent,
+  type StyleSpecification,
+} from "maplibre-gl"
 import { MN_BOUNDS, TYPE_COLORS } from "@/lib/constants"
 import type { Origin, Park } from "@/types"
+
+const RASTER_STYLE: StyleSpecification = {
+  version: 8,
+  sources: {
+    osm: {
+      type: "raster",
+      tiles: [
+        "https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
+        "https://b.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
+        "https://c.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
+      ],
+      tileSize: 256,
+      attribution: "© OpenStreetMap contributors © CARTO",
+    },
+  },
+  layers: [{ id: "osm", type: "raster", source: "osm" }],
+}
 
 type Props = {
   parks: Park[]
@@ -27,6 +51,47 @@ function toGeoJSON(parks: Park[]) {
   }
 }
 
+function addParkLayers(map: MapLibreMap, parks: Park[]) {
+  if (map.getSource("parks")) return
+  map.addSource("parks", { type: "geojson", data: toGeoJSON(parks) })
+  map.addLayer({
+    id: "parks-circles",
+    type: "circle",
+    source: "parks",
+    paint: {
+      "circle-radius": 7,
+      "circle-color": [
+        "match",
+        ["get", "park_type"],
+        "national",
+        TYPE_COLORS.national,
+        "state",
+        TYPE_COLORS.state,
+        "regional",
+        TYPE_COLORS.regional,
+        "county",
+        TYPE_COLORS.county,
+        "#444",
+      ],
+      "circle-stroke-width": 1.6,
+      "circle-stroke-color": "#fff",
+      "circle-opacity": 0.95,
+    },
+  })
+  map.addLayer({
+    id: "parks-selected",
+    type: "circle",
+    source: "parks",
+    filter: ["==", ["get", "id"], -1],
+    paint: {
+      "circle-radius": 12,
+      "circle-color": "transparent",
+      "circle-stroke-width": 3,
+      "circle-stroke-color": "#111",
+    },
+  })
+}
+
 export function MapCanvas({
   parks,
   selectedId,
@@ -40,7 +105,7 @@ export function MapCanvas({
   const containerRef = useRef<HTMLDivElement>(null)
   const mapRef = useRef<MapLibreMap | null>(null)
   const parksRef = useRef(parks)
-  const pinRef = useRef<maplibregl.Marker | null>(null)
+  const pinRef = useRef<Marker | null>(null)
   const onSelectRef = useRef(onSelect)
   const onMoveRef = useRef(onMove)
   const onDropPinRef = useRef(onDropPin)
@@ -50,11 +115,12 @@ export function MapCanvas({
   onDropPinRef.current = onDropPin
 
   useEffect(() => {
-    if (!containerRef.current || mapRef.current) return
+    const node = containerRef.current
+    if (!node) return
 
-    const map = new maplibregl.Map({
-      container: containerRef.current,
-      style: "https://tiles.openfreemap.org/styles/liberty",
+    const map = new MapLibreMap({
+      container: node,
+      style: RASTER_STYLE,
       center: [-94.3, 46.1],
       zoom: 6,
       maxBounds: [
@@ -62,8 +128,14 @@ export function MapCanvas({
         [-87.2, 50.6],
       ],
       attributionControl: { compact: true },
+      canvasContextAttributes: {
+        antialias: false,
+        preserveDrawingBuffer: true,
+        failIfMajorPerformanceCaveat: false,
+        powerPreference: "default",
+      },
     })
-    map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "bottom-right")
+    map.addControl(new NavigationControl({ showCompass: false }), "bottom-right")
     mapRef.current = map
 
     const emitViewport = () => {
@@ -74,71 +146,42 @@ export function MapCanvas({
       onMoveRef.current(ids)
     }
 
-    map.on("load", () => {
+    const onReady = () => {
+      map.resize()
       map.fitBounds(MN_BOUNDS, { padding: 48, duration: 0 })
-      map.addSource("parks", { type: "geojson", data: toGeoJSON(parksRef.current) })
-      map.addLayer({
-        id: "parks-circles",
-        type: "circle",
-        source: "parks",
-        paint: {
-          "circle-radius": 6.5,
-          "circle-color": [
-            "match",
-            ["get", "park_type"],
-            "national",
-            TYPE_COLORS.national,
-            "state",
-            TYPE_COLORS.state,
-            "regional",
-            TYPE_COLORS.regional,
-            "county",
-            TYPE_COLORS.county,
-            "#444",
-          ],
-          "circle-stroke-width": 1.4,
-          "circle-stroke-color": "#fff",
-          "circle-opacity": 0.95,
-        },
-      })
-      map.addLayer({
-        id: "parks-selected",
-        type: "circle",
-        source: "parks",
-        filter: ["==", ["get", "id"], -1],
-        paint: {
-          "circle-radius": 11,
-          "circle-color": "transparent",
-          "circle-stroke-width": 3,
-          "circle-stroke-color": "#111",
-        },
-      })
+      addParkLayers(map, parksRef.current)
       emitViewport()
-    })
+    }
 
+    map.on("load", onReady)
+    map.on("moveend", emitViewport)
     map.on("click", "parks-circles", (event: MapLayerMouseEvent) => {
       const feature = event.features?.[0]
       const id = Number(feature?.properties?.id)
       const park = parksRef.current.find((item) => item.id === id)
       if (park) onSelectRef.current(park)
     })
-
     map.on("mouseenter", "parks-circles", () => {
       map.getCanvas().style.cursor = "pointer"
     })
     map.on("mouseleave", "parks-circles", () => {
       map.getCanvas().style.cursor = ""
     })
-    map.on("moveend", emitViewport)
-
     map.on("click", (event: MapLayerMouseEvent) => {
       if (containerRef.current?.dataset.placing === "true") {
         onDropPinRef.current(event.lngLat.lng, event.lngLat.lat)
       }
     })
 
+    const observer = new ResizeObserver(() => map.resize())
+    observer.observe(node)
+    const later = window.setTimeout(() => map.resize(), 200)
+
     return () => {
+      window.clearTimeout(later)
+      observer.disconnect()
       pinRef.current?.remove()
+      pinRef.current = null
       map.remove()
       mapRef.current = null
     }
@@ -173,9 +216,9 @@ export function MapCanvas({
     pinRef.current?.remove()
     pinRef.current = null
     if (!origin || origin.kind !== "pin") return
-    const marker = new maplibregl.Marker({ color: "#be123c", draggable: true })
+    const marker = new Marker({ color: "#be123c", draggable: true })
       .setLngLat([origin.longitude, origin.latitude])
-      .setPopup(new maplibregl.Popup({ offset: 18 }).setText("Distance is measured from here"))
+      .setPopup(new Popup({ offset: 18 }).setText("Distance is measured from here"))
       .addTo(map)
     marker.on("dragend", () => {
       const lngLat = marker.getLngLat()
@@ -190,5 +233,10 @@ export function MapCanvas({
     map.flyTo({ center: [flyTo.longitude, flyTo.latitude], zoom: 11, essential: true })
   }, [flyTo])
 
-  return <div ref={containerRef} className="h-full w-full" />
+  return (
+    <div
+      ref={containerRef}
+      className="map-canvas absolute inset-0 h-full w-full min-h-[240px]"
+    />
+  )
 }
