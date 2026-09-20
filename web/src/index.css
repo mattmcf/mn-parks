@@ -1,0 +1,65 @@
+@import "tailwindcss";
+@import "maplibre-gl/dist/maplibre-gl.css";
+
+@theme {
+  --font-sans: "Source Serif 4", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --font-ui: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --color-pine: #1f4d3a;
+  --color-pine-dark: #13291f;
+  --color-lake: #1d6a93;
+  --color-clay: #b45309;
+  --color-paper: #f4efe4;
+  --color-ink: #1c1915;
+}
+
+:root {
+  --background: 40 33% 95%;
+  --foreground: 150 22% 12%;
+  --card: 40 40% 98%;
+  --card-foreground: 150 22% 12%;
+  --primary: 152 42% 22%;
+  --primary-foreground: 40 40% 97%;
+  --secondary: 40 20% 90%;
+  --secondary-foreground: 150 22% 16%;
+  --muted: 40 18% 90%;
+  --muted-foreground: 150 10% 38%;
+  --accent: 199 68% 36%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 8 70% 42%;
+  --border: 40 16% 82%;
+  --input: 40 16% 82%;
+  --ring: 152 42% 22%;
+  --radius: 0.75rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: var(--font-ui);
+  overflow: hidden;
+}
+
+.maplibregl-ctrl-attrib {
+  font-size: 10px;
+}
+
+.maplibregl-popup-content {
+  font-family: var(--font-ui);
+  padding: 8px 10px;
+  border-radius: 8px;
+}
+
+.park-from-pin .maplibregl-marker {
+  cursor: grab;
+}

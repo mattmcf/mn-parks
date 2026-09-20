@@ -1,0 +1,2 @@
+api: PORT=3451 bundle exec rails server -b 0.0.0.0 -p 3451
+web: npm --prefix web run dev

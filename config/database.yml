@@ -1,0 +1,19 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  max_connections: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: <%= ENV.fetch("PGHOST", "/var/run/postgresql") %>
+  username: <%= ENV.fetch("PGUSER", "ubuntu") %>
+  password: <%= ENV.fetch("PGPASSWORD", "") %>
+
+development:
+  <<: *default
+  database: mn_parks_development
+
+test:
+  <<: *default
+  database: mn_parks_test
+
+production:
+  <<: *default
+  url: <%= ENV["DATABASE_URL"] %>

@@ -1,0 +1,30 @@
+# Rails
+/.bundle
+/vendor/bundle
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+/storage/*
+!/storage/.keep
+/tmp/storage/*
+!/tmp/storage/.keep
+/config/master.key
+/public/assets
+*.log
+
+# Node
+/web/node_modules
+/web/dist
+/web/.vite
+
+# OS / editor
+.DS_Store
+*.swp
+.idea
+.vscode
+
+# Env
+.env
+.env.*
+!.env.example
