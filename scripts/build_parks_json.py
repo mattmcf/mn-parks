@@ -11,10 +11,18 @@ Sources:
 
 from __future__ import annotations
 
+import argparse
+import io
 import json
 import math
 import os
 import re
+import sys
+import time
+import urllib.error
+import urllib.parse
+import urllib.request
+import zipfile
 from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
@@ -26,9 +34,172 @@ from shapely.ops import unary_union
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "db" / "data" / "parks.json"
-CACHE = Path("/tmp/mn-parks-data")
+CACHE = Path(os.environ.get("MN_PARKS_CACHE", "/tmp/mn-parks-data"))
+
+USER_AGENT = "mn-parks-refresh/1.0 (https://github.com/mattmcf/mn-parks)"
+
+DNR_ZIP_URL = (
+    "https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_dnr/"
+    "bdry_dnr_lrs_prk/shp_bdry_dnr_lrs_prk.zip"
+)
+METRO_ZIP_URL = (
+    "https://resources.gisdata.mn.gov/pub/gdrs/data/pub/us_mn_state_metrogis/"
+    "bdry_metro_colabtiv_parks/shp_bdry_metro_colabtiv_parks.zip"
+)
+METC_QUERY_URL = (
+    "https://arcgis.metc.state.mn.us/arcgis/rest/services/LPH/Parks_CD/"
+    "FeatureServer/1/query"
+)
+NPS_API_URL = "https://developer.nps.gov/api/v1/parks"
 
 TO_WGS = Transformer.from_crs(26915, 4326, always_xy=True)
+
+
+def rec_get(record: dict, *candidates: str) -> str:
+    """Read a shapefile field by full name or 10-char DBF truncation."""
+    keys = list(record)
+    lower = {k.lower(): k for k in keys}
+    for cand in candidates:
+        if cand in record and record[cand] not in (None, ""):
+            return str(record[cand])
+        key = lower.get(cand.lower())
+        if key is not None and record[key] not in (None, ""):
+            return str(record[key])
+        prefix = cand[:10]
+        for k in keys:
+            if k.startswith(prefix) and record[k] not in (None, ""):
+                return str(record[k])
+    return ""
+
+
+def http_bytes(url: str, headers: dict | None = None, timeout: int = 120) -> bytes:
+    req_headers = {"User-Agent": USER_AGENT}
+    if headers:
+        req_headers.update(headers)
+    last: Exception | None = None
+    for attempt in range(4):
+        try:
+            req = urllib.request.Request(url, headers=req_headers)
+            with urllib.request.urlopen(req, timeout=timeout) as resp:
+                return resp.read()
+        except (urllib.error.URLError, TimeoutError, OSError) as exc:
+            last = exc
+            time.sleep(1.5 * (attempt + 1))
+    raise RuntimeError(f"Failed to fetch {url}: {last}") from last
+
+
+def http_json(url: str, headers: dict | None = None) -> dict:
+    return json.loads(http_bytes(url, headers=headers))
+
+
+def unzip_url(url: str, dest: Path) -> None:
+    dest.mkdir(parents=True, exist_ok=True)
+    raw = http_bytes(url)
+    with zipfile.ZipFile(io.BytesIO(raw)) as zf:
+        zf.extractall(dest)
+
+
+def fetch_nps() -> None:
+    key = os.environ.get("NPS_API_KEY") or "DEMO_KEY"
+    parks: list[dict] = []
+    start = 0
+    while True:
+        params = urllib.parse.urlencode(
+            {"stateCode": "MN", "limit": 50, "start": start}
+        )
+        data = http_json(
+            f"{NPS_API_URL}?{params}",
+            headers={"X-Api-Key": key},
+        )
+        batch = data.get("data") or []
+        parks.extend(batch)
+        total = int(data.get("total") or len(parks))
+        start += len(batch)
+        if not batch or start >= total:
+            break
+    CACHE.mkdir(parents=True, exist_ok=True)
+    (CACHE / "nps.json").write_text(json.dumps({"data": parks}))
+    print(f"Fetched {len(parks)} NPS units for Minnesota")
+
+
+def nps_from_existing_asset() -> None:
+    """Keep previously shipped national parks if the NPS API is unavailable."""
+    if not OUT.exists():
+        raise RuntimeError("NPS fetch failed and db/data/parks.json is missing.")
+    payload = json.loads(OUT.read_text())
+    data = []
+    for park in payload.get("parks") or []:
+        if park.get("park_type") != "national":
+            continue
+        data.append(
+            {
+                "fullName": park["name"],
+                "name": park["name"],
+                "latitude": park["latitude"],
+                "longitude": park["longitude"],
+                "parkCode": park.get("source_id"),
+                "id": park.get("source_id"),
+                "url": park.get("source_url") or "",
+                "description": park.get("highlights") or "",
+                "designation": "",
+                "activities": [{"name": a} for a in (park.get("amenities") or [])],
+            }
+        )
+    if not data:
+        raise RuntimeError("NPS fetch failed and the shipped file has no national parks.")
+    CACHE.mkdir(parents=True, exist_ok=True)
+    (CACHE / "nps.json").write_text(json.dumps({"data": data}))
+    print(f"NPS API unavailable; reused {len(data)} national parks from {OUT}")
+
+
+def fetch_met_council() -> None:
+    features: list[dict] = []
+    offset = 0
+    page_size = 1000
+    while True:
+        params = urllib.parse.urlencode(
+            {
+                "where": "1=1",
+                "outFields": "*",
+                "outSR": "4326",
+                "returnGeometry": "true",
+                "f": "geojson",
+                "resultOffset": offset,
+                "resultRecordCount": page_size,
+            }
+        )
+        data = http_json(f"{METC_QUERY_URL}?{params}")
+        batch = data.get("features") or []
+        features.extend(batch)
+        if data.get("exceededTransferLimit") or len(batch) >= page_size:
+            offset += len(batch)
+            if not batch:
+                break
+            continue
+        break
+    CACHE.mkdir(parents=True, exist_ok=True)
+    (CACHE / "metc.json").write_text(
+        json.dumps({"type": "FeatureCollection", "features": features})
+    )
+    print(f"Fetched {len(features)} Met Council regional park features")
+
+
+def fetch_sources() -> None:
+    print("Fetching official park sources (DNR, NPS, Met Council, MetroGIS)…")
+    unzip_url(DNR_ZIP_URL, CACHE / "dnr")
+    shp = CACHE / "dnr" / "dnr_management_units_prk_ref_pts.shp"
+    if not shp.exists():
+        raise FileNotFoundError(f"DNR reference-point shapefile missing at {shp}")
+    unzip_url(METRO_ZIP_URL, CACHE / "metro")
+    metro_shp = CACHE / "metro" / "MetroCollaborativeParks.shp"
+    if not metro_shp.exists():
+        raise FileNotFoundError(f"MetroGIS shapefile missing at {metro_shp}")
+    fetch_met_council()
+    try:
+        fetch_nps()
+    except Exception as exc:
+        print(f"NPS API fetch failed ({exc}); falling back to shipped national parks.")
+        nps_from_existing_asset()
 
 MN_WEST, MN_SOUTH, MN_EAST, MN_NORTH = -97.5, 43.4, -89.34, 49.4
 
@@ -311,23 +482,16 @@ def load_dnr() -> list[dict]:
     parks = []
     for rec, shp in zip(sf.records(), sf.shapes()):
         d = dict(zip(fields, rec))
-        unit = d.get("MGMT_UNIT_") or ""
+        unit = rec_get(d, "MGMT_UNIT_TYPE_NAME", "MGMT_UNIT_")
         if unit not in ("State Park", "State Recreation Area"):
             continue
         xy = centroid_utm(shp)
         if not xy:
             continue
         lon, lat = xy
-        name = d.get("PAT_MGMT_U") or ""
-        code = d.get("LAM_PROGRA") or ""
+        name = rec_get(d, "PAT_MGMT_UNIT_NAME", "PAT_MGMT_U")
+        code = rec_get(d, "LAM_PROGRAM_PROJECT_CODE", "LAM_PROGRA")
         amenities = parse_features(name)
-        # Statewide defaults for DNR units: hiking is almost always present
-        if "hiking" not in amenities:
-            amenities.append("hiking")
-        if "picnic" not in amenities:
-            amenities.append("picnic")
-        if "State Recreation Area" == unit and "camping" not in amenities:
-            amenities.append("camping")
         extra = STATE_PARK_AMENITIES.get(name.lower(), [])
         for a in extra:
             if a not in amenities:
@@ -455,12 +619,9 @@ def load_regional() -> list[dict]:
     for name, feats in groups.items():
         geoms = []
         agency = ""
-        url = ""
-        acres = 0.0
         for f in feats:
             p = f["properties"]
             agency = agency or (p.get("AgencyManager") or "")
-            acres += float(p.get("AcresCalculated") or 0)
             if f.get("geometry"):
                 try:
                     geoms.append(shape(f["geometry"]))
@@ -470,9 +631,7 @@ def load_regional() -> list[dict]:
             continue
         merged = unary_union(geoms)
         c = merged.centroid
-        amenities = ["hiking", "picnic"]
-        if acres > 200:
-            amenities.append("wildlife")
+        amenities = []
         extra = REGIONAL_AMENITIES.get(name.lower(), [])
         for a in extra:
             if a not in amenities:
@@ -562,9 +721,7 @@ def load_metro_county(regional_names: set[str]) -> list[dict]:
         lon = sum(lons) / len(lons)
         lat = sum(lats) / len(lats)
         feats = " ".join((d.get("SPEC_FEAT") or "") for d, _ in items)
-        amenities = parse_features(feats + " " + name)
-        if not amenities:
-            amenities = ["hiking", "picnic"]
+        amenities = parse_features(feats)
         agency = d0.get("AGENCYNAME") or d0.get("LANDOWNER") or "County parks"
         url = d0.get("PARK_URL") or ""
         parks.append(
@@ -859,7 +1016,26 @@ def dedup(parks: list[dict]) -> list[dict]:
     return kept
 
 
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Fetch official MN park sources and write db/data/parks.json."
+    )
+    parser.add_argument(
+        "--skip-fetch",
+        action="store_true",
+        help="Rebuild from files already in MN_PARKS_CACHE (default /tmp/mn-parks-data).",
+    )
+    return parser.parse_args()
+
+
 def main() -> None:
+    args = parse_args()
+    skip_fetch = args.skip_fetch or os.environ.get("PARKS_SKIP_FETCH") == "1"
+    if skip_fetch:
+        print(f"Skipping remote fetch; using cache at {CACHE}")
+    else:
+        fetch_sources()
+
     dnr = load_dnr()
     nps = load_nps()
     regional = load_regional()

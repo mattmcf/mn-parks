@@ -1,4 +1,6 @@
 module Api
+  # Park inventory is served from Postgres after `db:seed` / `parks:ingest`
+  # loaded `db/data/parks.json`. Index never calls DNR, NPS, or Met Council.
   class ParksController < BaseController
     before_action :authenticate_user_json!, only: :user_state
 
@@ -46,11 +48,8 @@ module Api
     end
 
     def attribution
-      path = Rails.root.join("db/data/parks.json")
-      return [] unless path.exist?
-
-      JSON.parse(path.read)["attribution"] || []
-    rescue JSON::ParserError
+      Park.shipped_payload["attribution"] || []
+    rescue Errno::ENOENT, JSON::ParserError
       []
     end
   end

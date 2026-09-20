@@ -52,26 +52,38 @@ Set `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`. Callback URL:
 
 Without those env vars, Google is omitted. The map still works.
 
-## Data: what is real vs seeded
+## Data: shipped inventory
 
-Rebuilt with `python3 scripts/build_parks_json.py` (needs the shapefiles cached under `/tmp/mn-parks-data` from Minnesota Geospatial Commons). Then `bin/rails db:seed`.
+v1 is **state + national + regional + county**. City parks are a second pass.
 
-| Type | Count (v1 seed) | Source |
+The source of truth is the committed static asset **`db/data/parks.json`**. `db:seed`, `parks:ingest`, and the JSON API all read that file (API via Postgres after seed). The map loads `/api/parks`. **`rails server` and Vite never call DNR, NPS, or Met Council.**
+
+| Type | Count (current asset) | Source |
 | --- | --- | --- |
-| **State** | 74 | MN DNR Parks & Trails reference points (Geospatial Commons `bdry_dnr_lrs_prk`) — official coordinates for state parks and state recreation areas. Waysides omitted. |
-| **National** | 5 | NPS Parks API (`stateCode=MN`): Voyageurs, Grand Portage, Pipestone, Mississippi NRRA, Saint Croix NSR. North Country NST omitted (trail, not an in-state park unit). |
-| **Regional** | 70 | Metropolitan Council regional parks / park reserves (LPH Parks). Twin Cities system. |
+| **State** | 74 | MN DNR Parks & Trails reference points (Geospatial Commons `bdry_dnr_lrs_prk`) — state parks and state recreation areas. Waysides omitted. |
+| **National** | 5 | NPS Parks API (`stateCode=MN`): Voyageurs, Grand Portage, Pipestone, Mississippi NRRA, Saint Croix NSR. North Country NST omitted (trail, not a park unit). |
+| **Regional** | 70 | Metropolitan Council regional parks / park reserves (`LPH/Parks_CD`). Twin Cities system. |
 | **County** | 146 | MetroGIS Collaborative Parks (county-owned units in the seven-county metro) **plus** curated Greater Minnesota county parks with real coordinates. |
 
-Coordinates are real. Highlights and amenities are **sparse on purpose**: official GIS rarely includes a full amenity inventory. Empty states say “Not listed in our sources yet.” Do not treat amenity chips as complete.
+Coordinates are real. Highlights and amenities are **sparse on purpose**: official GIS rarely includes a full amenity inventory. Empty states say “Not listed in our sources yet.” Do not invent amenities to fill chips.
 
-**Not county-complete across all 87 counties.** Many counties do not publish park GIS. Greater MN points are a solid real-world seed, not a staff directory of every county picnic ground. City parks are deferred.
+**Not county-complete across all 87 counties.** Many counties do not publish park GIS. Greater MN points are a real-world seed, not a staff directory of every picnic ground.
 
-Refresh:
+### Iterate on park-finding
+
+Edit sources or filters in `scripts/build_parks_json.py` (types, skip lists, Greater MN rows, amenity mapping). Then:
 
 ```bash
-python3 scripts/build_parks_json.py
-bin/rails parks:ingest
+# Fetches official sources, rewrites db/data/parks.json, loads Postgres
+bin/rake parks:refresh
+```
+
+Commit the updated `db/data/parks.json` with the code change. Optional `NPS_API_KEY` (otherwise the NPS `DEMO_KEY`). Python packages: `pip install -r scripts/requirements.txt` (the rake task installs them if missing).
+
+Offline load of an already-shipped file (used by `db:prepare` / `db:seed` as well):
+
+```bash
+bin/rake parks:ingest
 ```
 
 ## What’s in vs deferred
@@ -96,7 +108,6 @@ bin/rails parks:ingest
 - Named lists, account deletion, Rails admin
 - Scheduled re-ingest, production host
 - Google OAuth until keys are provided
-- Private GitHub repo name `mn-parks` (this codebase)
 
 ## API (JSON)
 
