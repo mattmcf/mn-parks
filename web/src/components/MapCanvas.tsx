@@ -5,7 +5,6 @@ import {
   NavigationControl,
   Popup,
   type GeoJSONSource,
-  type MapLayerMouseEvent,
   type StyleSpecification,
 } from "maplibre-gl"
 import { MN_BOUNDS, TYPE_COLORS } from "@/lib/constants"
@@ -51,23 +50,13 @@ function addParkLayers(map: MapLibreMap, parks: Park[]) {
   if (map.getSource("parks")) return
   map.addSource("parks", { type: "geojson", data: toGeoJSON(parks) })
   map.addLayer({
-    id: "parks-hit",
-    type: "circle",
-    source: "parks",
-    paint: {
-      "circle-radius": ["interpolate", ["linear"], ["zoom"], 5, 18, 7, 20, 10, 22, 13, 24],
-      "circle-color": "#000",
-      "circle-opacity": 0,
-    },
-  })
-  map.addLayer({
     id: "parks-halo",
     type: "circle",
     source: "parks",
     paint: {
-      "circle-radius": ["interpolate", ["linear"], ["zoom"], 5, 11, 7, 14, 10, 16, 13, 18],
+      "circle-radius": ["interpolate", ["linear"], ["zoom"], 4, 14, 6, 16, 9, 18, 12, 20],
       "circle-color": "#1c1915",
-      "circle-opacity": 0.28,
+      "circle-opacity": 0.22,
     },
   })
   map.addLayer({
@@ -75,7 +64,7 @@ function addParkLayers(map: MapLibreMap, parks: Park[]) {
     type: "circle",
     source: "parks",
     paint: {
-      "circle-radius": ["interpolate", ["linear"], ["zoom"], 5, 8, 7, 11, 10, 13, 13, 15],
+      "circle-radius": ["interpolate", ["linear"], ["zoom"], 4, 11, 6, 13, 9, 15, 12, 16],
       "circle-color": [
         "match",
         ["get", "park_type"],
@@ -89,7 +78,7 @@ function addParkLayers(map: MapLibreMap, parks: Park[]) {
         TYPE_COLORS.county,
         "#444",
       ],
-      "circle-stroke-width": 2.2,
+      "circle-stroke-width": 2.5,
       "circle-stroke-color": "#fff",
       "circle-opacity": 1,
     },
@@ -100,12 +89,27 @@ function addParkLayers(map: MapLibreMap, parks: Park[]) {
     source: "parks",
     filter: ["==", ["get", "id"], -1],
     paint: {
-      "circle-radius": ["interpolate", ["linear"], ["zoom"], 5, 14, 7, 17, 10, 19, 13, 21],
+      "circle-radius": ["interpolate", ["linear"], ["zoom"], 4, 17, 6, 19, 9, 21, 12, 22],
       "circle-color": "transparent",
       "circle-stroke-width": 3,
       "circle-stroke-color": "#111",
     },
   })
+}
+
+const PARK_LAYERS = ["parks-circles", "parks-halo", "parks-selected"]
+
+function parkAtPoint(map: MapLibreMap, point: { x: number; y: number }) {
+  const pad = 18
+  const hits = map.queryRenderedFeatures(
+    [
+      [point.x - pad, point.y - pad],
+      [point.x + pad, point.y + pad],
+    ],
+    { layers: PARK_LAYERS.filter((id) => map.getLayer(id)) },
+  )
+  const id = Number(hits[0]?.properties?.id)
+  return Number.isFinite(id) ? id : null
 }
 
 export function MapCanvas({
@@ -171,23 +175,18 @@ export function MapCanvas({
 
     map.on("load", onReady)
     map.on("moveend", emitViewport)
-    map.on("click", "parks-hit", (event: MapLayerMouseEvent) => {
-      if (containerRef.current?.dataset.placing === "true") return
-      const feature = event.features?.[0]
-      const id = Number(feature?.properties?.id)
+    map.on("click", (event) => {
+      if (containerRef.current?.dataset.placing === "true") {
+        onDropPinRef.current(event.lngLat.lng, event.lngLat.lat)
+        return
+      }
+      const id = parkAtPoint(map, event.point)
       const park = parksRef.current.find((item) => item.id === id)
       if (park) onSelectRef.current(park)
     })
-    map.on("mouseenter", "parks-hit", () => {
-      map.getCanvas().style.cursor = "pointer"
-    })
-    map.on("mouseleave", "parks-hit", () => {
-      map.getCanvas().style.cursor = ""
-    })
-    map.on("click", (event: MapLayerMouseEvent) => {
-      if (containerRef.current?.dataset.placing === "true") {
-        onDropPinRef.current(event.lngLat.lng, event.lngLat.lat)
-      }
+    map.on("mousemove", (event) => {
+      if (containerRef.current?.dataset.placing === "true") return
+      map.getCanvas().style.cursor = parkAtPoint(map, event.point) ? "pointer" : ""
     })
 
     const observer = new ResizeObserver(() => map.resize())
