@@ -27,8 +27,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_20_180616) do
   end
 
   create_table "parks", force: :cascade do |t|
-    t.jsonb "activities", default: -> { "'[]'::jsonb" }, null: false
-    t.jsonb "amenities", default: -> { "'[]'::jsonb" }, null: false
+    t.jsonb "activities", default: [], null: false
+    t.jsonb "amenities", default: [], null: false
     t.datetime "created_at", null: false
     t.text "highlights"
     t.boolean "in_minnesota", default: true, null: false
