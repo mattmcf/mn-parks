@@ -3,6 +3,12 @@ export const MN_BOUNDS: [[number, number], [number, number]] = [
   [-89.34, 49.38],
 ]
 
+/** Initial camera still fits Minnesota; pan/zoom may travel this far around it. */
+export const MAP_MAX_BOUNDS: [[number, number], [number, number]] = [
+  [-108, 38],
+  [-80, 53],
+]
+
 export const MN_CENTER: [number, number] = [-94.3, 46.1]
 
 export const TYPE_LABELS = {

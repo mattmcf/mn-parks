@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button"
 import { api } from "@/lib/api"
 import { TYPE_COLORS, TYPE_LABELS } from "@/lib/constants"
 import { formatMiles, haversineMiles } from "@/lib/geo"
+import { cn } from "@/lib/utils"
 import type { Filters, Origin, Park, SessionUser } from "@/types"
 
 const ORIGIN_KEY = "mn-parks-origin"
@@ -240,77 +241,12 @@ export default function App() {
         </div>
       )}
 
-      <div className="relative min-h-0 flex-1">
-        <div className="absolute inset-0 min-h-0">
-          {loading ? (
-            <div className="flex h-full items-center justify-center bg-[#d7e4d8] text-[hsl(var(--muted-foreground))]">
-              Loading Minnesota parks…
-            </div>
-          ) : parks.length === 0 && !error ? (
-            <div className="flex h-full items-center justify-center bg-[#d7e4d8] p-6 text-center text-[hsl(var(--muted-foreground))]">
-              No parks are loaded yet. Run `bin/rails db:seed` and refresh.
-            </div>
-          ) : (
-            <MapCanvas
-              parks={filtered}
-              selectedId={selectedId}
-              origin={origin}
-              placingPin={placingPin}
-              onSelect={selectPark}
-              onMove={setViewportIds}
-              onDropPin={dropPin}
-              flyTo={flyTo}
-            />
-          )}
-        </div>
-
-        {noFilterMatch && (
-          <div className="absolute left-1/2 top-4 z-10 w-[min(24rem,calc(100%-2rem))] -translate-x-1/2 rounded-lg bg-[hsl(var(--card))] px-4 py-3 text-center text-sm shadow">
-            No parks match those filters. Clear a type, amenity, or distance chip and try again.
-          </div>
-        )}
-
-        <div className="pointer-events-none absolute right-3 top-3 z-10 flex flex-col gap-2">
-          <Button className="pointer-events-auto shadow" variant="secondary" size="sm" onClick={useGps} disabled={gpsBusy}>
-            <LocateFixed />
-            {gpsBusy ? "Locating…" : "Use my location"}
-          </Button>
-          <Button
-            className="pointer-events-auto shadow"
-            variant={placingPin ? "accent" : "secondary"}
-            size="sm"
-            onClick={() => setPlacingPin((value) => !value)}
-          >
-            <Pin />
-            {placingPin ? "Click the map…" : "Drop From pin"}
-          </Button>
-          {origin && (
-            <Button
-              className="pointer-events-auto shadow"
-              variant="outline"
-              size="sm"
-              onClick={() => {
-                setPinOrigin(null)
-                setGpsOrigin(null)
-                setPlacingPin(false)
-              }}
-            >
-              Clear origin
-            </Button>
-          )}
-        </div>
-
-        {origin && (
-          <div className="absolute bottom-16 right-3 z-10 rounded-md bg-[hsl(var(--card))]/95 px-3 py-1.5 text-xs shadow">
-            Measuring from {origin.kind === "pin" ? "your From pin" : "GPS"}
-            {selected && distances.get(selected.id) != null && ` · ${formatMiles(distances.get(selected.id)!)} to selection`}
-          </div>
-        )}
-
+      <div className="flex min-h-0 flex-1">
         <aside
-          className={`absolute bottom-0 left-0 top-0 z-10 hidden w-[min(22rem,100%)] flex-col border-r border-[hsl(var(--border))] bg-[hsl(var(--card))]/95 shadow-lg backdrop-blur md:flex ${
-            listOpen ? "" : "w-10"
-          }`}
+          className={cn(
+            "z-10 hidden h-full shrink-0 flex-col overflow-hidden border-r border-[hsl(var(--border))] bg-[hsl(var(--card))]/95 shadow-lg backdrop-blur transition-[width] duration-200 ease-out md:flex",
+            listOpen ? "w-[22rem]" : "w-10",
+          )}
         >
           {listOpen ? (
             <>
@@ -322,7 +258,13 @@ export default function App() {
                     {origin ? "by distance" : "by name"}
                   </p>
                 </div>
-                <Button variant="ghost" size="icon" onClick={() => setListOpen(false)} aria-label="Collapse list">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setListOpen(false)}
+                  aria-label="Collapse list"
+                  aria-expanded
+                >
                   <ChevronLeft />
                 </Button>
               </div>
@@ -350,20 +292,94 @@ export default function App() {
               </div>
             </>
           ) : (
-            <Button variant="ghost" className="h-full rounded-none" onClick={() => setListOpen(true)}>
+            <Button
+              variant="ghost"
+              className="h-full w-full rounded-none"
+              onClick={() => setListOpen(true)}
+              aria-label="Expand list"
+              aria-expanded={false}
+            >
               <ChevronRight />
             </Button>
           )}
         </aside>
 
-        <button
-          type="button"
-          className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2 rounded-full bg-[hsl(var(--card))] px-4 py-2 text-sm shadow md:hidden"
-          onClick={() => setMobileListOpen(true)}
-        >
-          <List className="h-4 w-4" />
-          {listParks.length} in view
-        </button>
+        <div className="relative min-h-0 min-w-0 flex-1">
+          <div className="absolute inset-0 min-h-0">
+            {loading ? (
+              <div className="flex h-full items-center justify-center bg-[#d7e4d8] text-[hsl(var(--muted-foreground))]">
+                Loading Minnesota parks…
+              </div>
+            ) : parks.length === 0 && !error ? (
+              <div className="flex h-full items-center justify-center bg-[#d7e4d8] p-6 text-center text-[hsl(var(--muted-foreground))]">
+                No parks are loaded yet. Run `bin/rails db:seed` and refresh.
+              </div>
+            ) : (
+              <MapCanvas
+                parks={filtered}
+                selectedId={selectedId}
+                origin={origin}
+                placingPin={placingPin}
+                onSelect={selectPark}
+                onMove={setViewportIds}
+                onDropPin={dropPin}
+                flyTo={flyTo}
+              />
+            )}
+          </div>
+
+          {noFilterMatch && (
+            <div className="absolute left-1/2 top-4 z-10 w-[min(24rem,calc(100%-2rem))] -translate-x-1/2 rounded-lg bg-[hsl(var(--card))] px-4 py-3 text-center text-sm shadow">
+              No parks match those filters. Clear a type, amenity, or distance chip and try again.
+            </div>
+          )}
+
+          <div className="pointer-events-none absolute right-3 top-3 z-10 flex flex-col gap-2">
+            <Button className="pointer-events-auto shadow" variant="secondary" size="sm" onClick={useGps} disabled={gpsBusy}>
+              <LocateFixed />
+              {gpsBusy ? "Locating…" : "Use my location"}
+            </Button>
+            <Button
+              className="pointer-events-auto shadow"
+              variant={placingPin ? "accent" : "secondary"}
+              size="sm"
+              onClick={() => setPlacingPin((value) => !value)}
+            >
+              <Pin />
+              {placingPin ? "Click the map…" : "Drop From pin"}
+            </Button>
+            {origin && (
+              <Button
+                className="pointer-events-auto shadow"
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  setPinOrigin(null)
+                  setGpsOrigin(null)
+                  setPlacingPin(false)
+                }}
+              >
+                Clear origin
+              </Button>
+            )}
+          </div>
+
+          {origin && (
+            <div className="absolute bottom-16 right-3 z-10 rounded-md bg-[hsl(var(--card))]/95 px-3 py-1.5 text-xs shadow">
+              Measuring from {origin.kind === "pin" ? "your From pin" : "GPS"}
+              {selected && distances.get(selected.id) != null && ` · ${formatMiles(distances.get(selected.id)!)} to selection`}
+            </div>
+          )}
+
+          <button
+            type="button"
+            className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2 rounded-full bg-[hsl(var(--card))] px-4 py-2 text-sm shadow md:hidden"
+            onClick={() => setMobileListOpen(true)}
+          >
+            <List className="h-4 w-4" />
+            {listParks.length} in view
+          </button>
+        </div>
       </div>
 
       <footer className="hidden items-center gap-3 overflow-x-auto border-t border-[hsl(var(--border))] bg-[hsl(var(--card))] px-4 py-1.5 text-[11px] text-[hsl(var(--muted-foreground))] md:flex">

@@ -7,7 +7,7 @@ import {
   type GeoJSONSource,
   type StyleSpecification,
 } from "maplibre-gl"
-import { MN_BOUNDS, TYPE_COLORS } from "@/lib/constants"
+import { MAP_MAX_BOUNDS, MN_BOUNDS, TYPE_COLORS } from "@/lib/constants"
 import type { Origin, Park } from "@/types"
 
 const OSM_RASTER_STYLE: StyleSpecification = {
@@ -144,10 +144,7 @@ export function MapCanvas({
       center: [-94.3, 46.1],
       zoom: 6,
       clickTolerance: 16,
-      maxBounds: [
-        [-99.2, 41.8],
-        [-87.2, 50.6],
-      ],
+      maxBounds: MAP_MAX_BOUNDS,
       attributionControl: { compact: true },
       canvasContextAttributes: {
         antialias: false,

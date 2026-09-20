@@ -112,7 +112,7 @@ bin/rake parks:ingest
 
 **In this slice**
 
-- Minnesota-bounded MapLibre map, parks as pins colored by type
+- MapLibre map that opens fitted to Minnesota; pan is allowed out into the Dakotas, Iowa, Wisconsin, and the Great Lakes. Parks as pins colored by type
 - Click → name, type, agency, straight-line distance, highlights, amenities/activities
 - Filters: type, amenities/activities that exist, distance (when origin set), favorited, visited
 - Collapsible side list of parks in the current viewport; distance sort if origin, else name
