@@ -26,9 +26,28 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_20_180616) do
     t.index ["user_id"], name: "index_park_user_states_on_user_id"
   end
 
-# Could not dump table "parks" because of following ArgumentError
-#   wrong number of arguments (given 2, expected 1)
-
+  create_table "parks", force: :cascade do |t|
+    t.jsonb "activities", default: -> { "'[]'::jsonb" }, null: false
+    t.jsonb "amenities", default: -> { "'[]'::jsonb" }, null: false
+    t.datetime "created_at", null: false
+    t.text "highlights"
+    t.boolean "in_minnesota", default: true, null: false
+    t.decimal "latitude", precision: 10, scale: 7, null: false
+    t.decimal "longitude", precision: 10, scale: 7, null: false
+    t.string "managing_agency"
+    t.string "name", null: false
+    t.string "park_type", null: false
+    t.datetime "retrieved_at"
+    t.string "source", null: false
+    t.string "source_id", null: false
+    t.string "source_url"
+    t.datetime "updated_at", null: false
+    t.index ["activities"], name: "index_parks_on_activities", using: :gin
+    t.index ["amenities"], name: "index_parks_on_amenities", using: :gin
+    t.index ["name"], name: "index_parks_on_name"
+    t.index ["park_type"], name: "index_parks_on_park_type"
+    t.index ["source", "source_id"], name: "index_parks_on_source_and_source_id", unique: true
+  end
 
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false

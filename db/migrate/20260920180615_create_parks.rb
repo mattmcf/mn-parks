@@ -10,8 +10,8 @@ class CreateParks < ActiveRecord::Migration[8.1]
       t.decimal :latitude, precision: 10, scale: 7, null: false
       t.decimal :longitude, precision: 10, scale: 7, null: false
       t.text :highlights
-      t.jsonb :amenities, null: false, default: []
-      t.jsonb :activities, null: false, default: []
+      t.jsonb :amenities, null: false, default: -> { "'[]'::jsonb" }
+      t.jsonb :activities, null: false, default: -> { "'[]'::jsonb" }
       t.boolean :in_minnesota, null: false, default: true
       t.datetime :retrieved_at
       t.timestamps
