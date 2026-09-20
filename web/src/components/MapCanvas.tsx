@@ -54,7 +54,7 @@ function addParkLayers(map: MapLibreMap, parks: Park[]) {
     type: "circle",
     source: "parks",
     paint: {
-      "circle-radius": ["interpolate", ["linear"], ["zoom"], 4, 14, 6, 16, 9, 18, 12, 20],
+      "circle-radius": ["interpolate", ["linear"], ["zoom"], 4, 16, 6, 18, 9, 20, 12, 22],
       "circle-color": "#1c1915",
       "circle-opacity": 0.22,
     },
@@ -64,7 +64,7 @@ function addParkLayers(map: MapLibreMap, parks: Park[]) {
     type: "circle",
     source: "parks",
     paint: {
-      "circle-radius": ["interpolate", ["linear"], ["zoom"], 4, 11, 6, 13, 9, 15, 12, 16],
+      "circle-radius": ["interpolate", ["linear"], ["zoom"], 4, 13, 6, 15, 9, 16, 12, 18],
       "circle-color": [
         "match",
         ["get", "park_type"],
@@ -89,7 +89,7 @@ function addParkLayers(map: MapLibreMap, parks: Park[]) {
     source: "parks",
     filter: ["==", ["get", "id"], -1],
     paint: {
-      "circle-radius": ["interpolate", ["linear"], ["zoom"], 4, 17, 6, 19, 9, 21, 12, 22],
+      "circle-radius": ["interpolate", ["linear"], ["zoom"], 4, 19, 6, 21, 9, 23, 12, 24],
       "circle-color": "transparent",
       "circle-stroke-width": 3,
       "circle-stroke-color": "#111",
@@ -100,7 +100,7 @@ function addParkLayers(map: MapLibreMap, parks: Park[]) {
 const PARK_LAYERS = ["parks-circles", "parks-halo", "parks-selected"]
 
 function parkAtPoint(map: MapLibreMap, point: { x: number; y: number }) {
-  const pad = 18
+  const pad = 22
   const hits = map.queryRenderedFeatures(
     [
       [point.x - pad, point.y - pad],
@@ -143,6 +143,7 @@ export function MapCanvas({
       style: OSM_RASTER_STYLE,
       center: [-94.3, 46.1],
       zoom: 6,
+      clickTolerance: 16,
       maxBounds: [
         [-99.2, 41.8],
         [-87.2, 50.6],
@@ -173,21 +174,40 @@ export function MapCanvas({
       emitViewport()
     }
 
-    map.on("load", onReady)
-    map.on("moveend", emitViewport)
-    map.on("click", (event) => {
+    const selectFromPoint = (point: { x: number; y: number }, lngLat?: { lng: number; lat: number }) => {
       if (containerRef.current?.dataset.placing === "true") {
-        onDropPinRef.current(event.lngLat.lng, event.lngLat.lat)
+        if (lngLat) onDropPinRef.current(lngLat.lng, lngLat.lat)
         return
       }
-      const id = parkAtPoint(map, event.point)
+      const id = parkAtPoint(map, point)
       const park = parksRef.current.find((item) => item.id === id)
       if (park) onSelectRef.current(park)
-    })
+    }
+
+    map.on("load", onReady)
+    map.on("moveend", emitViewport)
     map.on("mousemove", (event) => {
       if (containerRef.current?.dataset.placing === "true") return
       map.getCanvas().style.cursor = parkAtPoint(map, event.point) ? "pointer" : ""
     })
+
+    let pointerDown: { x: number; y: number } | null = null
+    const canvas = map.getCanvas()
+    const onPointerDown = (event: PointerEvent) => {
+      pointerDown = { x: event.clientX, y: event.clientY }
+    }
+    const onPointerUp = (event: PointerEvent) => {
+      if (!pointerDown) return
+      const moved = Math.hypot(event.clientX - pointerDown.x, event.clientY - pointerDown.y)
+      pointerDown = null
+      if (moved > 14) return
+      const rect = canvas.getBoundingClientRect()
+      const point = { x: event.clientX - rect.left, y: event.clientY - rect.top }
+      const lngLat = map.unproject([point.x, point.y])
+      selectFromPoint(point, lngLat)
+    }
+    canvas.addEventListener("pointerdown", onPointerDown)
+    canvas.addEventListener("pointerup", onPointerUp)
 
     const observer = new ResizeObserver(() => map.resize())
     observer.observe(node)
@@ -196,6 +216,8 @@ export function MapCanvas({
     return () => {
       window.clearTimeout(later)
       observer.disconnect()
+      canvas.removeEventListener("pointerdown", onPointerDown)
+      canvas.removeEventListener("pointerup", onPointerUp)
       pinRef.current?.remove()
       pinRef.current = null
       map.remove()
