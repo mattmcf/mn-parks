@@ -46,17 +46,18 @@ bin/rails db:prepare
 
 Copy `.env.example` for optional Google sign-in (leave those vars blank to hide Google; email/password always works). `.env.example` also documents `PGHOST=localhost` for Mac. Rails does not auto-load `.env`; export the vars or use direnv.
 
-Start both processes (uncommon ports on purpose):
+Start both processes with **`bin/dev`** (Foreman reads `Procfile.dev`; uncommon ports on purpose):
 
 ```bash
-# API — http://127.0.0.1:3451
-PORT=3451 bin/rails server -b 0.0.0.0
-
-# SPA — http://127.0.0.1:4174  (proxies /api to Rails)
-cd web && npm run dev
+bin/dev
 ```
 
-Open **http://127.0.0.1:4174**. The map, list, details, filters, and Random work logged out. Favorite and Visited prompt for sign-in.
+Then open the **map** at **http://127.0.0.1:4174**. The Rails JSON API is **http://127.0.0.1:3451** (Vite proxies `/api` to it). The map, list, details, filters, and Random work logged out. Favorite and Visited prompt for sign-in.
+
+`bin/dev` installs the `foreman` gem if it is missing, then runs:
+
+- `api` — Rails on **3451**
+- `web` — Vite SPA on **4174**
 
 ### Ports
 
