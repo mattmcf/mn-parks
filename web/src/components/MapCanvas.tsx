@@ -11,18 +11,14 @@ import {
 import { MN_BOUNDS, TYPE_COLORS } from "@/lib/constants"
 import type { Origin, Park } from "@/types"
 
-const RASTER_STYLE: StyleSpecification = {
+const OSM_RASTER_STYLE: StyleSpecification = {
   version: 8,
   sources: {
     osm: {
       type: "raster",
-      tiles: [
-        "https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
-        "https://b.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
-        "https://c.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
-      ],
+      tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
       tileSize: 256,
-      attribution: "© OpenStreetMap contributors © CARTO",
+      attribution: "© OpenStreetMap contributors",
     },
   },
   layers: [{ id: "osm", type: "raster", source: "osm" }],
@@ -55,11 +51,31 @@ function addParkLayers(map: MapLibreMap, parks: Park[]) {
   if (map.getSource("parks")) return
   map.addSource("parks", { type: "geojson", data: toGeoJSON(parks) })
   map.addLayer({
+    id: "parks-hit",
+    type: "circle",
+    source: "parks",
+    paint: {
+      "circle-radius": ["interpolate", ["linear"], ["zoom"], 5, 18, 7, 20, 10, 22, 13, 24],
+      "circle-color": "#000",
+      "circle-opacity": 0,
+    },
+  })
+  map.addLayer({
+    id: "parks-halo",
+    type: "circle",
+    source: "parks",
+    paint: {
+      "circle-radius": ["interpolate", ["linear"], ["zoom"], 5, 11, 7, 14, 10, 16, 13, 18],
+      "circle-color": "#1c1915",
+      "circle-opacity": 0.28,
+    },
+  })
+  map.addLayer({
     id: "parks-circles",
     type: "circle",
     source: "parks",
     paint: {
-      "circle-radius": 7,
+      "circle-radius": ["interpolate", ["linear"], ["zoom"], 5, 8, 7, 11, 10, 13, 13, 15],
       "circle-color": [
         "match",
         ["get", "park_type"],
@@ -73,9 +89,9 @@ function addParkLayers(map: MapLibreMap, parks: Park[]) {
         TYPE_COLORS.county,
         "#444",
       ],
-      "circle-stroke-width": 1.6,
+      "circle-stroke-width": 2.2,
       "circle-stroke-color": "#fff",
-      "circle-opacity": 0.95,
+      "circle-opacity": 1,
     },
   })
   map.addLayer({
@@ -84,7 +100,7 @@ function addParkLayers(map: MapLibreMap, parks: Park[]) {
     source: "parks",
     filter: ["==", ["get", "id"], -1],
     paint: {
-      "circle-radius": 12,
+      "circle-radius": ["interpolate", ["linear"], ["zoom"], 5, 14, 7, 17, 10, 19, 13, 21],
       "circle-color": "transparent",
       "circle-stroke-width": 3,
       "circle-stroke-color": "#111",
@@ -120,7 +136,7 @@ export function MapCanvas({
 
     const map = new MapLibreMap({
       container: node,
-      style: RASTER_STYLE,
+      style: OSM_RASTER_STYLE,
       center: [-94.3, 46.1],
       zoom: 6,
       maxBounds: [
@@ -155,16 +171,17 @@ export function MapCanvas({
 
     map.on("load", onReady)
     map.on("moveend", emitViewport)
-    map.on("click", "parks-circles", (event: MapLayerMouseEvent) => {
+    map.on("click", "parks-hit", (event: MapLayerMouseEvent) => {
+      if (containerRef.current?.dataset.placing === "true") return
       const feature = event.features?.[0]
       const id = Number(feature?.properties?.id)
       const park = parksRef.current.find((item) => item.id === id)
       if (park) onSelectRef.current(park)
     })
-    map.on("mouseenter", "parks-circles", () => {
+    map.on("mouseenter", "parks-hit", () => {
       map.getCanvas().style.cursor = "pointer"
     })
-    map.on("mouseleave", "parks-circles", () => {
+    map.on("mouseleave", "parks-hit", () => {
       map.getCanvas().style.cursor = ""
     })
     map.on("click", (event: MapLayerMouseEvent) => {

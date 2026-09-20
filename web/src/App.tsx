@@ -301,7 +301,7 @@ export default function App() {
         </div>
 
         {origin && (
-          <div className="absolute bottom-3 right-3 z-10 rounded-md bg-[hsl(var(--card))]/95 px-3 py-1.5 text-xs shadow">
+          <div className="absolute bottom-16 right-3 z-10 rounded-md bg-[hsl(var(--card))]/95 px-3 py-1.5 text-xs shadow">
             Measuring from {origin.kind === "pin" ? "your From pin" : "GPS"}
             {selected && distances.get(selected.id) != null && ` · ${formatMiles(distances.get(selected.id)!)} to selection`}
           </div>
