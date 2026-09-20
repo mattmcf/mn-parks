@@ -1,9 +1,13 @@
+# Mac: TCP localhost, no username (libpq uses the OS user, e.g. matt).
+# Linux/cloud Unix socket: export PGHOST=/var/run/postgresql and PGUSER=ubuntu.
 default: &default
   adapter: postgresql
   encoding: unicode
   max_connections: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  host: <%= ENV.fetch("PGHOST", "/var/run/postgresql") %>
-  username: <%= ENV.fetch("PGUSER", "ubuntu") %>
+  host: <%= ENV.fetch("PGHOST", "localhost") %>
+<% if ENV["PGUSER"].to_s != "" %>
+  username: <%= ENV["PGUSER"] %>
+<% end %>
   password: <%= ENV.fetch("PGPASSWORD", "") %>
 
 development:

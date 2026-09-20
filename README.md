@@ -13,17 +13,38 @@ The map is a React SPA. Rails does not render it.
 
 You need Ruby 3.2+, Postgres, and Node 22+.
 
+Open the **SPA** at **http://127.0.0.1:4174** — that is the map. The Rails JSON API is **http://127.0.0.1:3451** and is not the UI.
+
+### Postgres (Mac vs Linux/cloud)
+
+`config/database.yml` defaults to TCP **`localhost`** and **omits `username`**, so libpq uses your OS user (e.g. `matt` on a Mac). Cloud/Linux can still use a Unix socket by exporting `PGHOST` / `PGUSER`.
+
+| | Mac (Homebrew / Postgres.app) | Linux / cloud |
+| --- | --- | --- |
+| Host | `localhost` (default, or `PGHOST=localhost`) | `PGHOST=/var/run/postgresql` |
+| User | unset — Postgres uses the OS user | `PGUSER=ubuntu` (or that cluster’s role) |
+| Databases | `mn_parks_development` / `mn_parks_test` | same |
+
 ```bash
-# Postgres database
-createdb mn_parks_development   # or: bin/rails db:create
+# Mac
+export PGHOST=localhost
+# leave PGUSER unset
 
 bundle install
-bin/rails db:prepare            # migrate + seed 295 parks
+bin/rails db:prepare            # create + migrate + seed 295 parks
 
 cd web && npm install && cd ..
 ```
 
-Copy `.env.example` if you want Google sign-in. Leave those vars blank to hide Google; email/password always works.
+Linux/cloud over a Unix socket:
+
+```bash
+export PGHOST=/var/run/postgresql
+export PGUSER=ubuntu
+bin/rails db:prepare
+```
+
+Copy `.env.example` for optional Google sign-in (leave those vars blank to hide Google; email/password always works). `.env.example` also documents `PGHOST=localhost` for Mac. Rails does not auto-load `.env`; export the vars or use direnv.
 
 Start both processes (uncommon ports on purpose):
 
@@ -41,8 +62,8 @@ Open **http://127.0.0.1:4174**. The map, list, details, filters, and Random work
 
 | Service | Port |
 | --- | --- |
+| Vite SPA (open this) | **4174** |
 | Rails JSON API | **3451** |
-| Vite SPA | **4174** |
 
 ### Optional Google OAuth
 
