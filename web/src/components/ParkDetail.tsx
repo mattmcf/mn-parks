@@ -1,4 +1,4 @@
-import { Check, Heart, X } from "lucide-react"
+import { Check, Heart, Moon, Tent, X } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { labelFor, TYPE_COLORS, TYPE_LABELS } from "@/lib/constants"
@@ -40,6 +40,12 @@ export function ParkDetail({ park, origin, miles, user, onClose, onNeedAuth, onT
           {park.managing_agency && (
             <span className="text-[hsl(var(--muted-foreground))]">{park.managing_agency}</span>
           )}
+          {park.dark_sky_certified && (
+            <span className="inline-flex items-center gap-1 rounded-full bg-[#1e3a5f] px-2 py-0.5 text-xs text-[#dbeafe]">
+              <Moon className="h-3 w-3" />
+              Dark Sky
+            </span>
+          )}
         </div>
 
         <section>
@@ -56,6 +62,71 @@ export function ParkDetail({ park, origin, miles, user, onClose, onNeedAuth, onT
             </p>
           )}
         </section>
+
+        {park.dark_sky_certified && park.dark_sky && (
+          <section>
+            <h3 className="text-xs font-semibold uppercase tracking-wide text-[hsl(var(--muted-foreground))]">
+              Dark Sky
+            </h3>
+            <p className="mt-1 text-sm leading-relaxed">
+              {park.dark_sky.category_label}
+              {park.dark_sky.designated ? `, designated ${park.dark_sky.designated}` : ""}.
+              Certified by DarkSky International — not a nearby dark site guess.
+            </p>
+            {park.dark_sky.url && (
+              <a
+                className="mt-1 inline-block text-sm text-[hsl(var(--accent))] underline"
+                href={park.dark_sky.url}
+                target="_blank"
+                rel="noreferrer"
+              >
+                DarkSky listing
+              </a>
+            )}
+          </section>
+        )}
+
+        {hasCampingIntel(park) && (
+          <section>
+            <h3 className="text-xs font-semibold uppercase tracking-wide text-[hsl(var(--muted-foreground))]">
+              Camping
+            </h3>
+            {park.camping_score != null ? (
+              <p className="mt-1 flex items-baseline gap-2">
+                <Tent className="h-4 w-4 shrink-0 text-[hsl(var(--muted-foreground))]" />
+                <span className="text-2xl font-semibold leading-none">{park.camping_score.toFixed(1)}</span>
+                <span className="text-sm text-[hsl(var(--muted-foreground))]">/ 5 official inventory</span>
+              </p>
+            ) : null}
+            {park.camping?.campsite_count != null && (
+              <p className="mt-1 text-sm">
+                {park.camping.campsite_count} official campsite
+                {park.camping.campsite_count === 1 ? "" : "s"}
+                {park.camping.review_count != null
+                  ? ` · ${park.camping.review_count} reviews`
+                  : ""}
+              </p>
+            )}
+            {park.camping?.snippet && (
+              <p className="mt-1 text-sm leading-relaxed">{park.camping.snippet}</p>
+            )}
+            {park.camping_score != null && (
+              <p className="mt-1 text-xs text-[hsl(var(--muted-foreground))]">
+                Score is computed from MN DNR / NPS campsite records, not visitor reviews.
+              </p>
+            )}
+            {park.camping?.url && (
+              <a
+                className="mt-1 inline-block text-sm text-[hsl(var(--accent))] underline"
+                href={park.camping.url}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Campground source
+              </a>
+            )}
+          </section>
+        )}
 
         <section>
           <h3 className="text-xs font-semibold uppercase tracking-wide text-[hsl(var(--muted-foreground))]">
@@ -101,6 +172,14 @@ export function ParkDetail({ park, origin, miles, user, onClose, onNeedAuth, onT
         </Button>
       </div>
     </div>
+  )
+}
+
+function hasCampingIntel(park: Park) {
+  return (
+    park.camping_score != null ||
+    park.camping?.campsite_count != null ||
+    Boolean(park.camping?.snippet)
   )
 }
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_20_180616) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_20_204500) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -29,7 +29,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_20_180616) do
   create_table "parks", force: :cascade do |t|
     t.jsonb "activities", default: [], null: false
     t.jsonb "amenities", default: [], null: false
+    t.jsonb "camping", default: {}, null: false
+    t.decimal "camping_score", precision: 3, scale: 1
     t.datetime "created_at", null: false
+    t.jsonb "dark_sky", default: {}, null: false
+    t.boolean "dark_sky_certified", default: false, null: false
     t.text "highlights"
     t.boolean "in_minnesota", default: true, null: false
     t.decimal "latitude", precision: 10, scale: 7, null: false
@@ -44,6 +48,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_20_180616) do
     t.datetime "updated_at", null: false
     t.index ["activities"], name: "index_parks_on_activities", using: :gin
     t.index ["amenities"], name: "index_parks_on_amenities", using: :gin
+    t.index ["camping_score"], name: "index_parks_on_camping_score"
+    t.index ["dark_sky_certified"], name: "index_parks_on_dark_sky_certified"
     t.index ["name"], name: "index_parks_on_name"
     t.index ["park_type"], name: "index_parks_on_park_type"
     t.index ["source", "source_id"], name: "index_parks_on_source_and_source_id", unique: true

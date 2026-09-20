@@ -1,0 +1,44 @@
+{
+  "generated_at": "2026-09-20T20:50:35.673680+00:00",
+  "retrieved_at": "2026-09-20T20:50:35.673680+00:00",
+  "source_url": "https://darksky.org/wp-json/wp/v2/darksky_place",
+  "finder_url": "https://darksky.org/what-we-do/international-dark-sky-places/all-places/",
+  "attribution": [
+    "DarkSky International (formerly IDA) International Dark Sky Places via the official WordPress REST API (darksky_place)."
+  ],
+  "counts": {
+    "official_minnesota": 2,
+    "matched": 1,
+    "unmatched": 1
+  },
+  "places": [
+    {
+      "darksky_id": 15350,
+      "name": "Voyageurs National Park",
+      "category": "international-dark-sky-park",
+      "category_label": "International Dark Sky Park",
+      "designated": "2020",
+      "latitude": null,
+      "longitude": null,
+      "address": "Voyageurs National Park Headquarters 360 Hwy 11 East International Falls, MN 56649 USA Google Maps",
+      "darksky_url": "https://darksky.org/places/voyageurs-national-park-dark-sky-park/",
+      "matched_source": "nps_api",
+      "matched_source_id": "voya",
+      "matched_park_name": "Voyageurs National Park"
+    }
+  ],
+  "unmatched": [
+    {
+      "darksky_id": 14601,
+      "name": "Boundary Waters Canoe Area Wilderness",
+      "category": "international-dark-sky-sanctuary",
+      "category_label": "International Dark Sky Sanctuary",
+      "designated": "2020",
+      "latitude": null,
+      "longitude": null,
+      "address": "Superior National Forest 8901 Grand Ave Place Duluth, MN 55808 USA Google Maps",
+      "darksky_url": "https://darksky.org/places/boundary-waters-canoe-area-dark-sky-sanctuary/",
+      "reason": "No existing park with a matching name. Not guessed onto nearby units."
+    }
+  ]
+}

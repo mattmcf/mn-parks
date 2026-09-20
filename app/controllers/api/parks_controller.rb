@@ -1,6 +1,7 @@
 module Api
   # Park inventory is served from Postgres after `db:seed` / `parks:ingest`
-  # loaded `db/data/parks.json`. Index never calls DNR, NPS, or Met Council.
+  # loaded the committed JSON artifacts. Index never calls DNR, NPS, DarkSky,
+  # or review sites.
   class ParksController < BaseController
     before_action :authenticate_user_json!, only: :user_state
 
@@ -13,6 +14,7 @@ module Api
           types: Park::TYPES,
           amenities: distinct_values(:amenities),
           activities: distinct_values(:activities),
+          dark_sky_count: Park.in_state.where(dark_sky_certified: true).count,
           attribution: attribution
         }
       }
@@ -48,9 +50,11 @@ module Api
     end
 
     def attribution
-      Park.shipped_payload["attribution"] || []
-    rescue Errno::ENOENT, JSON::ParserError
-      []
+      sources = [ Park::SHIPPED_PATH, Park::DARK_SKY_PATH, Park::REVIEWS_PATH ]
+      sources.flat_map do |path|
+        payload = Park.intel_payload(path)
+        Array(payload["attribution"])
+      end.uniq
     end
   end
 end

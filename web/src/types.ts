@@ -1,5 +1,20 @@
 export type ParkType = "national" | "state" | "regional" | "county"
 
+export type DarkSky = {
+  category: string
+  category_label: string
+  designated?: string
+  url?: string | null
+}
+
+export type CampingIntel = {
+  kind: string
+  campsite_count?: number | null
+  review_count?: number | null
+  snippet?: string | null
+  url?: string | null
+}
+
 export type Park = {
   id: number
   name: string
@@ -13,6 +28,10 @@ export type Park = {
   highlights: string | null
   amenities: string[]
   activities: string[]
+  dark_sky_certified: boolean
+  dark_sky: DarkSky | null
+  camping_score: number | null
+  camping: CampingIntel | null
   favorited: boolean | null
   visited: boolean | null
 }
@@ -35,6 +54,7 @@ export type ParksPayload = {
     types: ParkType[]
     amenities: string[]
     activities: string[]
+    dark_sky_count?: number
     attribution: string[]
   }
 }
@@ -53,4 +73,5 @@ export type Filters = {
   favorited: boolean
   visited: boolean
   unvisited: boolean
+  darkSky: boolean
 }

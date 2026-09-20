@@ -56,6 +56,29 @@ export function FilterPanel({
 
       <fieldset>
         <legend className="mb-2 text-xs font-semibold uppercase tracking-wide text-[hsl(var(--muted-foreground))]">
+          Night sky
+        </legend>
+        <div className="flex flex-wrap gap-1.5">
+          <button
+            type="button"
+            className={`rounded-full border px-2.5 py-1 text-xs ${
+              filters.darkSky
+                ? "border-[hsl(var(--primary))] bg-[hsl(var(--primary))] text-white"
+                : "border-[hsl(var(--border))]"
+            }`}
+            onClick={() => onChange({ ...filters, darkSky: !filters.darkSky })}
+            aria-pressed={filters.darkSky}
+          >
+            Dark Sky
+          </button>
+        </div>
+        <p className="mt-2 text-xs text-[hsl(var(--muted-foreground))]">
+          Certified DarkSky International places only. Nearby dark sites are not guessed.
+        </p>
+      </fieldset>
+
+      <fieldset>
+        <legend className="mb-2 text-xs font-semibold uppercase tracking-wide text-[hsl(var(--muted-foreground))]">
           Distance
         </legend>
         {origin ? (
@@ -192,5 +215,6 @@ export function defaultFilters(): Filters {
     favorited: false,
     visited: false,
     unvisited: false,
+    darkSky: false,
   }
 }

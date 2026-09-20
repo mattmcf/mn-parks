@@ -109,6 +109,7 @@ export default function App() {
       if (filters.favorited && !park.favorited) return false
       if (filters.visited && !park.visited) return false
       if (filters.unvisited && park.visited) return false
+      if (filters.darkSky && park.dark_sky_certified !== true) return false
       if (origin && filters.maxMiles != null) {
         const miles = distances.get(park.id) ?? Infinity
         if (miles > filters.maxMiles) return false
@@ -330,7 +331,7 @@ export default function App() {
 
           {noFilterMatch && (
             <div className="absolute left-1/2 top-4 z-10 w-[min(24rem,calc(100%-2rem))] -translate-x-1/2 rounded-lg bg-[hsl(var(--card))] px-4 py-3 text-center text-sm shadow">
-              No parks match those filters. Clear a type, amenity, or distance chip and try again.
+              No parks match those filters. Clear a type, Dark Sky, amenity, or distance chip and try again.
             </div>
           )}
 

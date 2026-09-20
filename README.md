@@ -78,7 +78,13 @@ Without those env vars, Google is omitted. The map still works.
 
 v1 is **state + national + regional + county**. City parks are a second pass.
 
-The source of truth is the committed static asset **`db/data/parks.json`**. `db:seed`, `parks:ingest`, and the JSON API all read that file (API via Postgres after seed). The map loads `/api/parks`. **`rails server` and Vite never call DNR, NPS, or Met Council.**
+The source of truth is committed static assets:
+
+- **`db/data/parks.json`** — park inventory
+- **`db/data/dark_sky.json`** — DarkSky International certified places, matched onto parks
+- **`db/data/park_reviews.json`** — camping inventory / camping score
+
+`db:seed`, `parks:ingest`, and the JSON API all read those files (API via Postgres after seed). The map loads `/api/parks`. **`rails server` and Vite never call DNR, NPS, Met Council, DarkSky, The Dyrt, or any review site.**
 
 | Type | Count (current asset) | Source |
 | --- | --- | --- |
@@ -96,25 +102,68 @@ Coordinates are real. Highlights and amenities are **sparse on purpose**: offici
 Edit sources or filters in `scripts/build_parks_json.py` (types, skip lists, Greater MN rows, amenity mapping). Then:
 
 ```bash
-# Fetches official sources, rewrites db/data/parks.json, loads Postgres
+# Fetches official park GIS/APIs, DarkSky places, and campground inventories;
+# rewrites db/data/parks.json, dark_sky.json, park_reviews.json; loads Postgres
 bin/rake parks:refresh
 ```
 
-Commit the updated `db/data/parks.json` with the code change. Optional `NPS_API_KEY` (otherwise the NPS `DEMO_KEY`). Python packages: `pip install -r scripts/requirements.txt` (the rake task installs them if missing).
+Commit the updated JSON artifacts with the code change. Optional `NPS_API_KEY` (otherwise the NPS `DEMO_KEY`). Optional `RIDB_API_KEY` for Recreation.gov RIDB (skipped if blank). Python packages for the park GIS rebuild: `pip install -r scripts/requirements.txt` (the rake task installs them if missing). Dark Sky and reviews builders need only Python 3 stdlib.
 
-Offline load of an already-shipped file (used by `db:prepare` / `db:seed` as well):
+Offline load of already-shipped files (used by `db:prepare` / `db:seed` as well):
 
 ```bash
 bin/rake parks:ingest
 ```
+
+Rebuild just Dark Sky or camping intel (still offline at boot — these only run when you invoke rake):
+
+```bash
+bin/rake parks:refresh_dark_sky
+bin/rake parks:refresh_reviews
+```
+
+### Dark Sky certified parks
+
+Official list: DarkSky International WordPress REST API (`/wp-json/wp/v2/darksky_place`), not an HTML scrape. Minnesota places are those whose **address** is in Minnesota (`, MN`). Quetico (Ontario) is dropped even though the write-up mentions Minnesota.
+
+Current asset: **2** certified Minnesota places, **1** matched to an existing park.
+
+| Place | Category | Match |
+| --- | --- | --- |
+| Voyageurs National Park | International Dark Sky Park (2020) | `Voyageurs National Park` |
+| Boundary Waters Canoe Area Wilderness | International Dark Sky Sanctuary (2020) | unmatched — not in the v1 park inventory; not guessed onto nearby state parks |
+
+Filter chip: **Dark Sky**. Details show the certification and a link to the DarkSky listing. Parks that are not certified stay `false` / empty.
+
+### Camping score (human reviews fallback)
+
+Visitor-review sites are **not** ingested:
+
+| Candidate | Why not |
+| --- | --- |
+| The Dyrt | Terms forbid scrapers/robots without written permission; no public developer API |
+| Campendium | No documented reuse API |
+| Google Places | Places ToS forbids storing/caching ratings |
+| Recreation.gov RIDB | Reuse is encouraged, but the live API needs `RIDB_API_KEY` and does not publish user ratings. The 571 MB bulk export is not pulled on refresh. |
+
+**Chosen source:** MN DNR Parks & Trails camping units (Geospatial Commons `struc_parks_and_trails_campsites`) plus the NPS Campgrounds API for federal units. Official GIS / public-domain government data.
+
+**Camping score** is a **0–5 official inventory score**, not a visitor-review average. Parks without a matching DNR camping-unit record have **no score** (not invented). Formula (also stored on `park_reviews.json`):
+
+`size = min(1, log10(1 + unit_count) / log10(201))`  
+`score = min(5, 2.0*size + 1.2*electric + 0.8*shower + 0.5*ADA + 0.5*waterfront)` rounded to 1 decimal, where electric / shower-listed / ADA / waterfront are shares of DNR camping units.
+
+NPS campgrounds add campsite counts, an official description snippet, and a reservation URL **without** a made-up star rating. Missing reviews never block the map.
+
+Current asset: **66** parks with a camping score, **68** with some camping intel. Details show the score when present, plus campsite count and snippet.
 
 ## What’s in vs deferred
 
 **In this slice**
 
 - MapLibre map that opens fitted to Minnesota; pan is allowed out into the Dakotas, Iowa, Wisconsin, and the Great Lakes. Parks as pins colored by type
-- Click → name, type, agency, straight-line distance, highlights, amenities/activities
-- Filters: type, amenities/activities that exist, distance (when origin set), favorited, visited
+- Click → name, type, agency, straight-line distance, Dark Sky certification, camping score when present, highlights, amenities/activities
+- Filters: type, **Dark Sky**, amenities/activities that exist, distance (when origin set), favorited, visited
 - Collapsible side list of parks in the current viewport; distance sort if origin, else name
 - Random → zoom + details
 - Distance origin: browser GPS + draggable From pin (pin overrides GPS)
@@ -135,7 +184,7 @@ bin/rake parks:ingest
 
 | Method | Path | Notes |
 | --- | --- | --- |
-| GET | `/api/parks` | All in-state parks + filter vocab |
+| GET | `/api/parks` | All in-state parks + filter vocab (`meta.dark_sky_count`, camping fields on each park) |
 | GET | `/api/parks/:id` | Detail |
 | GET | `/api/parks/random` | Uniform among ingested parks |
 | PATCH | `/api/parks/:id/user_state` | `{ favorited, visited }` — auth required |
