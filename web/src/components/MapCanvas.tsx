@@ -7,7 +7,8 @@ import {
   type GeoJSONSource,
   type StyleSpecification,
 } from "maplibre-gl"
-import { MAP_MAX_BOUNDS, MN_BOUNDS, TYPE_COLORS } from "@/lib/constants"
+import { MAP_MAX_BOUNDS, MN_BOUNDS } from "@/lib/constants"
+import { createParkMarkerElement, setParkMarkerSelected } from "@/lib/park-markers"
 import type { Origin, Park } from "@/types"
 
 const OSM_RASTER_STYLE: StyleSpecification = {
@@ -46,60 +47,36 @@ function toGeoJSON(parks: Park[]) {
   }
 }
 
-function addParkLayers(map: MapLibreMap, parks: Park[]) {
+function addParkHitLayer(map: MapLibreMap, parks: Park[]) {
   if (map.getSource("parks")) return
   map.addSource("parks", { type: "geojson", data: toGeoJSON(parks) })
+  // Invisible but queryable target so pointerup still hits near a marker.
   map.addLayer({
-    id: "parks-halo",
+    id: "parks-hit",
     type: "circle",
     source: "parks",
     paint: {
-      "circle-radius": ["interpolate", ["linear"], ["zoom"], 4, 16, 6, 18, 9, 20, 12, 22],
-      "circle-color": "#1c1915",
-      "circle-opacity": 0.22,
-    },
-  })
-  map.addLayer({
-    id: "parks-circles",
-    type: "circle",
-    source: "parks",
-    paint: {
-      "circle-radius": ["interpolate", ["linear"], ["zoom"], 4, 13, 6, 15, 9, 16, 12, 18],
-      "circle-color": [
-        "match",
-        ["get", "park_type"],
-        "national",
-        TYPE_COLORS.national,
-        "state",
-        TYPE_COLORS.state,
-        "regional",
-        TYPE_COLORS.regional,
-        "county",
-        TYPE_COLORS.county,
-        "#444",
-      ],
-      "circle-stroke-width": 2.5,
-      "circle-stroke-color": "#fff",
-      "circle-opacity": 1,
-    },
-  })
-  map.addLayer({
-    id: "parks-selected",
-    type: "circle",
-    source: "parks",
-    filter: ["==", ["get", "id"], -1],
-    paint: {
-      "circle-radius": ["interpolate", ["linear"], ["zoom"], 4, 19, 6, 21, 9, 23, 12, 24],
-      "circle-color": "transparent",
-      "circle-stroke-width": 3,
-      "circle-stroke-color": "#111",
+      "circle-radius": ["interpolate", ["linear"], ["zoom"], 4, 18, 6, 20, 9, 22, 12, 24],
+      "circle-color": "#000",
+      "circle-opacity": 0.01,
+      "circle-stroke-width": 0,
     },
   })
 }
 
-const PARK_LAYERS = ["parks-circles", "parks-halo", "parks-selected"]
+const PARK_LAYERS = ["parks-hit"]
 
 function parkAtPoint(map: MapLibreMap, point: { x: number; y: number }) {
+  const canvas = map.getCanvas()
+  const rect = canvas.getBoundingClientRect()
+  const fromDom = document
+    .elementFromPoint(rect.left + point.x, rect.top + point.y)
+    ?.closest<HTMLElement>(".park-marker")
+  if (fromDom?.dataset.parkId) {
+    const id = Number(fromDom.dataset.parkId)
+    if (Number.isFinite(id)) return id
+  }
+
   const pad = 22
   const hits = map.queryRenderedFeatures(
     [
@@ -125,14 +102,51 @@ export function MapCanvas({
   const containerRef = useRef<HTMLDivElement>(null)
   const mapRef = useRef<MapLibreMap | null>(null)
   const parksRef = useRef(parks)
+  const selectedIdRef = useRef(selectedId)
   const pinRef = useRef<Marker | null>(null)
+  const markersRef = useRef(new Map<number, Marker>())
   const onSelectRef = useRef(onSelect)
   const onMoveRef = useRef(onMove)
   const onDropPinRef = useRef(onDropPin)
   parksRef.current = parks
+  selectedIdRef.current = selectedId
   onSelectRef.current = onSelect
   onMoveRef.current = onMove
   onDropPinRef.current = onDropPin
+
+  const clearParkMarkers = () => {
+    for (const marker of markersRef.current.values()) marker.remove()
+    markersRef.current.clear()
+  }
+
+  const applySelected = () => {
+    const selected = selectedIdRef.current
+    for (const [id, marker] of markersRef.current) {
+      setParkMarkerSelected(marker.getElement(), id === selected)
+    }
+  }
+
+  const syncParkMarkers = (map: MapLibreMap, nextParks: Park[]) => {
+    const keep = new Set(nextParks.map((park) => park.id))
+    for (const [id, marker] of markersRef.current) {
+      if (keep.has(id)) continue
+      marker.remove()
+      markersRef.current.delete(id)
+    }
+    for (const park of nextParks) {
+      const existing = markersRef.current.get(park.id)
+      if (existing) {
+        existing.setLngLat([park.longitude, park.latitude])
+        continue
+      }
+      const element = createParkMarkerElement(park, (item) => onSelectRef.current(item))
+      const marker = new Marker({ element, anchor: "center" })
+        .setLngLat([park.longitude, park.latitude])
+        .addTo(map)
+      markersRef.current.set(park.id, marker)
+    }
+    applySelected()
+  }
 
   useEffect(() => {
     const node = containerRef.current
@@ -167,7 +181,8 @@ export function MapCanvas({
     const onReady = () => {
       map.resize()
       map.fitBounds(MN_BOUNDS, { padding: 48, duration: 0 })
-      addParkLayers(map, parksRef.current)
+      addParkHitLayer(map, parksRef.current)
+      syncParkMarkers(map, parksRef.current)
       emitViewport()
     }
 
@@ -217,6 +232,7 @@ export function MapCanvas({
       canvas.removeEventListener("pointerup", onPointerUp)
       pinRef.current?.remove()
       pinRef.current = null
+      clearParkMarkers()
       map.remove()
       mapRef.current = null
     }
@@ -226,6 +242,7 @@ export function MapCanvas({
     const map = mapRef.current
     if (!map?.getSource("parks")) return
     ;(map.getSource("parks") as GeoJSONSource).setData(toGeoJSON(parks))
+    syncParkMarkers(map, parks)
     const bounds = map.getBounds()
     onMoveRef.current(
       parks.filter((park) => bounds.contains([park.longitude, park.latitude])).map((park) => park.id),
@@ -233,9 +250,7 @@ export function MapCanvas({
   }, [parks])
 
   useEffect(() => {
-    const map = mapRef.current
-    if (!map?.getLayer("parks-selected")) return
-    map.setFilter("parks-selected", ["==", ["get", "id"], selectedId ?? -1])
+    applySelected()
   }, [selectedId])
 
   useEffect(() => {

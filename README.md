@@ -1,6 +1,6 @@
 # MN Parks
 
-Map-first website of **parks inside Minnesota**. Browse pins on a statewide map, filter by type and amenities, open details, jump to a random park, and — once you sign in — save favorites and mark parks visited.
+Map-first website of **parks inside Minnesota**. Browse type-colored markers on a statewide map, filter by type and amenities, open details, jump to a random park, and — once you sign in — save favorites and mark parks visited.
 
 This is a monorepo:
 
@@ -161,7 +161,7 @@ Current asset: **66** parks with a camping score, **68** with some camping intel
 
 **In this slice**
 
-- MapLibre map that opens fitted to Minnesota; pan is allowed out into the Dakotas, Iowa, Wisconsin, and the Great Lakes. Parks as pins colored by type
+- MapLibre map that opens fitted to Minnesota; pan is allowed out into the Dakotas, Iowa, Wisconsin, and the Great Lakes. Every park is a type-colored clickable marker (national square / state circle / regional rounded square / county circle, with a simple icon). Hover shows a pointer; click opens the same detail panel as the list.
 - Click → name, type, agency, straight-line distance, Dark Sky certification, camping score when present, highlights, amenities/activities
 - Filters: type, **Dark Sky**, amenities/activities that exist, distance (when origin set), favorited, visited
 - Collapsible side list of parks in the current viewport; distance sort if origin, else name

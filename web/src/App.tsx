@@ -137,6 +137,13 @@ export default function App() {
     setMobileListOpen(false)
   }
 
+  const selectParkFromMap = (park: Park) => {
+    setSelectedId(park.id)
+    setFlyTo({ id: park.id, longitude: park.longitude, latitude: park.latitude })
+    setListOpen(true)
+    setMobileListOpen(true)
+  }
+
   const useGps = () => {
     if (!navigator.geolocation) {
       setGpsError("This browser does not support geolocation.")
@@ -321,7 +328,7 @@ export default function App() {
                 selectedId={selectedId}
                 origin={origin}
                 placingPin={placingPin}
-                onSelect={selectPark}
+                onSelect={selectParkFromMap}
                 onMove={setViewportIds}
                 onDropPin={dropPin}
                 flyTo={flyTo}
@@ -386,7 +393,16 @@ export default function App() {
       <footer className="hidden items-center gap-3 overflow-x-auto border-t border-[hsl(var(--border))] bg-[hsl(var(--card))] px-4 py-1.5 text-[11px] text-[hsl(var(--muted-foreground))] md:flex">
         {(Object.keys(TYPE_LABELS) as Array<keyof typeof TYPE_LABELS>).map((type) => (
           <span key={type} className="inline-flex items-center gap-1.5">
-            <span className="h-2 w-2 rounded-full" style={{ background: TYPE_COLORS[type] }} />
+            <span
+              className={
+                type === "national"
+                  ? "h-2.5 w-2.5 rounded-[3px]"
+                  : type === "regional"
+                    ? "h-2.5 w-2.5 rounded-[2px]"
+                    : "h-2.5 w-2.5 rounded-full"
+              }
+              style={{ background: TYPE_COLORS[type] }}
+            />
             {TYPE_LABELS[type]}
           </span>
         ))}

@@ -72,3 +72,62 @@ body {
 .park-from-pin .maplibregl-marker {
   cursor: grab;
 }
+
+.park-marker {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.45));
+}
+
+.park-marker__dot {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  border: 2.5px solid #fff;
+  color: #fff;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  transform-origin: center;
+  transition: transform 120ms ease;
+}
+
+.park-marker__dot svg {
+  width: 13px;
+  height: 13px;
+  display: block;
+}
+
+.park-marker[data-park-type="national"] .park-marker__dot {
+  border-radius: 6px;
+}
+
+.park-marker[data-park-type="regional"] .park-marker__dot {
+  border-radius: 4px;
+}
+
+.park-marker:hover .park-marker__dot,
+.park-marker:focus-visible .park-marker__dot {
+  transform: scale(1.18);
+}
+
+.park-marker.is-selected .park-marker__dot {
+  width: 28px;
+  height: 28px;
+  box-shadow: 0 0 0 3px #111;
+}
+
+.park-marker.is-selected .park-marker__dot svg {
+  width: 15px;
+  height: 15px;
+}
+
+.map-canvas[data-placing="true"] .park-marker {
+  pointer-events: none;
+}
