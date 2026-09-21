@@ -40,7 +40,7 @@ module ParksJsonBuilder
     python = python!
     ensure_deps!(python)
     script = Rails.root.join("scripts/build_parks_json.py")
-    puts "Fetching MN DNR, NPS, Met Council, and MetroGIS county parks…"
+    puts "Fetching MN DNR, NPS, Met Council, MetroGIS, and NWPS wilderness…"
     abort "Park JSON rebuild failed." unless system(python, script.to_s)
     abort "Expected #{Park::SHIPPED_PATH} after rebuild." unless Park::SHIPPED_PATH.exist?
   end

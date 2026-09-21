@@ -7,6 +7,7 @@ Sources:
 - Metropolitan Council regional parks (ArcGIS GeoJSON)
 - MetroGIS Collaborative Parks county-owned units (shapefile)
 - Curated Greater Minnesota county parks with real coordinates
+- National Wilderness Preservation System polygons (Wilderness Connect GIS)
 """
 
 from __future__ import annotations
@@ -51,8 +52,15 @@ METC_QUERY_URL = (
     "FeatureServer/1/query"
 )
 NPS_API_URL = "https://developer.nps.gov/api/v1/parks"
+WILDERNESS_ZIP_URL = "https://wilderness.net/GIS/Wilderness_Areas.zip"
+
+DNR_HUB_URL = "https://www.dnr.state.mn.us/state_parks/index.html"
+METC_HUB_URL = "https://metrocouncil.org/Parks.aspx"
 
 TO_WGS = Transformer.from_crs(26915, 4326, always_xy=True)
+WEB_MERCATOR_TO_WGS = Transformer.from_crs(3857, 4326, always_xy=True)
+
+_URL_CACHE: dict[str, str | None] = {}
 
 
 def rec_get(record: dict, *candidates: str) -> str:
@@ -184,8 +192,19 @@ def fetch_met_council() -> None:
     print(f"Fetched {len(features)} Met Council regional park features")
 
 
+def find_shp(folder: Path, hint: str = "") -> Path:
+    shps = sorted(p for p in folder.rglob("*.shp") if not p.name.startswith("."))
+    if not shps:
+        raise FileNotFoundError(f"No shapefile in {folder}")
+    if hint:
+        hinted = [p for p in shps if hint.lower() in p.name.lower()]
+        if hinted:
+            return hinted[0]
+    return shps[0]
+
+
 def fetch_sources() -> None:
-    print("Fetching official park sources (DNR, NPS, Met Council, MetroGIS)…")
+    print("Fetching official park sources (DNR, NPS, Met Council, MetroGIS, wilderness)…")
     unzip_url(DNR_ZIP_URL, CACHE / "dnr")
     shp = CACHE / "dnr" / "dnr_management_units_prk_ref_pts.shp"
     if not shp.exists():
@@ -194,6 +213,8 @@ def fetch_sources() -> None:
     metro_shp = CACHE / "metro" / "MetroCollaborativeParks.shp"
     if not metro_shp.exists():
         raise FileNotFoundError(f"MetroGIS shapefile missing at {metro_shp}")
+    unzip_url(WILDERNESS_ZIP_URL, CACHE / "wilderness")
+    find_shp(CACHE / "wilderness", "wild")
     fetch_met_council()
     try:
         fetch_nps()
@@ -321,7 +342,175 @@ HIGHLIGHTS = {
     "lake elmo park reserve": "Washington County's large reserve east of the metro — swimming pond, campground, and enough dirt road that it feels farther than it is.",
     "quarry park and nature preserve": "Stearns County granite quarries now filled with water, climbing walls, and a trail system on the edge of Waite Park / St. Cloud.",
     "chester woods park": "Olmsted County's camping and trail park east of Rochester, with a reservoir and a reliable shoulder-season loop.",
+    "boundary waters canoe area wilderness": "A million-acre canoe-country wilderness in Superior National Forest: linked lakes, portages, and the Canadian border, with no roads through the interior.",
+    "agassiz wilderness": "A 4,000-acre wilderness inside Agassiz National Wildlife Refuge — marsh, bog, and aspen on the glacial Lake Agassiz plain.",
+    "tamarac wilderness": "The wild core of Tamarac National Wildlife Refuge: lakes, bog, and forest on the prairie–woodland transition in Becker County.",
 }
+
+
+def normalize_url(url: str) -> str:
+    u = (url or "").strip()
+    if not u or u.lower() in {"none", "null", "n/a", "-"}:
+        return ""
+    if u.startswith("//"):
+        u = "https:" + u
+    elif "://" not in u:
+        u = "https://" + u.lstrip("/")
+    return u
+
+
+def is_unit_page(url: str) -> bool:
+    """True for official per-unit pages (DNR park id, NPS unit, wilderness ID)."""
+    u = normalize_url(url).lower()
+    if not u:
+        return False
+    if re.search(r"/state_parks/park\.html\?id=(spk|sra)\d{5}\b", u):
+        return True
+    if re.search(r"nps\.gov/[a-z0-9]{3,8}(?:/|$)", u) and "nps.gov/index" not in u:
+        return True
+    if "/visit-wilderness/" in u and "id=" in u:
+        return True
+    if re.search(r"fws\.gov/refuge/[\w-]+", u):
+        return True
+    if "boundary-waters-canoe-area" in u:
+        return True
+    return False
+
+
+def is_hub_url(url: str) -> bool:
+    """Generic parks index, county homepage, or reused city map — not a unit page."""
+    u = normalize_url(url)
+    if not u:
+        return True
+    if is_unit_page(u):
+        return False
+    parsed = urllib.parse.urlparse(u)
+    path = (parsed.path or "/").rstrip("/") or "/"
+    low = u.lower()
+    if path == "/":
+        return True
+    if low.rstrip("/") in {DNR_HUB_URL.lower(), METC_HUB_URL.lower()}:
+        return True
+    hub_bits = (
+        "/state_parks/index.html",
+        "/state_parks/list.html",
+        "/state_parks/list_alpha.html",
+        "/parks.aspx",
+        "/residents/parks-recreation",
+        "/departments-a-z/public-works/parks-recreation",
+        "/documentcenter/",
+    )
+    if any(bit in low for bit in hub_bits):
+        return True
+    if path.lower().endswith(".pdf"):
+        return True
+    if re.search(r"/(parks|parks-recreation|recreation/parks)/?$", path, re.I):
+        return True
+    return False
+
+
+def distinctive_tokens(name: str) -> list[str]:
+    stop = {
+        "the", "and", "of", "park", "parks", "regional", "reserve", "county",
+        "state", "national", "area", "recreation", "monument", "scenic",
+        "riverway", "wilderness",
+    }
+    tokens = re.findall(r"[a-z0-9]+", (name or "").lower())
+    return [t for t in tokens if t not in stop and len(t) >= 3]
+
+
+def url_matches_name(url: str, name: str) -> bool:
+    blob = urllib.parse.unquote(normalize_url(url).lower())
+    hits = [t for t in distinctive_tokens(name) if t in blob]
+    if not hits:
+        return False
+    score = sum(len(t) for t in hits)
+    return score >= 6 or len(hits) >= 2 or (len(hits) == 1 and len(hits[0]) >= 4)
+
+
+def follow_url(url: str) -> str | None:
+    """Return the final URL if the page exists, None on 404, original on network doubt."""
+    url = normalize_url(url)
+    if not url:
+        return None
+    if url in _URL_CACHE:
+        return _URL_CACHE[url]
+    last_error: Exception | None = None
+    for method in ("HEAD", "GET"):
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT}, method=method)
+            with urllib.request.urlopen(req, timeout=25) as resp:
+                if 200 <= resp.status < 400:
+                    landed = resp.geturl() or url
+                    if is_hub_url(landed) and not is_unit_page(url):
+                        _URL_CACHE[url] = None
+                        return None
+                    _URL_CACHE[url] = url
+                    return url
+        except urllib.error.HTTPError as exc:
+            last_error = exc
+            if exc.code in (404, 410):
+                _URL_CACHE[url] = None
+                return None
+            if exc.code in (405, 501, 403, 406) and method == "HEAD":
+                continue
+        except (urllib.error.URLError, TimeoutError, OSError) as exc:
+            last_error = exc
+            continue
+    # Network / method issues: keep a constructed official URL rather than inventing a substitute.
+    if last_error:
+        print(f"  URL check inconclusive for {url}: {last_error}")
+    _URL_CACHE[url] = url
+    return url
+
+
+def pick_best_url(name: str, urls: list[str], fallback: str = "") -> str:
+    ranked: list[tuple[int, str]] = []
+    seen: set[str] = set()
+    for raw in urls:
+        u = normalize_url(raw)
+        if not u or u in seen:
+            continue
+        seen.add(u)
+        if is_unit_page(u) or url_matches_name(u, name):
+            ranked.append((3, u))
+        elif is_hub_url(u):
+            ranked.append((1, u))
+        else:
+            ranked.append((2, u))
+    if not ranked:
+        return normalize_url(fallback)
+    ranked.sort(key=lambda item: item[0], reverse=True)
+    return ranked[0][1]
+
+
+def dnr_park_url(code: str) -> str:
+    code = (code or "").strip().lower()
+    if not re.fullmatch(r"(spk|sra)\d{5}", code):
+        return DNR_HUB_URL
+    candidate = f"https://www.dnr.state.mn.us/state_parks/park.html?id={code}"
+    final = follow_url(candidate)
+    if final is None or is_hub_url(final):
+        return DNR_HUB_URL
+    return candidate
+
+
+def wilderness_agency_url(name: str, agency: str, gis_url: str) -> str:
+    """Prefer a verified land-manager page; otherwise the GIS-provided wilderness URL."""
+    candidates: list[str] = []
+    if agency == "FS" and name == "Boundary Waters Canoe Area Wilderness":
+        candidates.append(
+            "https://www.fs.usda.gov/r09/superior/recreation/boundary-waters-canoe-area-wilderness"
+        )
+    if agency == "FWS" and name == "Agassiz Wilderness":
+        candidates.append("https://www.fws.gov/refuge/agassiz")
+    if agency == "FWS" and name == "Tamarac Wilderness":
+        candidates.append("https://www.fws.gov/refuge/tamarac")
+    for candidate in candidates:
+        final = follow_url(candidate)
+        if final and not is_hub_url(final) and (url_matches_name(final, name) or is_unit_page(final)):
+            return candidate
+    return normalize_url(gis_url)
 
 
 def in_minnesota(lat: float, lon: float) -> bool:
@@ -344,6 +533,8 @@ def norm_name(name: str) -> str:
         " national park",
         " national river and recreation area",
         " national scenic riverway",
+        " canoe area wilderness",
+        " wilderness",
     ):
         if n.endswith(suffix.strip()) is False:
             n = n.replace(suffix, "")
@@ -475,6 +666,40 @@ def make_park(
     }
 
 
+_METRO_URLS: dict[str, list[str]] | None = None
+
+
+def metro_url_index() -> dict[str, list[str]]:
+    """PARK_URL values from MetroGIS, keyed by normalized park name."""
+    global _METRO_URLS
+    if _METRO_URLS is not None:
+        return _METRO_URLS
+    path = CACHE / "metro" / "MetroCollaborativeParks"
+    if not path.with_suffix(".shp").exists():
+        _METRO_URLS = {}
+        return _METRO_URLS
+    sf = shapefile.Reader(str(path))
+    fields = [f[0] for f in sf.fields[1:]]
+    index: dict[str, list[str]] = defaultdict(list)
+    for rec in sf.iterRecords():
+        d = dict(zip(fields, rec))
+        name = (d.get("PARKNAME") or "").strip()
+        url = normalize_url(d.get("PARK_URL") or "")
+        if not name or not url:
+            continue
+        key = norm_name(name)
+        if url not in index[key]:
+            index[key].append(url)
+    _METRO_URLS = dict(index)
+    return _METRO_URLS
+
+
+def metro_urls_for(name: str) -> list[str]:
+    if not name:
+        return []
+    return list(metro_url_index().get(norm_name(name), []))
+
+
 def load_dnr() -> list[dict]:
     path = CACHE / "dnr" / "dnr_management_units_prk_ref_pts"
     sf = shapefile.Reader(str(path))
@@ -505,7 +730,7 @@ def load_dnr() -> list[dict]:
                 managing_agency="Minnesota DNR Parks & Trails",
                 source="mn_dnr_state_parks",
                 source_id=code or name,
-                source_url="https://www.dnr.state.mn.us/state_parks/index.html",
+                source_url=dnr_park_url(code),
                 amenities=amenities,
             )
         )
@@ -636,16 +861,21 @@ def load_regional() -> list[dict]:
         for a in extra:
             if a not in amenities:
                 amenities.append(a)
+        display = f"{name} Regional Park" if "park" not in name.lower() else name
         parks.append(
             make_park(
-                name=f"{name} Regional Park" if "park" not in name.lower() else name,
+                name=display,
                 park_type="regional",
                 lat=c.y,
                 lon=c.x,
                 managing_agency=agency or "Metropolitan Council Regional Parks",
                 source="met_council_regional_parks",
                 source_id=name,
-                source_url="https://metrocouncil.org/Parks.aspx",
+                source_url=pick_best_url(
+                    display,
+                    metro_urls_for(name) + metro_urls_for(display),
+                    fallback=METC_HUB_URL,
+                ),
                 amenities=amenities,
             )
         )
@@ -723,7 +953,7 @@ def load_metro_county(regional_names: set[str]) -> list[dict]:
         feats = " ".join((d.get("SPEC_FEAT") or "") for d, _ in items)
         amenities = parse_features(feats)
         agency = d0.get("AGENCYNAME") or d0.get("LANDOWNER") or "County parks"
-        url = d0.get("PARK_URL") or ""
+        urls = [d.get("PARK_URL") or "" for d, _ in items]
         parks.append(
             make_park(
                 name=name,
@@ -733,7 +963,7 @@ def load_metro_county(regional_names: set[str]) -> list[dict]:
                 managing_agency=agency,
                 source="metrogis_collaborative_parks",
                 source_id=str(d0.get("PARKID") or name),
-                source_url=url,
+                source_url=pick_best_url(name, urls),
                 amenities=amenities,
             )
         )
@@ -979,7 +1209,7 @@ def load_greater_mn(existing_names: set[str]) -> list[dict]:
                 managing_agency=agency,
                 source="curated_greater_mn_county",
                 source_id=slug(name, "county"),
-                source_url=url,
+                source_url=normalize_url(url),
                 highlights=highlights,
                 amenities=amenities if isinstance(amenities, list) else ["picnic"],
             )
@@ -987,9 +1217,121 @@ def load_greater_mn(existing_names: set[str]) -> list[dict]:
     return [p for p in parks if p]
 
 
+WILDERNESS_AGENCY_LABEL = {
+    "FS": "USDA Forest Service",
+    "FWS": "U.S. Fish and Wildlife Service",
+    "NPS": "National Park Service",
+    "BLM": "Bureau of Land Management",
+}
+
+WILDERNESS_AMENITIES = {
+    "boundary waters canoe area wilderness": [
+        "canoeing", "camping", "fishing", "wildlife", "hiking",
+    ],
+    "agassiz wilderness": ["wildlife", "hiking"],
+    "tamarac wilderness": ["wildlife", "hiking", "canoeing", "fishing"],
+}
+
+
+def wilderness_agency_label(name: str, agency: str, description: str) -> str:
+    base = WILDERNESS_AGENCY_LABEL.get(agency, agency or "National Wilderness Preservation System")
+    text = f"{name} {description}".lower()
+    if agency == "FS" and "superior national forest" in text:
+        return "USDA Forest Service, Superior National Forest"
+    if agency == "FWS" and "agassiz" in name.lower():
+        return "U.S. Fish and Wildlife Service, Agassiz National Wildlife Refuge"
+    if agency == "FWS" and "tamarac" in name.lower():
+        return "U.S. Fish and Wildlife Service, Tamarac National Wildlife Refuge"
+    return base
+
+
+def centroid_web_mercator(shp) -> tuple[float, float] | None:
+    try:
+        geom = shape(shp.__geo_interface__)
+        if geom.is_empty:
+            return None
+        c = geom.centroid
+        return WEB_MERCATOR_TO_WGS.transform(c.x, c.y)
+    except Exception:
+        return None
+
+
+def load_wilderness() -> list[dict]:
+    """Federal wilderness units in Minnesota from the NWPS shapefile (all agencies)."""
+    folder = CACHE / "wilderness"
+    if not folder.exists():
+        print("Wilderness shapefile cache missing; skipping wilderness units.")
+        return []
+    path = find_shp(folder, "wild")
+    sf = shapefile.Reader(str(path.with_suffix("")))
+    fields = [f[0] for f in sf.fields[1:]]
+    groups: dict[str, list] = defaultdict(list)
+    for rec, shp in zip(sf.records(), sf.shapes()):
+        d = dict(zip(fields, rec))
+        if str(d.get("STATE") or "").upper() != "MN":
+            continue
+        name = (d.get("NAME") or "").strip()
+        if not name:
+            continue
+        groups[name].append((d, shp))
+
+    parks = []
+    for name, items in groups.items():
+        d0 = items[0][0]
+        geoms = []
+        for _, shp in items:
+            try:
+                g = shape(shp.__geo_interface__)
+                if not g.is_empty:
+                    geoms.append(g)
+            except Exception:
+                continue
+        if geoms:
+            merged = unary_union(geoms)
+            c = merged.centroid
+            lon, lat = WEB_MERCATOR_TO_WGS.transform(c.x, c.y)
+        else:
+            xy = centroid_web_mercator(items[0][1])
+            if not xy:
+                continue
+            lon, lat = xy
+        agency = (d0.get("Agency") or "").strip()
+        description = (d0.get("Descriptio") or d0.get("Description") or "").strip()
+        gis_url = d0.get("URL") or ""
+        wid = d0.get("WID") or name
+        amenities = parse_features(f"{name} {description}")
+        for extra in WILDERNESS_AMENITIES.get(name.lower(), []):
+            if extra not in amenities:
+                amenities.append(extra)
+        highlight = highlights_for(name)
+        if not highlight and description:
+            highlight = re.split(r"(?<=\.)\s", description, maxsplit=1)[0]
+            if len(highlight) > 280:
+                highlight = highlight[:277] + "…"
+        parks.append(
+            make_park(
+                name=name,
+                park_type="wilderness",
+                lat=lat,
+                lon=lon,
+                managing_agency=wilderness_agency_label(name, agency, description),
+                source="wilderness_connect_nwps",
+                source_id=str(wid),
+                source_url=wilderness_agency_url(name, agency, gis_url),
+                highlights=highlight,
+                amenities=amenities,
+            )
+        )
+    loaded = [p for p in parks if p]
+    print(f"Loaded {len(loaded)} Minnesota wilderness units")
+    for park in loaded:
+        print(f"  wilderness {park['name']} {park['latitude']},{park['longitude']} {park['source_url']}")
+    return loaded
+
+
 def dedup(parks: list[dict]) -> list[dict]:
-    """Keep first of similar names within ~1.2 km. Prefer national > state > regional > county."""
-    rank = {"national": 0, "state": 1, "regional": 2, "county": 3}
+    """Keep first of similar names within ~1.2 km. Prefer national/wilderness > state > regional > county."""
+    rank = {"national": 0, "wilderness": 0, "state": 1, "regional": 2, "county": 3}
     parks = sorted(parks, key=lambda p: (rank.get(p["park_type"], 9), p["name"]))
     kept: list[dict] = []
 
@@ -1038,12 +1380,15 @@ def main() -> None:
 
     dnr = load_dnr()
     nps = load_nps()
+    wilderness = load_wilderness()
     regional = load_regional()
     regional_names = {norm_name(p["name"]) for p in regional}
     metro_county = load_metro_county(regional_names)
-    existing = {norm_name(p["name"]) for p in dnr + nps + regional + metro_county}
+    existing = {norm_name(p["name"]) for p in dnr + nps + wilderness + regional + metro_county}
     greater = load_greater_mn(existing)
-    parks = dedup([p for p in (dnr + nps + regional + metro_county + greater) if p])
+    parks = dedup(
+        [p for p in (dnr + nps + wilderness + regional + metro_county + greater) if p]
+    )
     parks.sort(key=lambda p: (p["park_type"], p["name"]))
     counts = defaultdict(int)
     for p in parks:
@@ -1055,6 +1400,7 @@ def main() -> None:
         "attribution": [
             "Minnesota DNR Parks & Trails reference points via Minnesota Geospatial Commons (bdry_dnr_lrs_prk).",
             "National Park Service Parks API (stateCode=MN).",
+            "National Wilderness Preservation System boundaries via Wilderness Connect GIS (federal wilderness in Minnesota, including Superior National Forest).",
             "Metropolitan Council Regional Parks (LPH/Parks_CD).",
             "MetroGIS Collaborative Parks (county-owned units in the seven-county metro).",
             "Greater Minnesota county parks: curated points with real coordinates; not every one of 87 counties publishes GIS.",

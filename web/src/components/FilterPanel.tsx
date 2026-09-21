@@ -2,7 +2,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { labelFor, TYPE_LABELS } from "@/lib/constants"
 import type { Filters, Origin, ParkType } from "@/types"
 
-const TYPES: ParkType[] = ["national", "state", "regional", "county"]
+const TYPES: ParkType[] = ["national", "state", "wilderness", "regional", "county"]
 const DISTANCES = [15, 30, 60, 120]
 
 type Props = {
@@ -208,7 +208,7 @@ function ChipFilter({
 
 export function defaultFilters(): Filters {
   return {
-    types: ["national", "state", "regional", "county"],
+    types: ["national", "state", "wilderness", "regional", "county"],
     amenities: [],
     activities: [],
     maxMiles: null,

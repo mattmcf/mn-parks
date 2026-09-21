@@ -14,6 +14,7 @@ export const MN_CENTER: [number, number] = [-94.3, 46.1]
 export const TYPE_LABELS = {
   national: "National",
   state: "State",
+  wilderness: "Wilderness",
   regional: "Regional",
   county: "County",
 } as const
@@ -21,6 +22,7 @@ export const TYPE_LABELS = {
 export const TYPE_COLORS = {
   national: "#9a3412",
   state: "#166534",
+  wilderness: "#0f766e",
   regional: "#0369a1",
   county: "#b45309",
 } as const

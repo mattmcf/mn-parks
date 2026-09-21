@@ -399,7 +399,9 @@ export default function App() {
                   ? "h-2.5 w-2.5 rounded-[3px]"
                   : type === "regional"
                     ? "h-2.5 w-2.5 rounded-[2px]"
-                    : "h-2.5 w-2.5 rounded-full"
+                    : type === "wilderness"
+                      ? "h-2.5 w-2.5 rotate-45 rounded-[1px]"
+                      : "h-2.5 w-2.5 rounded-full"
               }
               style={{ background: TYPE_COLORS[type] }}
             />

@@ -1,4 +1,4 @@
-export type ParkType = "national" | "state" | "regional" | "county"
+export type ParkType = "national" | "state" | "wilderness" | "regional" | "county"
 
 export type DarkSky = {
   category: string

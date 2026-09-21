@@ -31,7 +31,7 @@ export PGHOST=localhost
 # leave PGUSER unset
 
 bundle install
-bin/rails db:prepare            # create + migrate + seed 295 parks
+bin/rails db:prepare            # create + migrate + seed shipped parks
 
 cd web && npm install && cd ..
 ```
@@ -76,22 +76,25 @@ Without those env vars, Google is omitted. The map still works.
 
 ## Data: shipped inventory
 
-v1 is **state + national + regional + county**. City parks are a second pass.
+v1 is **state + national + wilderness + regional + county**. City parks are a second pass.
 
 The source of truth is committed static assets:
 
-- **`db/data/parks.json`** — park inventory
+- **`db/data/parks.json`** — park inventory (including `source_url`)
 - **`db/data/dark_sky.json`** — DarkSky International certified places, matched onto parks
 - **`db/data/park_reviews.json`** — camping inventory / camping score
 
-`db:seed`, `parks:ingest`, and the JSON API all read those files (API via Postgres after seed). The map loads `/api/parks`. **`rails server` and Vite never call DNR, NPS, Met Council, DarkSky, The Dyrt, or any review site.**
+`db:seed`, `parks:ingest`, and the JSON API all read those files (API via Postgres after seed). The map loads `/api/parks`. **`rails server` and Vite never call DNR, NPS, Met Council, USFS, Wilderness Connect, DarkSky, The Dyrt, or any review site.** Details **Official source** is `source_url` from that inventory.
 
 | Type | Count (current asset) | Source |
 | --- | --- | --- |
 | **State** | 74 | MN DNR Parks & Trails reference points (Geospatial Commons `bdry_dnr_lrs_prk`) — state parks and state recreation areas. Waysides omitted. |
 | **National** | 5 | NPS Parks API (`stateCode=MN`): Voyageurs, Grand Portage, Pipestone, Mississippi NRRA, Saint Croix NSR. North Country NST omitted (trail, not a park unit). |
+| **Wilderness** | 3 | National Wilderness Preservation System polygons (Wilderness Connect GIS). Minnesota units: Boundary Waters Canoe Area Wilderness (Superior NF), Agassiz Wilderness, Tamarac Wilderness. Centroids from the official polygons. |
 | **Regional** | 70 | Metropolitan Council regional parks / park reserves (`LPH/Parks_CD`). Twin Cities system. |
 | **County** | 146 | MetroGIS Collaborative Parks (county-owned units in the seven-county metro) **plus** curated Greater Minnesota county parks with real coordinates. |
+
+**Official `source_url`:** refresh resolves a **park-specific** page when one exists and can be confirmed — DNR `park.html?id=spk#####` / `sra#####` from the GIS unit code, NPS unit URL from the Parks API, USFS/FWS or Wilderness Connect unit page for wilderness, MetroGIS `PARK_URL` when it names that park. A system hub (DNR parks index, Met Council Parks.aspx, a county homepage) is kept only when no unit page is found. URLs are not invented: IDs and links come from GIS/APIs, and guessed manager pages are kept only after an HTTP check that does not land on a hub.
 
 Coordinates are real. Highlights and amenities are **sparse on purpose**: official GIS rarely includes a full amenity inventory. Empty states say “Not listed in our sources yet.” Do not invent amenities to fill chips.
 
@@ -99,15 +102,15 @@ Coordinates are real. Highlights and amenities are **sparse on purpose**: offici
 
 ### Iterate on park-finding
 
-Edit sources or filters in `scripts/build_parks_json.py` (types, skip lists, Greater MN rows, amenity mapping). Then:
+Edit sources or filters in `scripts/build_parks_json.py` (types, skip lists, Greater MN rows, amenity mapping, URL resolution). Then:
 
 ```bash
-# Fetches official park GIS/APIs, DarkSky places, and campground inventories;
+# Fetches official park GIS/APIs, NWPS wilderness, DarkSky places, and campground inventories;
 # rewrites db/data/parks.json, dark_sky.json, park_reviews.json; loads Postgres
 bin/rake parks:refresh
 ```
 
-Commit the updated JSON artifacts with the code change. Optional `NPS_API_KEY` (otherwise the NPS `DEMO_KEY`). Optional `RIDB_API_KEY` for Recreation.gov RIDB (skipped if blank). Python packages for the park GIS rebuild: `pip install -r scripts/requirements.txt` (the rake task installs them if missing). Dark Sky and reviews builders need only Python 3 stdlib.
+That is the only path that hits DNR / NPS / Met Council / Wilderness Connect / DarkSky. Commit the updated JSON artifacts with the code change. Optional `NPS_API_KEY` (otherwise the NPS `DEMO_KEY`). Optional `RIDB_API_KEY` for Recreation.gov RIDB (skipped if blank). Python packages for the park GIS rebuild: `pip install -r scripts/requirements.txt` (the rake task installs them if missing). Dark Sky and reviews builders need only Python 3 stdlib. Rebuild from already-downloaded GIS with `PARKS_SKIP_FETCH=1` or `python3 scripts/build_parks_json.py --skip-fetch`.
 
 Offline load of already-shipped files (used by `db:prepare` / `db:seed` as well):
 
@@ -126,12 +129,12 @@ bin/rake parks:refresh_reviews
 
 Official list: DarkSky International WordPress REST API (`/wp-json/wp/v2/darksky_place`), not an HTML scrape. Minnesota places are those whose **address** is in Minnesota (`, MN`). Quetico (Ontario) is dropped even though the write-up mentions Minnesota.
 
-Current asset: **2** certified Minnesota places, **1** matched to an existing park.
+Current asset: **2** certified Minnesota places, **2** matched to existing parks.
 
 | Place | Category | Match |
 | --- | --- | --- |
 | Voyageurs National Park | International Dark Sky Park (2020) | `Voyageurs National Park` |
-| Boundary Waters Canoe Area Wilderness | International Dark Sky Sanctuary (2020) | unmatched — not in the v1 park inventory; not guessed onto nearby state parks |
+| Boundary Waters Canoe Area Wilderness | International Dark Sky Sanctuary (2020) | `Boundary Waters Canoe Area Wilderness` (own record; not guessed onto nearby state parks) |
 
 Filter chip: **Dark Sky**. Details show the certification and a link to the DarkSky listing. Parks that are not certified stay `false` / empty.
 
@@ -161,7 +164,7 @@ Current asset: **66** parks with a camping score, **68** with some camping intel
 
 **In this slice**
 
-- MapLibre map that opens fitted to Minnesota; pan is allowed out into the Dakotas, Iowa, Wisconsin, and the Great Lakes. Every park is a type-colored clickable marker (national square / state circle / regional rounded square / county circle, with a simple icon). Hover shows a pointer; click opens the same detail panel as the list.
+- MapLibre map that opens fitted to Minnesota; pan is allowed out into the Dakotas, Iowa, Wisconsin, and the Great Lakes. Every park is a type-colored clickable marker (national square / state circle / wilderness diamond / regional rounded square / county circle, with a simple icon). Hover shows a pointer; click opens the same detail panel as the list.
 - Click → name, type, agency, straight-line distance, Dark Sky certification, camping score when present, highlights, amenities/activities
 - Filters: type, **Dark Sky**, amenities/activities that exist, distance (when origin set), favorited, visited
 - Collapsible side list of parks in the current viewport; distance sort if origin, else name

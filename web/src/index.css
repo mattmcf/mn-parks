@@ -112,6 +112,11 @@ body {
   border-radius: 4px;
 }
 
+.park-marker[data-park-type="wilderness"] .park-marker__dot {
+  border-radius: 3px;
+  clip-path: polygon(50% 4%, 96% 50%, 50% 96%, 4% 50%);
+}
+
 .park-marker:hover .park-marker__dot,
 .park-marker:focus-visible .park-marker__dot {
   transform: scale(1.18);

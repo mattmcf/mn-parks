@@ -1,5 +1,5 @@
 class Park < ApplicationRecord
-  TYPES = %w[national state regional county].freeze
+    TYPES = %w[national state wilderness regional county].freeze
   SHIPPED_PATH = Rails.root.join("db/data/parks.json")
   DARK_SKY_PATH = Rails.root.join("db/data/dark_sky.json")
   REVIEWS_PATH = Rails.root.join("db/data/park_reviews.json")
