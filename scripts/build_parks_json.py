@@ -24,7 +24,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 import zipfile
-from collections import defaultdict
+from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -406,6 +406,8 @@ def is_hub_url(url: str) -> bool:
         return True
     if re.search(r"/(parks|parks-recreation|recreation/parks)/?$", path, re.I):
         return True
+    if re.search(r"park_rec_parks|parks_and_trails|parks-facilities", path, re.I):
+        return True
     return False
 
 
@@ -464,7 +466,7 @@ def follow_url(url: str) -> str | None:
     return url
 
 
-def pick_best_url(name: str, urls: list[str], fallback: str = "") -> str:
+def pick_best_url(name: str, urls: list[str], fallback: str = "", min_rank: int = 1) -> str:
     ranked: list[tuple[int, str]] = []
     seen: set[str] = set()
     for raw in urls:
@@ -473,7 +475,10 @@ def pick_best_url(name: str, urls: list[str], fallback: str = "") -> str:
             continue
         seen.add(u)
         if is_unit_page(u) or url_matches_name(u, name):
-            ranked.append((3, u))
+            if is_hub_url(u) and not is_unit_page(u):
+                ranked.append((1, u))
+            else:
+                ranked.append((3, u))
         elif is_hub_url(u):
             ranked.append((1, u))
         else:
@@ -481,7 +486,19 @@ def pick_best_url(name: str, urls: list[str], fallback: str = "") -> str:
     if not ranked:
         return normalize_url(fallback)
     ranked.sort(key=lambda item: item[0], reverse=True)
-    return ranked[0][1]
+    if ranked[0][0] >= min_rank:
+        return ranked[0][1]
+    return normalize_url(fallback) or ranked[0][1]
+
+
+def unit_names_compatible(a: str, b: str) -> bool:
+    """Same core name, and park-reserve vs regional-park does not get mixed."""
+    if not a or not b:
+        return False
+    if norm_name(a) != norm_name(b):
+        return False
+    a_l, b_l = a.lower(), b.lower()
+    return ("reserve" in a_l) == ("reserve" in b_l)
 
 
 def dnr_park_url(code: str) -> str:
@@ -666,38 +683,62 @@ def make_park(
     }
 
 
-_METRO_URLS: dict[str, list[str]] | None = None
+_METRO_URL_ROWS: list[tuple[str, str]] | None = None
 
 
-def metro_url_index() -> dict[str, list[str]]:
-    """PARK_URL values from MetroGIS, keyed by normalized park name."""
-    global _METRO_URLS
-    if _METRO_URLS is not None:
-        return _METRO_URLS
+def metro_url_rows() -> list[tuple[str, str]]:
+    """(park name, PARK_URL) pairs from MetroGIS."""
+    global _METRO_URL_ROWS
+    if _METRO_URL_ROWS is not None:
+        return _METRO_URL_ROWS
     path = CACHE / "metro" / "MetroCollaborativeParks"
     if not path.with_suffix(".shp").exists():
-        _METRO_URLS = {}
-        return _METRO_URLS
+        _METRO_URL_ROWS = []
+        return _METRO_URL_ROWS
     sf = shapefile.Reader(str(path))
     fields = [f[0] for f in sf.fields[1:]]
-    index: dict[str, list[str]] = defaultdict(list)
+    rows: list[tuple[str, str]] = []
+    seen: set[tuple[str, str]] = set()
     for rec in sf.iterRecords():
         d = dict(zip(fields, rec))
         name = (d.get("PARKNAME") or "").strip()
         url = normalize_url(d.get("PARK_URL") or "")
         if not name or not url:
             continue
-        key = norm_name(name)
-        if url not in index[key]:
-            index[key].append(url)
-    _METRO_URLS = dict(index)
-    return _METRO_URLS
+        key = (name.lower(), url)
+        if key in seen:
+            continue
+        seen.add(key)
+        rows.append((name, url))
+    _METRO_URL_ROWS = rows
+    return _METRO_URL_ROWS
 
 
 def metro_urls_for(name: str) -> list[str]:
     if not name:
         return []
-    return list(metro_url_index().get(norm_name(name), []))
+    rows = metro_url_rows()
+    exact: list[str] = []
+    same_core: list[tuple[str, str]] = []
+    for gis_name, url in rows:
+        if gis_name.lower() == name.lower() and url not in exact:
+            exact.append(url)
+        if norm_name(gis_name) == norm_name(name):
+            same_core.append((gis_name, url))
+    if exact:
+        return exact
+    gis_names = {n.lower() for n, _ in same_core}
+    if len(gis_names) <= 1:
+        out: list[str] = []
+        for _, url in same_core:
+            if url not in out:
+                out.append(url)
+        return out
+    out = []
+    for gis_name, url in same_core:
+        if unit_names_compatible(name, gis_name) and url not in out:
+            out.append(url)
+    return out
 
 
 def load_dnr() -> list[dict]:
@@ -840,6 +881,11 @@ def load_regional() -> list[dict]:
             continue
         groups[name].append(feat)
 
+    displays: dict[str, str] = {}
+    for name in groups:
+        displays[name] = f"{name} Regional Park" if "park" not in name.lower() else name
+    core_counts = Counter(norm_name(display) for display in displays.values())
+
     parks = []
     for name, feats in groups.items():
         geoms = []
@@ -861,7 +907,14 @@ def load_regional() -> list[dict]:
         for a in extra:
             if a not in amenities:
                 amenities.append(a)
-        display = f"{name} Regional Park" if "park" not in name.lower() else name
+        display = displays[name]
+        urls = metro_urls_for(name) + metro_urls_for(display)
+        if core_counts[norm_name(display)] > 1:
+            urls = [
+                url
+                for gis_name, url in metro_url_rows()
+                if unit_names_compatible(display, gis_name)
+            ]
         parks.append(
             make_park(
                 name=display,
@@ -873,8 +926,9 @@ def load_regional() -> list[dict]:
                 source_id=name,
                 source_url=pick_best_url(
                     display,
-                    metro_urls_for(name) + metro_urls_for(display),
+                    urls,
                     fallback=METC_HUB_URL,
+                    min_rank=3,
                 ),
                 amenities=amenities,
             )

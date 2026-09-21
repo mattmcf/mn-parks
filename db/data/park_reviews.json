@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-09-20T20:50:36.800816+00:00",
-  "retrieved_at": "2026-09-20T20:50:36.800816+00:00",
+  "generated_at": "2026-09-21T02:15:30.162180+00:00",
+  "retrieved_at": "2026-09-21T02:15:30.162180+00:00",
   "source": "mn_dnr_camping_units+nps_campgrounds",
   "source_urls": [
     "https://gisdata.mn.gov/dataset/1d9ad17a-dafd-41b7-aee6-9db9cdfa067b",
@@ -26,7 +26,7 @@
       "review_count": null,
       "electric_sites": 0,
       "snippet": "34 official DNR camping units across 3 campgrounds, including 29 backpack, 3 canoe-in/boat-in, 2 group area - basic-a.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00100",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -39,7 +39,7 @@
       "review_count": null,
       "electric_sites": 11,
       "snippet": "34 official DNR camping units at Banning Campground, including 22 drive-in, 11 drive-in electric, 1 canoe-in/boat-in.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00103",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -52,7 +52,7 @@
       "review_count": null,
       "electric_sites": 45,
       "snippet": "80 official DNR camping units at Bear Head Lake Campground, including 45 drive-in electric, 28 drive-in, 5 backpack.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00109",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -65,7 +65,7 @@
       "review_count": null,
       "electric_sites": 16,
       "snippet": "48 official DNR camping units at Beaver Creek Campground, including 26 drive-in, 16 drive-in electric, 6 cart-in.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00112",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -78,7 +78,7 @@
       "review_count": null,
       "electric_sites": 26,
       "snippet": "31 official DNR camping units at Big Bog Campground, including 26 drive-in electric, 5 drive-in.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=sra00308",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -91,7 +91,7 @@
       "review_count": null,
       "electric_sites": 10,
       "snippet": "34 official DNR camping units at Meadowbrook Area Campground, including 24 drive-in, 10 drive-in electric.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00115",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -104,7 +104,7 @@
       "review_count": null,
       "electric_sites": 52,
       "snippet": "89 official DNR camping units at Blue Mounds Campground, including 52 drive-in electric, 19 drive-in, 17 cart-in.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00121",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -117,7 +117,7 @@
       "review_count": null,
       "electric_sites": 35,
       "snippet": "45 official DNR camping units at Buffalo River Campground, including 35 drive-in electric, 9 drive-in, 1 group area - basic-a.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00124",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -130,7 +130,7 @@
       "review_count": null,
       "electric_sites": 47,
       "snippet": "89 official DNR camping units across 3 campgrounds, including 47 drive-in electric, 33 drive-in, 8 drive-in equestrian.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00127",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -143,7 +143,7 @@
       "review_count": null,
       "electric_sites": 0,
       "snippet": "22 official DNR camping units at Carley Campground, including 20 drive-in, 2 group area - basic-a.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00130",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -156,7 +156,7 @@
       "review_count": null,
       "electric_sites": 21,
       "snippet": "47 official DNR camping units at Cascade River Campground, including 21 drive-in electric, 19 drive-in, 5 backpack.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00133",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -169,7 +169,7 @@
       "review_count": null,
       "electric_sites": 15,
       "snippet": "41 official DNR camping units at Lindbergh Campground, including 23 drive-in, 15 drive-in electric, 2 cart-in.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00136",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -182,7 +182,7 @@
       "review_count": null,
       "electric_sites": 12,
       "snippet": "60 official DNR camping units at Crow Wing Campground, including 47 drive-in, 12 drive-in electric, 1 group area - basic-a.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00139",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -195,7 +195,7 @@
       "review_count": null,
       "electric_sites": 18,
       "snippet": "34 official DNR camping units at Portsmouth Campground, including 18 drive-in electric, 11 drive-in, 4 walk-in.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=sra00302",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -208,7 +208,7 @@
       "review_count": null,
       "electric_sites": 50,
       "snippet": "108 official DNR camping units across 2 campgrounds, including 52 drive-in, 50 drive-in electric, 6 group area - basic-a.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00142",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -221,7 +221,7 @@
       "review_count": null,
       "electric_sites": 34,
       "snippet": "87 official DNR camping units across 2 campgrounds, including 50 drive-in, 34 drive-in electric, 3 walk-in.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00145",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -234,7 +234,7 @@
       "review_count": null,
       "electric_sites": 46,
       "snippet": "130 official DNR camping units across 2 campgrounds, including 50 drive-in, 31 drive-in equestrian, 23 drive-in electric.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00148",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -247,7 +247,7 @@
       "review_count": null,
       "electric_sites": 28,
       "snippet": "52 official DNR camping units across 2 campgrounds, including 20 drive-in, 15 drive-in electric, 13 drive-in equestrian electric.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00151",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -260,7 +260,7 @@
       "review_count": null,
       "electric_sites": 2,
       "snippet": "18 official DNR camping units at Franz Jevne Campground, including 13 drive-in, 3 walk-in, 2 drive-in electric.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00157",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -273,7 +273,7 @@
       "review_count": null,
       "electric_sites": 19,
       "snippet": "67 official DNR camping units across 2 campgrounds, including 39 drive-in, 19 drive-in electric, 6 cart-in.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00160",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -286,7 +286,7 @@
       "review_count": null,
       "electric_sites": 0,
       "snippet": "21 official DNR camping units, including 21 backpack.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00163",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -299,7 +299,7 @@
       "review_count": null,
       "electric_sites": 15,
       "snippet": "50 official DNR camping units across 3 campgrounds, including 23 drive-in, 14 drive-in electric, 8 drive-in equestrian.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00166",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -312,7 +312,7 @@
       "review_count": null,
       "electric_sites": 1,
       "snippet": "27 official DNR camping units at Cart-In Campground, including 22 cart-in, 3 canoe-in/boat-in, 1 group area - basic-a.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00167",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -325,7 +325,7 @@
       "review_count": null,
       "electric_sites": 0,
       "snippet": "74 official DNR camping units at Gooseberry Falls Campground, including 69 drive-in, 3 group area - basic-a, 2 canoe-in/boat-in.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00172",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -351,7 +351,7 @@
       "review_count": null,
       "electric_sites": 0,
       "snippet": "42 official DNR camping units across 2 campgrounds, including 31 drive-in, 7 bike-in, 4 cart-in.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00244",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -364,7 +364,7 @@
       "review_count": null,
       "electric_sites": 18,
       "snippet": "37 official DNR camping units at Hayes Lake Campground, including 18 drive-in electric, 17 drive-in, 2 walk-in.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00174",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -377,7 +377,7 @@
       "review_count": null,
       "electric_sites": 22,
       "snippet": "41 official DNR camping units at Interstate Campground, including 22 drive-in electric, 15 drive-in, 4 group area - basic-a.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00178",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -390,7 +390,7 @@
       "review_count": null,
       "electric_sites": 160,
       "snippet": "246 official DNR camping units across 2 campgrounds, including 160 drive-in electric, 63 drive-in, 11 cart-in.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00181",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -403,7 +403,7 @@
       "review_count": null,
       "electric_sites": 21,
       "snippet": "88 official DNR camping units at Jay Cooke Campground, including 57 drive-in, 21 drive-in electric, 4 walk-in.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00187",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -416,7 +416,7 @@
       "review_count": null,
       "electric_sites": 0,
       "snippet": "27 official DNR camping units at Judge C. R. Magney Campground, including 27 drive-in.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00193",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -429,7 +429,7 @@
       "review_count": null,
       "electric_sites": 11,
       "snippet": "36 official DNR camping units at Kilen Woods Campground, including 21 drive-in, 11 drive-in electric, 4 walk-in.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00196",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -442,7 +442,7 @@
       "review_count": null,
       "electric_sites": 39,
       "snippet": "39 official DNR camping units at La Salle Lake Campground, including 39 drive-in electric/water/sewer.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=sra00311",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -455,7 +455,7 @@
       "review_count": null,
       "electric_sites": 38,
       "snippet": "49 official DNR camping units across 2 campgrounds, including 28 drive-in electric, 10 drive-in electric/water/sewer, 6 drive-in.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00197",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -468,7 +468,7 @@
       "review_count": null,
       "electric_sites": 44,
       "snippet": "97 official DNR camping units at Lake Bemidji Campground, including 52 drive-in, 43 drive-in electric, 1 group area - basic-a.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00205",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -481,7 +481,7 @@
       "review_count": null,
       "electric_sites": 68,
       "snippet": "162 official DNR camping units across 3 campgrounds, including 89 drive-in, 68 drive-in electric, 3 backpack.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00208",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -494,7 +494,7 @@
       "review_count": null,
       "electric_sites": 86,
       "snippet": "130 official DNR camping units across 3 campgrounds, including 81 drive-in electric, 40 drive-in, 4 drive-in equestrian electric.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00211",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -507,7 +507,7 @@
       "review_count": null,
       "electric_sites": 11,
       "snippet": "28 official DNR camping units across 2 campgrounds, including 11 drive-in electric, 9 drive-in, 6 drive-in equestrian.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00214",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -520,7 +520,7 @@
       "review_count": null,
       "electric_sites": 0,
       "snippet": "19 official DNR camping units, including 17 backpack, 2 group area - basic-a.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00217",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -533,7 +533,7 @@
       "review_count": null,
       "electric_sites": 64,
       "snippet": "90 official DNR camping units across 3 campgrounds, including 32 drive-in electric, 32 drive-in electric/water/sewer, 16 drive-in.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00220",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -546,7 +546,7 @@
       "review_count": null,
       "electric_sites": 32,
       "snippet": "37 official DNR camping units at Vermilion Ridge Campground, including 31 drive-in electric, 2 canoe-in/boat-in, 1 group area - premium.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00285",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -559,7 +559,7 @@
       "review_count": null,
       "electric_sites": 32,
       "snippet": "98 official DNR camping units across 3 campgrounds, including 39 drive-in, 32 drive-in electric, 23 drive-in equestrian.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00229",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -572,7 +572,7 @@
       "review_count": null,
       "electric_sites": 21,
       "snippet": "89 official DNR camping units across 2 campgrounds, including 64 drive-in, 21 drive-in electric, 3 walk-in.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00226",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -585,7 +585,7 @@
       "review_count": null,
       "electric_sites": 22,
       "snippet": "85 official DNR camping units across 3 campgrounds, including 43 drive-in, 22 drive-in electric, 10 drive-in equestrian.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00232",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -598,7 +598,7 @@
       "review_count": null,
       "electric_sites": 7,
       "snippet": "63 official DNR camping units at Red Fox Campground, including 53 drive-in, 6 drive-in electric, 4 group area - basic-a.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00235",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -611,7 +611,7 @@
       "review_count": null,
       "electric_sites": 0,
       "snippet": "6 official DNR camping units at Equestrian Campground, including 6 drive-in equestrian.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=sra00304",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -624,7 +624,7 @@
       "review_count": null,
       "electric_sites": 6,
       "snippet": "20 official DNR camping units at Monson Lake Campground, including 14 drive-in, 6 drive-in electric.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00238",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -637,7 +637,7 @@
       "review_count": null,
       "electric_sites": 20,
       "snippet": "36 official DNR camping units at Moose Lake Campground, including 20 drive-in electric, 13 drive-in, 2 walk-in.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00239",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -650,7 +650,7 @@
       "review_count": null,
       "electric_sites": 32,
       "snippet": "98 official DNR camping units across 2 campgrounds, including 60 drive-in, 32 drive-in electric, 5 backpack.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00175",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -663,7 +663,7 @@
       "review_count": null,
       "electric_sites": 27,
       "snippet": "55 official DNR camping units at Nerstrand Campground, including 27 drive-in electric, 24 drive-in, 4 walk-in.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00241",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -676,7 +676,7 @@
       "review_count": null,
       "electric_sites": 10,
       "snippet": "25 official DNR camping units at Old Mill Campground, including 15 drive-in, 10 drive-in electric.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00247",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -689,7 +689,7 @@
       "review_count": null,
       "electric_sites": 101,
       "snippet": "114 official DNR camping units at Sherlock Park Campground, including 85 drive-in electric/water/sewer, 24 drive-in, 4 walk-in.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=sra00309",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -702,7 +702,7 @@
       "review_count": null,
       "electric_sites": 18,
       "snippet": "55 official DNR camping units at Rice Lake Campground, including 22 drive-in, 18 drive-in electric, 5 canoe-in/boat-in.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00250",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -728,7 +728,7 @@
       "review_count": null,
       "electric_sites": 14,
       "snippet": "68 official DNR camping units across 2 campgrounds, including 48 drive-in, 14 drive-in electric, 4 bike-in.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00256",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -741,7 +741,7 @@
       "review_count": null,
       "electric_sites": 18,
       "snippet": "69 official DNR camping units at Savanna Portage Campground, including 43 drive-in, 18 drive-in electric, 6 backpack.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00259",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -754,7 +754,7 @@
       "review_count": null,
       "electric_sites": 40,
       "snippet": "96 official DNR camping units across 2 campgrounds, including 48 drive-in, 40 drive-in electric, 5 canoe-in/boat-in.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00262",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -767,7 +767,7 @@
       "review_count": null,
       "electric_sites": 0,
       "snippet": "29 official DNR camping units at Schoolcraft Campground, including 28 drive-in, 1 group area - basic-a.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00263",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -780,7 +780,7 @@
       "review_count": null,
       "electric_sites": 53,
       "snippet": "142 official DNR camping units across 3 campgrounds, including 77 drive-in, 53 drive-in electric, 9 drive-in equestrian.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00265",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -793,7 +793,7 @@
       "review_count": null,
       "electric_sites": 21,
       "snippet": "37 official DNR camping units at Prairie Lake Campground, including 21 drive-in electric, 13 drive-in, 3 cart-in.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00267",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -806,7 +806,7 @@
       "review_count": null,
       "electric_sites": 46,
       "snippet": "70 official DNR camping units across 2 campgrounds, including 46 drive-in electric, 20 cart-in, 4 backpack.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00266",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -819,7 +819,7 @@
       "review_count": null,
       "electric_sites": 90,
       "snippet": "270 official DNR camping units across 4 campgrounds, including 140 drive-in, 71 drive-in electric, 21 drive-in equestrian.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00253",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -832,7 +832,7 @@
       "review_count": null,
       "electric_sites": 20,
       "snippet": "58 official DNR camping units across 2 campgrounds, including 34 drive-in, 18 drive-in electric, 6 cart-in.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00268",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -845,7 +845,7 @@
       "review_count": null,
       "electric_sites": 21,
       "snippet": "50 official DNR camping units across 2 campgrounds, including 21 drive-in electric, 14 cart-in, 7 drive-in.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00269",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -858,7 +858,7 @@
       "review_count": null,
       "electric_sites": 85,
       "snippet": "125 official DNR camping units across 2 campgrounds, including 85 drive-in electric, 25 drive-in, 8 cart-in.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00280",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -871,7 +871,7 @@
       "review_count": null,
       "electric_sites": 52,
       "snippet": "132 official DNR camping units across 2 campgrounds, including 58 drive-in, 34 drive-in electric, 18 drive-in equestrian electric.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00254",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -884,7 +884,7 @@
       "review_count": null,
       "electric_sites": 73,
       "snippet": "120 official DNR camping units across 2 campgrounds, including 73 drive-in electric, 41 drive-in, 3 group area - basic-b.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00283",
       "inventory_source": "mn_dnr_camping_units"
     },
     {
@@ -897,7 +897,7 @@
       "review_count": null,
       "electric_sites": 0,
       "snippet": "58 official DNR camping units across 3 campgrounds, including 57 drive-in, 1 group area - basic-a.",
-      "url": "https://www.dnr.state.mn.us/state_parks/index.html",
+      "url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00284",
       "inventory_source": "mn_dnr_camping_units"
     }
   ]

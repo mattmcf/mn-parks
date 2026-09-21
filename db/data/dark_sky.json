@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-09-20T20:50:35.673680+00:00",
-  "retrieved_at": "2026-09-20T20:50:35.673680+00:00",
+  "generated_at": "2026-09-21T02:20:09.349686+00:00",
+  "retrieved_at": "2026-09-21T02:20:09.349686+00:00",
   "source_url": "https://darksky.org/wp-json/wp/v2/darksky_place",
   "finder_url": "https://darksky.org/what-we-do/international-dark-sky-places/all-places/",
   "attribution": [
@@ -8,8 +8,8 @@
   ],
   "counts": {
     "official_minnesota": 2,
-    "matched": 1,
-    "unmatched": 1
+    "matched": 2,
+    "unmatched": 0
   },
   "places": [
     {
@@ -25,9 +25,7 @@
       "matched_source": "nps_api",
       "matched_source_id": "voya",
       "matched_park_name": "Voyageurs National Park"
-    }
-  ],
-  "unmatched": [
+    },
     {
       "darksky_id": 14601,
       "name": "Boundary Waters Canoe Area Wilderness",
@@ -38,7 +36,10 @@
       "longitude": null,
       "address": "Superior National Forest 8901 Grand Ave Place Duluth, MN 55808 USA Google Maps",
       "darksky_url": "https://darksky.org/places/boundary-waters-canoe-area-dark-sky-sanctuary/",
-      "reason": "No existing park with a matching name. Not guessed onto nearby units."
+      "matched_source": "wilderness_connect_nwps",
+      "matched_source_id": "70",
+      "matched_park_name": "Boundary Waters Canoe Area Wilderness"
     }
-  ]
+  ],
+  "unmatched": []
 }
