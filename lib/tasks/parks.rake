@@ -4,8 +4,15 @@ namespace :parks do
   desc "Fetch official sources, rewrite parks/dark-sky/reviews JSON, then load Postgres"
   task refresh: :environment do
     ParksJsonBuilder.refresh!
+    ParkGeoJsonBuilder.refresh!
     DarkSkyJsonBuilder.refresh!
     ParkReviewsJsonBuilder.refresh!
+    Rake::Task["parks:ingest"].invoke
+  end
+
+  desc "Cross-check lat/lng against Nominatim/NPS/MN boundary, rewrite park_geo.json + parks.json, ingest"
+  task refresh_geo: :environment do
+    ParkGeoJsonBuilder.refresh!
     Rake::Task["parks:ingest"].invoke
   end
 
@@ -21,7 +28,7 @@ namespace :parks do
     Rake::Task["parks:ingest"].invoke
   end
 
-  desc "Load shipped JSON artifacts into Postgres (offline; no DarkSky/DNR/NPS/review-site calls)"
+  desc "Load shipped JSON artifacts into Postgres (offline; no DarkSky/DNR/NPS/Nominatim/review-site calls)"
   task ingest: :environment do
     payload = Park.ingest_shipped!
     counts = payload["counts"] || Park.in_state.group(:park_type).count
@@ -63,6 +70,19 @@ module ParksJsonBuilder
     req = Rails.root.join("scripts/requirements.txt")
     puts "Installing Python ingest dependencies from #{req.relative_path_from(Rails.root)}…"
     abort "pip install failed." unless system(python, "-m", "pip", "install", "-r", req.to_s)
+  end
+end
+
+module ParkGeoJsonBuilder
+  module_function
+
+  def refresh!
+    python = ParksJsonBuilder.python!
+    ParksJsonBuilder.ensure_deps!(python)
+    script = Rails.root.join("scripts/build_park_geo.py")
+    puts "Cross-checking park lat/lng (Nominatim, NPS visitor centers, MN boundary)…"
+    abort "Park geo cross-check failed." unless system(python, script.to_s)
+    abort "Expected #{Park::GEO_PATH} after geo check." unless Park::GEO_PATH.exist?
   end
 end
 

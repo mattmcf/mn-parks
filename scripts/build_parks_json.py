@@ -564,16 +564,20 @@ def slug(name: str, ptype: str) -> str:
     return f"{ptype}:{base}"
 
 
-def centroid_utm(shp) -> tuple[float, float] | None:
-    pts = shp.points
-    if not pts:
+def lonlat_from_shp(shp, transformer) -> tuple[float, float] | None:
+    """Point on the feature, not the average of denser vertices (which drifts)."""
+    try:
+        geom = shape(shp.__geo_interface__)
+        if geom.is_empty:
+            return None
+        pt = geom if geom.geom_type == "Point" else geom.representative_point()
+        return transformer.transform(pt.x, pt.y)
+    except Exception:
         return None
-    if shp.shapeType in (1, 11, 21):  # point
-        x, y = pts[0]
-        return TO_WGS.transform(x, y)
-    xs = [p[0] for p in pts]
-    ys = [p[1] for p in pts]
-    return TO_WGS.transform(sum(xs) / len(xs), sum(ys) / len(ys))
+
+
+def centroid_utm(shp) -> tuple[float, float] | None:
+    return lonlat_from_shp(shp, TO_WGS)
 
 
 def centroid_geojson(geom) -> tuple[float, float] | None:
@@ -583,8 +587,8 @@ def centroid_geojson(geom) -> tuple[float, float] | None:
         g = shape(geom)
         if g.is_empty:
             return None
-        c = g.centroid
-        return float(c.x), float(c.y)
+        pt = g if g.geom_type == "Point" else g.representative_point()
+        return float(pt.x), float(pt.y)
     except Exception:
         return None
 
@@ -901,7 +905,7 @@ def load_regional() -> list[dict]:
         if not geoms:
             continue
         merged = unary_union(geoms)
-        c = merged.centroid
+        c = merged.representative_point()
         amenities = []
         extra = REGIONAL_AMENITIES.get(name.lower(), [])
         for a in extra:
@@ -994,16 +998,22 @@ def load_metro_county(regional_names: set[str]) -> list[dict]:
     parks = []
     for name, items in buckets.items():
         d0 = items[0][0]
-        lons, lats = [], []
-        for d, shp in items:
-            xy = centroid_utm(shp)
-            if xy:
-                lons.append(xy[0])
-                lats.append(xy[1])
-        if not lats:
-            continue
-        lon = sum(lons) / len(lons)
-        lat = sum(lats) / len(lats)
+        geoms = []
+        for _d, shp in items:
+            try:
+                g = shape(shp.__geo_interface__)
+                if not g.is_empty:
+                    geoms.append(g)
+            except Exception:
+                continue
+        if geoms:
+            pt = unary_union(geoms).representative_point()
+            lon, lat = TO_WGS.transform(pt.x, pt.y)
+        else:
+            xy = centroid_utm(items[0][1])
+            if not xy:
+                continue
+            lon, lat = xy
         feats = " ".join((d.get("SPEC_FEAT") or "") for d, _ in items)
         amenities = parse_features(feats)
         agency = d0.get("AGENCYNAME") or d0.get("LANDOWNER") or "County parks"
@@ -1026,28 +1036,28 @@ def load_metro_county(regional_names: set[str]) -> list[dict]:
 
 GREATER_MN_COUNTY = [
     # name, lat, lon, county/agency, url, amenities, highlights
-    ("Chester Woods Park", 44.0236, -92.3335, "Olmsted County Parks", "https://www.olmstedcounty.gov/residents/parks-recreation", ["camping", "hiking", "fishing", "boating", "picnic", "playground"], "Olmsted County reservoir park east of Rochester with camping, a swimming beach in season, and a trail that actually loops."),
+    ("Chester Woods Park", 43.990475, -92.322656, "Olmsted County Parks", "https://www.olmstedcounty.gov/residents/parks-recreation", ["camping", "hiking", "fishing", "boating", "picnic", "playground"], "Olmsted County reservoir park east of Rochester with camping, a swimming beach in season, and a trail that actually loops."),
     ("Oxbow Park & Zollman Zoo", 44.0869, -92.6442, "Olmsted County Parks", "https://www.olmstedcounty.gov/residents/parks-recreation", ["hiking", "picnic", "playground", "wildlife", "visitor_center"], "A wooded oxbow of the Zumbro with a small zoo of Minnesota animals — county park, not a city lot."),
     ("Quarry Park & Nature Preserve", 45.5334, -94.2471, "Stearns County Parks", "https://co.stearns.mn.us/Recreation/Parks", ["hiking", "climbing", "swimming", "biking", "picnic", "wildlife"], "Flooded granite quarries on the edge of St. Cloud, with climbing walls, swimming holes, and a trail network through oak savanna."),
     ("Warner Lake County Park", 45.4472, -94.4067, "Stearns County Parks", "https://co.stearns.mn.us/Recreation/Parks", ["hiking", "fishing", "picnic", "swimming", "camping"], "A quieter Stearns County lake park west of Cold Spring."),
-    ("Mississippi River County Park", 45.6145, -94.1934, "Stearns County Parks", "https://co.stearns.mn.us/Recreation/Parks", ["hiking", "fishing", "picnic", "canoeing"], "Stearns County park on the Mississippi north of St. Cloud, built for river access more than playgrounds."),
-    ("Bertram Chain of Lakes Regional Park", 45.2373, -93.9474, "Wright County Parks", "https://www.co.wright.mn.us/148/Parks-Recreation", ["hiking", "swimming", "biking", "picnic", "fishing", "camping"], "Wright County's chain-of-lakes park near Monticello — swimming, trail, and enough water that a bike loop is not the whole visit."),
-    ("Collinwood Regional Park", 45.0808, -94.1657, "Wright County Parks", "https://www.co.wright.mn.us/148/Parks-Recreation", ["camping", "swimming", "boating", "fishing", "picnic"], "Wright County park on Collinwood Lake with a campground that fills on summer weekends."),
+    ("Mississippi River County Park", 45.722771, -94.223906, "Stearns County Parks", "https://co.stearns.mn.us/Recreation/Parks", ["hiking", "fishing", "picnic", "canoeing"], "Stearns County park on the Mississippi north of St. Cloud, built for river access more than playgrounds."),
+    ("Bertram Chain of Lakes Regional Park", 45.291485, -93.849917, "Wright County Parks", "https://www.co.wright.mn.us/148/Parks-Recreation", ["hiking", "swimming", "biking", "picnic", "fishing", "camping"], "Wright County's chain-of-lakes park near Monticello — swimming, trail, and enough water that a bike loop is not the whole visit."),
+    ("Collinwood Regional Park", 45.043827, -94.245943, "Wright County Parks", "https://www.co.wright.mn.us/148/Parks-Recreation", ["camping", "swimming", "boating", "fishing", "picnic"], "Wright County park on Collinwood Lake with a campground that fills on summer weekends."),
     ("Lake Koronis Regional Park", 45.3296, -94.7169, "Stearns County Parks", "https://co.stearns.mn.us/Recreation/Parks", ["camping", "swimming", "boating", "fishing", "picnic"], "Camping and lake access on Koronis, west of Paynesville."),
     ("Bend in the River Regional Park", 45.6431, -94.1948, "Benton County Parks", "https://www.co.benton.mn.us/", ["hiking", "picnic", "fishing", "wildlife"], "Benton County park on a Mississippi bend north of Rice, with bluff trail and river views."),
-    ("Lake Brophy County Park", 45.8934, -95.4182, "Douglas County Parks", "https://www.douglascountymn.gov/", ["camping", "swimming", "boating", "fishing", "picnic"], "Douglas County park west of Alexandria — classic west-central Minnesota lake camping."),
+    ("Lake Brophy County Park", 45.914632, -95.441799, "Douglas County Parks", "https://www.douglascountymn.gov/", ["camping", "swimming", "boating", "fishing", "picnic"], "Douglas County park west of Alexandria — classic west-central Minnesota lake camping."),
     ("Spruce Center Springs County Park", 45.799, -95.062, "Douglas County Parks", "https://www.douglascountymn.gov/", ["picnic", "hiking", "fishing"], "A spring-fed county park east of Osakis."),
     ("Cannon River Wilderness Area", 44.4374, -93.3269, "Rice County Parks", "https://www.ricecountymn.gov/", ["hiking", "camping", "fishing", "wildlife", "canoeing"], "Rice County's wildest tract: a steep, wooded canyon of the Cannon between Faribault and Northfield."),
-    ("Shager Park", 44.3542, -93.2681, "Rice County Parks", "https://www.ricecountymn.gov/", ["swimming", "picnic", "playground", "boating", "fishing"], "Rice County park on Circle Lake with a swimming beach and a busy summer picnic ground."),
-    ("Rapidan Dam County Park", 44.0973, -94.0664, "Blue Earth County Parks", "https://www.blueearthcountymn.gov/181/Parks", ["fishing", "picnic", "hiking", "wildlife"], "Blue Earth County park at the Rapidan Dam on the Blue Earth River, known for fishing below the dam."),
+    ("Shager Park", 44.260948, -93.343208, "Rice County Parks", "https://www.ricecountymn.gov/", ["swimming", "picnic", "playground", "boating", "fishing"], "Rice County park on Circle Lake with a swimming beach and a busy summer picnic ground."),
+    ("Rapidan Dam County Park", 44.095568, -94.109812, "Blue Earth County Parks", "https://www.blueearthcountymn.gov/181/Parks", ["fishing", "picnic", "hiking", "wildlife"], "Blue Earth County park at the Rapidan Dam on the Blue Earth River, known for fishing below the dam."),
     ("Daly Park", 44.0536, -94.2197, "Blue Earth County Parks", "https://www.blueearthcountymn.gov/181/Parks", ["camping", "swimming", "fishing", "picnic", "playground"], "Blue Earth County camping park on Hall Lake southwest of Mankato."),
     ("Bray Park", 43.6431, -94.4614, "Martin County Parks", "https://www.co.martin.mn.us/", ["camping", "swimming", "fishing", "picnic", "boating"], "Martin County park on Lake George at Fairmont — beach, campground, and a classic southern-Minnesota county lake."),
     ("Kilen Woods is state", 0, 0, "", "", [], ""),  # placeholder skipped
     ("Pinawa Howling Wildlife Management Area skip", 0, 0, "", "", [], ""),
     ("Lake Louise is state skip", 0, 0, "", "", [], ""),
     ("Sibley County Park (High Island Creek)", 44.541, -94.396, "Sibley County Parks", "https://www.sibleycounty.gov/", ["picnic", "hiking", "fishing"], "A small Sibley County park along High Island Creek near Arlington."),
-    ("Nessel Campground / Rush Creek", 45.627, -93.137, "Chisago County Parks", "https://www.chisagocounty.us/", ["camping", "fishing", "picnic"], "Chisago County camping near Rush Lake / Nessel — one of the county's rural parks outside the St. Croix corridor."),
-    ("Ojiketa Regional Park", 45.4195, -92.6478, "Chisago County Parks", "https://www.chisagocounty.us/", ["swimming", "picnic", "boating", "hiking"], "Chisago County park on South Center Lake in Lindstrom."),
+    ("Nessel Campground / Rush Creek", 45.689118, -93.054827, "Chisago County Parks", "https://www.chisagocounty.us/", ["camping", "fishing", "picnic"], "Chisago County camping near Rush Lake / Nessel — one of the county's rural parks outside the St. Croix corridor."),
+    ("Ojiketa Regional Park", 45.346001, -92.887655, "Chisago County Parks", "https://www.chisagocounty.us/", ["swimming", "picnic", "boating", "hiking"], "Chisago County / Chisago City park at former Camp Ojiketa on Green Lake — cabins and tent camping, not a township centroid."),
     ("KiChiSaga Park", 45.388, -92.845, "Chisago County Parks", "https://www.chisagocounty.us/", ["picnic", "hiking", "playground", "fishing"], "Chisago County park near Chisago City with lake access and a large picnic shelter."),
     ("Spring Lake Park Reserve is dakota regional", 0, 0, "", "", [], ""),
     ("Boulder Lake Conservation Area", 47.0194, -92.2006, "St. Louis County Parks", "https://www.stlouiscountymn.gov/departments-a-z/public-works/parks-recreation", ["hiking", "biking", "fishing", "boating", "wildlife"], "St. Louis County forest north of Duluth: gravel roads, a reservoir, and enough acreage that it feels like a state forest."),
@@ -1058,10 +1068,10 @@ GREATER_MN_COUNTY = [
     ("Winnibigoshish Recreation Area (county)", 47.430, -94.360, "Itasca County Parks", "https://www.co.itasca.mn.us/", ["camping", "boating", "fishing", "swimming", "picnic"], "Itasca County camping and lake access on Lake Winnibigoshish, one of the big waters of the north."),
     ("McCarthy Beach is state skip", 0, 0, "", "", [], ""),
     ("Bennett Valley / Mesabi skip", 0, 0, "", "", [], ""),
-    ("Pebble Lake Park", 46.252, -96.075, "Otter Tail County Parks", "https://ottertailcountymn.us/", ["swimming", "picnic", "playground", "fishing"], "Otter Tail County park on Pebble Lake at Fergus Falls."),
+    ("Pebble Lake Park", 46.24687, -96.035725, "Otter Tail County Parks", "https://ottertailcountymn.us/", ["swimming", "picnic", "playground", "fishing"], "Otter Tail County park on Pebble Lake at Fergus Falls."),
     ("Inspiration Peak is wayside skip", 0, 0, "", "", [], ""),
     ("Maplewood is state skip", 0, 0, "", "", [], ""),
-    ("Dunton Locks County Park", 46.7186, -95.6957, "Becker County Parks", "https://www.co.becker.mn.us/", ["boating", "fishing", "picnic", "hiking"], "Becker County park on the Pelican River chain at Detroit Lakes, with locks leftover from the old navigation scheme."),
+    ("Dunton Locks County Park", 46.782907, -95.882501, "Becker County Parks", "https://www.co.becker.mn.us/", ["boating", "fishing", "picnic", "hiking"], "Becker County park on the Pelican River chain at Detroit Lakes, with locks leftover from the old navigation scheme."),
     ("Muskrat Lake County Park", 46.845, -95.845, "Becker County Parks", "https://www.co.becker.mn.us/", ["camping", "fishing", "picnic", "swimming"], "A smaller Becker County lake park northwest of Detroit Lakes."),
     ("Buffalo River is state skip", 0, 0, "", "", [], ""),
     ("Red River SRA is state skip", 0, 0, "", "", [], ""),
@@ -1087,7 +1097,7 @@ GREATER_MN_COUNTY = [
     ("Izaty's / county skip", 0, 0, "", "", [], ""),
     ("Savanna Portage is state skip", 0, 0, "", "", [], ""),
     ("Aitkin County Campground (Ripple Lake)", 46.533, -93.710, "Aitkin County Parks", "https://www.co.aitkin.mn.us/", ["camping", "fishing", "boating", "picnic"], "Aitkin County camping on Ripple Lake, a typical north-central county campground."),
-    ("Jacobson Campground", 47.004, -93.416, "Aitkin County Parks", "https://www.co.aitkin.mn.us/", ["camping", "fishing", "boating", "picnic"], "Aitkin County Mississippi River campground at Jacobson."),
+    ("Jacobson Campground", 47.023126, -93.276516, "Aitkin County Parks", "https://www.co.aitkin.mn.us/", ["camping", "fishing", "boating", "picnic"], "Aitkin County Mississippi River campground at Jacobson."),
     ("Savanna State Forest county access skip", 0, 0, "", "", [], ""),
     ("Banning is state skip", 0, 0, "", "", [], ""),
     ("St. Croix is state skip", 0, 0, "", "", [], ""),
@@ -1120,7 +1130,7 @@ GREATER_MN_COUNTY = [
     ("Houston County Money Creek Campground", 43.821, -91.642, "Houston County Parks", "https://www.co.houston.mn.us/", ["camping", "fishing", "picnic", "hiking"], "Houston County campground in the Money Creek valley, in the driftless blufflands."),
     ("Winona County Whitewater-adjacent skip", 0, 0, "", "", [], ""),
     ("Garvin Heights is city skip", 0, 0, "", "", [], ""),
-    ("Apple Blossom / county overlook", 43.996, -91.430, "Winona County Parks", "https://www.co.winona.mn.us/", ["picnic", "hiking"], "Winona County Apple Blossom Drive overlook park above the Mississippi."),
+    ("Apple Blossom / county overlook", 43.855915, -91.312107, "Winona County Parks", "https://www.co.winona.mn.us/", ["picnic", "hiking"], "Winona County Apple Blossom Drive overlook park above the Mississippi."),
     ("Olmsted Chester already listed", 0, 0, "", "", [], ""),
     ("Mower County Lake Louise is state skip", 0, 0, "", "", [], ""),
     ("Red Rock Falls County Park", 43.666, -92.973, "Mower County Parks", "https://www.co.mower.mn.us/", ["picnic", "hiking", "fishing"], "Mower County park on the Cedar River with a small falls and a picnic ground near Austin's orbit."),
@@ -1184,7 +1194,7 @@ GREATER_MN_COUNTY = [
     ("Sherburne County Woodland Trails Park", 45.445, -93.650, "Sherburne County Parks", "https://www.co.sherburne.mn.us/", ["hiking", "picnic", "wildlife", "biking"], "Sherburne County trail park near Elk River — oak woodland, not the federal refuge."),
     ("Gramse County Park", 45.460, -93.909, "Sherburne County Parks", "https://www.co.sherburne.mn.us/", ["hiking", "picnic", "fishing"], "Sherburne County park west of Big Lake."),
     ("Lake Maria is state skip", 0, 0, "", "", [], ""),
-    ("Montissippi County Park", 45.305, -93.760, "Wright County Parks", "https://www.co.wright.mn.us/148/Parks-Recreation", ["hiking", "picnic", "fishing", "canoeing"], "Wright County park at the Mississippi in Monticello, with river trail and a busy summer picnic ground."),
+    ("Montissippi County Park", 45.325369, -93.828616, "Wright County Parks", "https://www.co.wright.mn.us/148/Parks-Recreation", ["hiking", "picnic", "fishing", "canoeing"], "Wright County park at the Mississippi in Monticello, with river trail and a busy summer picnic ground."),
     ("Stanley Eddy Memorial Park", 45.314, -94.019, "Wright County Parks", "https://www.co.wright.mn.us/148/Parks-Recreation", ["hiking", "picnic", "wildlife"], "Wright County woodland park east of Maple Lake."),
     ("Clearwater / Wright already", 0, 0, "", "", [], ""),
     ("Lake Alexander County Park", 46.205, -94.478, "Morrison County Parks", "https://www.co.morrison.mn.us/", ["camping", "swimming", "boating", "fishing", "picnic"], "Morrison County park on Lake Alexander west of Little Falls."),
@@ -1300,14 +1310,7 @@ def wilderness_agency_label(name: str, agency: str, description: str) -> str:
 
 
 def centroid_web_mercator(shp) -> tuple[float, float] | None:
-    try:
-        geom = shape(shp.__geo_interface__)
-        if geom.is_empty:
-            return None
-        c = geom.centroid
-        return WEB_MERCATOR_TO_WGS.transform(c.x, c.y)
-    except Exception:
-        return None
+    return lonlat_from_shp(shp, WEB_MERCATOR_TO_WGS)
 
 
 def load_wilderness() -> list[dict]:
@@ -1342,7 +1345,7 @@ def load_wilderness() -> list[dict]:
                 continue
         if geoms:
             merged = unary_union(geoms)
-            c = merged.centroid
+            c = merged.representative_point()
             lon, lat = WEB_MERCATOR_TO_WGS.transform(c.x, c.y)
         else:
             xy = centroid_web_mercator(items[0][1])
@@ -1457,7 +1460,7 @@ def main() -> None:
             "National Wilderness Preservation System boundaries via Wilderness Connect GIS (federal wilderness in Minnesota, including Superior National Forest).",
             "Metropolitan Council Regional Parks (LPH/Parks_CD).",
             "MetroGIS Collaborative Parks (county-owned units in the seven-county metro).",
-            "Greater Minnesota county parks: curated points with real coordinates; not every one of 87 counties publishes GIS.",
+            "Greater Minnesota county parks: curated points, then lat/lng cross-checked during parks:refresh (see db/data/park_geo.json).",
         ],
         "parks": parks,
     }
