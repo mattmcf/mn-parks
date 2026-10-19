@@ -8,6 +8,14 @@ import {
   type StyleSpecification,
 } from "maplibre-gl"
 import { MAP_MAX_BOUNDS, MN_BOUNDS } from "@/lib/constants"
+import {
+  PARK_FRAME_MAX_ZOOM,
+  PARK_FRAME_PADDING,
+  boundsAroundPin,
+  lngLatOfPark,
+  pinIsInViewfinder,
+  type ParkCameraTarget,
+} from "@/lib/park-camera"
 import { createParkMarkerElement, setParkMarkerSelected } from "@/lib/park-markers"
 import type { Origin, Park } from "@/types"
 
@@ -32,7 +40,7 @@ type Props = {
   onSelect: (park: Park) => void
   onMove: (ids: number[]) => void
   onDropPin: (lng: number, lat: number) => void
-  flyTo: { id: number; longitude: number; latitude: number } | null
+  flyTo: ParkCameraTarget | null
 }
 
 function toGeoJSON(parks: Park[]) {
@@ -42,7 +50,7 @@ function toGeoJSON(parks: Park[]) {
       type: "Feature" as const,
       id: park.id,
       properties: { id: park.id, name: park.name, park_type: park.park_type },
-      geometry: { type: "Point" as const, coordinates: [park.longitude, park.latitude] },
+      geometry: { type: "Point" as const, coordinates: lngLatOfPark(park) },
     })),
   }
 }
@@ -108,11 +116,59 @@ export function MapCanvas({
   const onSelectRef = useRef(onSelect)
   const onMoveRef = useRef(onMove)
   const onDropPinRef = useRef(onDropPin)
+  const pendingFrameRef = useRef<ParkCameraTarget | null>(null)
+  const mapLoadedRef = useRef(false)
+  const framingRef = useRef(false)
   parksRef.current = parks
   selectedIdRef.current = selectedId
   onSelectRef.current = onSelect
   onMoveRef.current = onMove
   onDropPinRef.current = onDropPin
+
+  const framePark = (map: MapLibreMap, target: ParkCameraTarget) => {
+    pendingFrameRef.current = target
+    framingRef.current = true
+    const marker = markersRef.current.get(target.id)
+    let lng: number
+    let lat: number
+    if (marker) {
+      const pair = marker.getLngLat()
+      lng = pair.lng
+      lat = pair.lat
+    } else {
+      try {
+        ;[lng, lat] = lngLatOfPark(target)
+      } catch {
+        return
+      }
+    }
+    map.stop()
+    map.fitBounds(boundsAroundPin(lng, lat), {
+      padding: PARK_FRAME_PADDING,
+      maxZoom: PARK_FRAME_MAX_ZOOM,
+      duration: map.loaded() ? 800 : 0,
+      essential: true,
+    })
+  }
+
+  const pinOnScreen = (map: MapLibreMap, target: ParkCameraTarget) => {
+    const marker = markersRef.current.get(target.id)
+    const lngLat = marker?.getLngLat() ?? { lng: target.longitude, lat: target.latitude }
+    const point = map.project(lngLat)
+    const node = map.getContainer()
+    return pinIsInViewfinder(point, { width: node.clientWidth, height: node.clientHeight })
+  }
+
+  const ensureFramedPinVisible = (map: MapLibreMap, target: ParkCameraTarget) => {
+    if (pinOnScreen(map, target)) return
+    const marker = markersRef.current.get(target.id)
+    try {
+      const center = marker ? marker.getLngLat() : lngLatOfPark(target)
+      map.jumpTo({ center, zoom: Math.max(map.getZoom(), 11) })
+    } catch {
+      // Missing coords — leave the camera alone.
+    }
+  }
 
   const clearParkMarkers = () => {
     for (const marker of markersRef.current.values()) marker.remove()
@@ -136,12 +192,12 @@ export function MapCanvas({
     for (const park of nextParks) {
       const existing = markersRef.current.get(park.id)
       if (existing) {
-        existing.setLngLat([park.longitude, park.latitude])
+        existing.setLngLat(lngLatOfPark(park))
         continue
       }
       const element = createParkMarkerElement(park, (item) => onSelectRef.current(item))
       const marker = new Marker({ element, anchor: "center" })
-        .setLngLat([park.longitude, park.latitude])
+        .setLngLat(lngLatOfPark(park))
         .addTo(map)
       markersRef.current.set(park.id, marker)
     }
@@ -169,6 +225,7 @@ export function MapCanvas({
     })
     map.addControl(new NavigationControl({ showCompass: false }), "bottom-right")
     mapRef.current = map
+    mapLoadedRef.current = false
 
     const emitViewport = () => {
       const bounds = map.getBounds()
@@ -179,10 +236,17 @@ export function MapCanvas({
     }
 
     const onReady = () => {
+      mapLoadedRef.current = true
       map.resize()
-      map.fitBounds(MN_BOUNDS, { padding: 48, duration: 0 })
       addParkHitLayer(map, parksRef.current)
       syncParkMarkers(map, parksRef.current)
+      const pending = pendingFrameRef.current
+      if (pending) {
+        // Frame the selected pin; do not let the statewide fit overwrite Random/search.
+        framePark(map, pending)
+      } else {
+        map.fitBounds(MN_BOUNDS, { padding: 48, duration: 0 })
+      }
       emitViewport()
     }
 
@@ -197,7 +261,14 @@ export function MapCanvas({
     }
 
     map.on("load", onReady)
-    map.on("moveend", emitViewport)
+    map.on("moveend", () => {
+      const pending = pendingFrameRef.current
+      if (framingRef.current && pending && mapLoadedRef.current) {
+        framingRef.current = false
+        ensureFramedPinVisible(map, pending)
+      }
+      emitViewport()
+    })
     map.on("mousemove", (event) => {
       if (containerRef.current?.dataset.placing === "true") return
       map.getCanvas().style.cursor = parkAtPoint(map, event.point) ? "pointer" : ""
@@ -221,7 +292,13 @@ export function MapCanvas({
     canvas.addEventListener("pointerdown", onPointerDown)
     canvas.addEventListener("pointerup", onPointerUp)
 
-    const observer = new ResizeObserver(() => map.resize())
+    const observer = new ResizeObserver(() => {
+      map.resize()
+      const pending = pendingFrameRef.current
+      if (framingRef.current && pending && mapLoadedRef.current && !pinOnScreen(map, pending)) {
+        ensureFramedPinVisible(map, pending)
+      }
+    })
     observer.observe(node)
     const later = window.setTimeout(() => map.resize(), 200)
 
@@ -235,6 +312,7 @@ export function MapCanvas({
       clearParkMarkers()
       map.remove()
       mapRef.current = null
+      mapLoadedRef.current = false
     }
   }, [])
 
@@ -243,6 +321,7 @@ export function MapCanvas({
     if (!map?.getSource("parks")) return
     ;(map.getSource("parks") as GeoJSONSource).setData(toGeoJSON(parks))
     syncParkMarkers(map, parks)
+    if (framingRef.current) return
     const bounds = map.getBounds()
     onMoveRef.current(
       parks.filter((park) => bounds.contains([park.longitude, park.latitude])).map((park) => park.id),
@@ -278,9 +357,13 @@ export function MapCanvas({
   }, [origin])
 
   useEffect(() => {
+    if (!flyTo) return
+    pendingFrameRef.current = flyTo
     const map = mapRef.current
-    if (!map || !flyTo) return
-    map.flyTo({ center: [flyTo.longitude, flyTo.latitude], zoom: 11, essential: true })
+    if (!map) return
+    if (!mapLoadedRef.current) return
+    map.resize()
+    framePark(map, flyTo)
   }, [flyTo])
 
   return (

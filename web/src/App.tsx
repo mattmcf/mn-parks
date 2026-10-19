@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/button"
 import { api } from "@/lib/api"
 import { TYPE_COLORS, TYPE_LABELS } from "@/lib/constants"
 import { formatMiles, haversineMiles } from "@/lib/geo"
+import { lngLatOfPark } from "@/lib/park-camera"
 import { cn } from "@/lib/utils"
 import type { Filters, Origin, Park, SessionUser } from "@/types"
 
@@ -136,15 +137,20 @@ export default function App() {
     return [...filtered, selected]
   }, [filtered, selected])
 
+  const flyToPark = (park: Park) => {
+    const [longitude, latitude] = lngLatOfPark(park)
+    setFlyTo({ id: park.id, longitude, latitude })
+  }
+
   const selectPark = (park: Park) => {
     setSelectedId(park.id)
-    setFlyTo({ id: park.id, longitude: park.longitude, latitude: park.latitude })
+    flyToPark(park)
     setMobileListOpen(false)
   }
 
   const selectParkFromMap = (park: Park) => {
     setSelectedId(park.id)
-    setFlyTo({ id: park.id, longitude: park.longitude, latitude: park.latitude })
+    flyToPark(park)
     setListOpen(true)
     setMobileListOpen(true)
   }
@@ -230,7 +236,7 @@ export default function App() {
             <Filter />
             Filters
           </Button>
-          <Button variant="accent" size="sm" onClick={() => void randomPark()}>
+          <Button variant="accent" size="sm" onClick={() => void randomPark()} disabled={loading || parks.length === 0}>
             <Dices />
             <span className="hidden sm:inline">Random</span>
           </Button>
