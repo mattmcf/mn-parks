@@ -25,6 +25,7 @@ class Park < ApplicationRecord
     payload = shipped_payload
     parks = payload.fetch("parks")
     transaction do
+      kept_ids = []
       parks.each do |row|
         park = find_or_initialize_by(source: row["source"], source_id: row["source_id"].to_s)
         park.assign_attributes(
@@ -32,6 +33,7 @@ class Park < ApplicationRecord
           park_type: row["park_type"],
           managing_agency: row["managing_agency"],
           source_url: row["source_url"],
+          source_url_hub: ActiveModel::Type::Boolean.new.cast(row["source_url_hub"]),
           latitude: row["latitude"],
           longitude: row["longitude"],
           highlights: row["highlights"].presence,
@@ -45,7 +47,9 @@ class Park < ApplicationRecord
           camping: {}
         )
         park.save!
+        kept_ids << park.id
       end
+      where.not(id: kept_ids).find_each(&:destroy!)
       apply_dark_sky!
       apply_reviews!
     end
@@ -110,6 +114,7 @@ class Park < ApplicationRecord
       source: source,
       source_id: source_id,
       source_url: source_url,
+      source_url_hub: source_url_hub,
       latitude: latitude.to_f,
       longitude: longitude.to_f,
       highlights: highlights,

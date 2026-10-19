@@ -1,7 +1,7 @@
 {
   "generated_at": "2026-09-21T02:20:09.200825+00:00",
   "counts": {
-    "county": 146,
+    "county": 144,
     "national": 5,
     "regional": 70,
     "state": 74,
@@ -14,7 +14,8 @@
     "Metropolitan Council Regional Parks (LPH/Parks_CD).",
     "MetroGIS Collaborative Parks (county-owned units in the seven-county metro).",
     "Greater Minnesota county parks: curated points with real coordinates; not every one of 87 counties publishes GIS.",
-    "Pin coordinates cross-checked during parks:refresh against OSM Nominatim (MN-biased), NPS visitor centers, and the Census Minnesota boundary. Audit: db/data/park_geo.json."
+    "Pin coordinates cross-checked during parks:refresh against OSM Nominatim (MN-biased), NPS visitor centers, and the Census Minnesota boundary. Audit: db/data/park_geo.json.",
+    "Official source_url_hub is true when source_url is missing or only a domain (no path). Park-specific GIS URLs are kept; no Google scrape."
   ],
   "parks": [
     {
@@ -39,7 +40,8 @@
         "boating"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015680+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015680+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Apple Blossom / county overlook",
@@ -59,13 +61,14 @@
         "hiking"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015748+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015748+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Arrowhead Point County Park",
       "park_type": "county",
-      "latitude": 43.652,
-      "longitude": -93.368,
+      "latitude": 43.739915,
+      "longitude": -93.553606,
       "managing_agency": "Freeborn County Parks",
       "source": "curated_greater_mn_county",
       "source_id": "county:arrowhead-point-county-park",
@@ -85,7 +88,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015775+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015775+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Bald Eagle-Otter Lakes - Bald Eagle Lake",
@@ -100,7 +104,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.012395+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.012395+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Barsness Park (county/city Glenwood mix)",
@@ -123,7 +128,8 @@
         "swimming"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015845+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015845+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Baudette Riverfront County Park",
@@ -145,7 +151,8 @@
         "boating"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.016111+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.016111+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Beaver Creek",
@@ -160,7 +167,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.012085+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.012085+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Beaver Lake County Park",
@@ -175,7 +183,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.012423+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.012423+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Belle Prairie County Park",
@@ -197,7 +206,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.016084+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.016084+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Bend in the River Regional Park",
@@ -221,7 +231,8 @@
         "wildlife watching"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015480+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015480+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Bertram Chain of Lakes Regional Park",
@@ -249,7 +260,8 @@
         "camping"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015454+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015454+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Bierman Park",
@@ -270,7 +282,8 @@
         "hiking"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.016163+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.016163+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Big Kandiyohi Lake County Park",
@@ -294,7 +307,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015861+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015861+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Boulder Lake Conservation Area",
@@ -321,18 +335,19 @@
         "wildlife watching"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015578+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015578+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Bray Park",
       "park_type": "county",
-      "latitude": 43.6431,
-      "longitude": -94.4614,
-      "managing_agency": "Martin County Parks",
+      "latitude": 44.182885,
+      "longitude": -93.78961,
+      "managing_agency": "Blue Earth County Parks",
       "source": "curated_greater_mn_county",
       "source_id": "county:bray-park",
-      "source_url": "https://www.co.martin.mn.us/",
-      "highlights": "Martin County park on Lake George at Fairmont \u2014 beach, campground, and a classic southern-Minnesota county lake.",
+      "source_url": "https://www.blueearthcountymn.gov/181/Parks",
+      "highlights": "Blue Earth County park on Madison Lake \u2014 camping and lake access, not Martin County's Lake George park at Fairmont.",
       "amenities": [
         "camping",
         "swimming",
@@ -347,7 +362,8 @@
         "boating"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015535+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015535+00:00",
+      "source_url_hub": false
     },
     {
       "name": "CG RAVINE REGIONAL PARK",
@@ -362,7 +378,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.013662+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.013662+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Cannon River Wilderness Area",
@@ -389,7 +406,8 @@
         "paddling"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015506+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015506+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Cass County Stony Point",
@@ -413,7 +431,8 @@
         "swimming"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.016092+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.016092+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Cedar Creek Conservation Area",
@@ -428,7 +447,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.011746+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.011746+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Charles M Schulz/Highland Arena",
@@ -443,7 +463,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.012215+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.012215+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Chengwatana / Pine County Park",
@@ -465,7 +486,8 @@
         "wildlife watching"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015695+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015695+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Chester Woods Park",
@@ -492,7 +514,8 @@
         "boating"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015395+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015395+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Chippewa County Swift Falls County Park",
@@ -516,7 +539,8 @@
         "hiking"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015904+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015904+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Chub Lake Park",
@@ -540,7 +564,8 @@
         "boating"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015585+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015585+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Collinwood Regional Park",
@@ -566,7 +591,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015462+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015462+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Columbus Lake Conservation Area",
@@ -581,7 +607,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.011781+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.011781+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Cook County Devil Track Lake Park",
@@ -607,7 +634,8 @@
         "swimming"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.016233+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.016233+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Cottonwood County Talcot Lake County Park",
@@ -633,7 +661,8 @@
         "wildlife watching"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015949+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015949+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Dakota County Park Conservation Area",
@@ -648,16 +677,17 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.011986+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.011986+00:00",
+      "source_url_hub": false
     },
     {
-      "name": "Dalles / Snake River County Park",
+      "name": "Snake River Landing (Pine City)",
       "park_type": "county",
-      "latitude": 45.826,
-      "longitude": -93.01,
+      "latitude": 45.840293,
+      "longitude": -92.933169,
       "managing_agency": "Pine County Parks",
       "source": "curated_greater_mn_county",
-      "source_id": "county:dalles-snake-river-county-park",
+      "source_id": "county:snake-river-landing-pine-city",
       "source_url": "https://www.co.pine.mn.us/",
       "highlights": "Snake River access in Pine County, used as a paddling put-in toward the St. Croix.",
       "amenities": [
@@ -670,7 +700,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015704+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015704+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Dalske Woodlands Preserve",
@@ -685,18 +716,19 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.011941+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.011941+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Daly Park",
       "park_type": "county",
-      "latitude": 44.0536,
-      "longitude": -94.2197,
+      "latitude": 43.874115,
+      "longitude": -93.999345,
       "managing_agency": "Blue Earth County Parks",
       "source": "curated_greater_mn_county",
       "source_id": "county:daly-park",
       "source_url": "https://www.blueearthcountymn.gov/181/Parks",
-      "highlights": "Blue Earth County camping park on Hall Lake southwest of Mankato.",
+      "highlights": "Blue Earth County camping park near Mapleton / Sterling Township.",
       "amenities": [
         "camping",
         "swimming",
@@ -710,7 +742,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015528+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015528+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Dodge County Wasioja park",
@@ -731,7 +764,8 @@
         "hiking"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.016000+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.016000+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Dunton Locks County Park",
@@ -755,7 +789,8 @@
         "hiking"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015618+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015618+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Faribault County Blue Earth River Park",
@@ -777,7 +812,8 @@
         "hiking"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015785+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015785+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Fish Creek",
@@ -792,7 +828,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.012448+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.012448+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Florian Park",
@@ -816,7 +853,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.016132+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.016132+00:00",
+      "source_url_hub": true
     },
     {
       "name": "GREY CLOUD COUNTY PARK",
@@ -831,7 +869,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.013623+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.013623+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Glen Lake Golf & Practice Center",
@@ -846,7 +885,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.012046+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.012046+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Goodhue County Lake Byllesby (Goodhue side)",
@@ -870,7 +910,8 @@
         "hiking"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.016010+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.016010+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Goodrich Golf Course",
@@ -885,7 +926,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.012142+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.012142+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Gramse County Park",
@@ -907,7 +949,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.016052+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.016052+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Grant County Pomme de Terre Park",
@@ -933,7 +976,8 @@
         "boating"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.016172+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.016172+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Green Lake County Park",
@@ -957,7 +1001,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015870+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015870+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Gull Lake Recreation Area (county/federal mix)",
@@ -983,7 +1028,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015653+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015653+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Hallock County Park",
@@ -1001,7 +1047,8 @@
       ],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.016126+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.016126+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Heartland Park",
@@ -1023,7 +1070,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015634+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015634+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Holloway Marsh",
@@ -1038,7 +1086,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.012463+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.012463+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Houston County Money Creek Campground",
@@ -1062,7 +1111,8 @@
         "hiking"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015740+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015740+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Hoyt Lakes Colby Lake County Park",
@@ -1086,7 +1136,8 @@
         "swimming"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.016242+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.016242+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Isanti County Springvale County Park",
@@ -1110,7 +1161,8 @@
         "wildlife watching"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.016035+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.016035+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Island Lake County Park",
@@ -1125,7 +1177,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.012487+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.012487+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Island Lake Golf & Training Center",
@@ -1140,7 +1193,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.012325+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.012325+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Islands of Peace Park",
@@ -1155,7 +1209,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.011076+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.011076+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Jackson County Belmont Park",
@@ -1179,7 +1234,8 @@
         "boating"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015793+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015793+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Jacobson Campground",
@@ -1203,7 +1259,8 @@
         "boating"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015687+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015687+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Kanabec County Ann Lake Park",
@@ -1227,7 +1284,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.016026+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.016026+00:00",
+      "source_url_hub": true
     },
     {
       "name": "KiChiSaga Park",
@@ -1250,7 +1308,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015569+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015569+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Kohlman Creek",
@@ -1265,7 +1324,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.012504+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.012504+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Kordiak County Park",
@@ -1280,7 +1340,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.011406+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.011406+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Lac qui Parle County Watson Sag Park",
@@ -1302,7 +1363,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015914+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015914+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Lake Alexander County Park",
@@ -1328,7 +1390,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.016076+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.016076+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Lake Benton County Park",
@@ -1354,7 +1417,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015931+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015931+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Lake Brophy County Park",
@@ -1380,7 +1444,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015488+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015488+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Lake Gervais County Park",
@@ -1395,7 +1460,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.012528+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.012528+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Lake Hanska County Park",
@@ -1421,7 +1487,8 @@
         "boating"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015801+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015801+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Lake Josephine County Park",
@@ -1436,7 +1503,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.012554+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.012554+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Lake Koronis Regional Park",
@@ -1462,7 +1530,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015471+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015471+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Lake Marion County Park",
@@ -1488,7 +1557,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015894+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015894+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Lake McCarrons County Park",
@@ -1503,7 +1573,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.012578+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.012578+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Lake Owasso County Park",
@@ -1518,7 +1589,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.012600+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.012600+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Locke Park",
@@ -1533,7 +1605,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.011354+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.011354+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Long Prairie River County Park",
@@ -1555,7 +1628,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.016198+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.016198+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Lower Rice Lake County Park",
@@ -1577,7 +1651,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.016206+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.016206+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Madelia Lakes County Park",
@@ -1601,7 +1676,8 @@
         "boating"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015973+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015973+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Mahnomen County North Twin Park",
@@ -1627,7 +1703,8 @@
         "boating"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.016215+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.016215+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Manitou Ridge Golf Course",
@@ -1642,7 +1719,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.012166+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.012166+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Mantrap Township / County access",
@@ -1664,7 +1742,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015642+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015642+00:00",
+      "source_url_hub": true
     },
     {
       "name": "McIntosh County Park",
@@ -1685,7 +1764,8 @@
         "hiking"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.016148+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.016148+00:00",
+      "source_url_hub": true
     },
     {
       "name": "McLeod County Buffalo Creek Park",
@@ -1707,7 +1787,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015886+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015886+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Meeker County Lake Ripley Park",
@@ -1731,7 +1812,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015878+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015878+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Mississippi River County Park",
@@ -1755,7 +1837,8 @@
         "paddling"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015444+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015444+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Montissippi County Park",
@@ -1779,7 +1862,8 @@
         "paddling"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.016060+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.016060+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Moose Lake County Park",
@@ -1803,7 +1887,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015593+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015593+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Mountain Lake County Park",
@@ -1827,7 +1912,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015957+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015957+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Muskrat Lake County Park",
@@ -1851,7 +1937,8 @@
         "swimming"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015626+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015626+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Nessel Campground / Rush Creek",
@@ -1873,7 +1960,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015555+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015555+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Nobles County Lake Bella Park",
@@ -1899,7 +1987,8 @@
         "boating"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015940+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015940+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Norman County Twin Valley Park",
@@ -1917,7 +2006,8 @@
       ],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.016156+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.016156+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Norseland / Nicollet County Park",
@@ -1937,7 +2027,8 @@
         "hiking"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015713+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015713+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Ojiketa Regional Park",
@@ -1961,7 +2052,8 @@
         "hiking"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015562+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015562+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Onamia Lake County Park",
@@ -1983,31 +2075,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015670+00:00"
-    },
-    {
-      "name": "Ortonville / Big Stone County Park",
-      "park_type": "county",
-      "latitude": 45.305,
-      "longitude": -96.445,
-      "managing_agency": "Big Stone County Parks",
-      "source": "curated_greater_mn_county",
-      "source_id": "county:ortonville-big-stone-county-park",
-      "source_url": "https://www.bigstonecounty.org/",
-      "highlights": "Big Stone County lake access on Big Stone Lake in Ortonville, separate from the state park units.",
-      "amenities": [
-        "boating",
-        "fishing",
-        "picnic",
-        "swimming"
-      ],
-      "activities": [
-        "boating",
-        "fishing",
-        "swimming"
-      ],
-      "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015819+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015670+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Oxbow Park & Zollman Zoo",
@@ -2031,7 +2100,8 @@
         "wildlife watching"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015413+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015413+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Pebble Lake Park",
@@ -2054,7 +2124,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015610+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015610+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Pfeiffer Lake County Park",
@@ -2080,7 +2151,8 @@
         "boating"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.016250+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.016250+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Pig's Eye Regional Park",
@@ -2095,7 +2167,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.012250+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.012250+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Poplar Lake",
@@ -2110,7 +2183,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.012277+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.012277+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Quarry Park & Nature Preserve",
@@ -2138,29 +2212,8 @@
         "wildlife watching"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015425+00:00"
-    },
-    {
-      "name": "Rainy Lake / International Falls county dock",
-      "park_type": "county",
-      "latitude": 48.609,
-      "longitude": -93.351,
-      "managing_agency": "Koochiching County Parks",
-      "source": "curated_greater_mn_county",
-      "source_id": "county:rainy-lake-international-falls-county-dock",
-      "source_url": "https://www.co.koochiching.mn.us/",
-      "highlights": "Koochiching County public access on Rainy Lake at International Falls.",
-      "amenities": [
-        "boating",
-        "fishing",
-        "picnic"
-      ],
-      "activities": [
-        "boating",
-        "fishing"
-      ],
-      "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.016102+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015425+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Rapidan Dam County Park",
@@ -2184,7 +2237,8 @@
         "wildlife watching"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015522+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015522+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Red Lake County Brooks Park",
@@ -2202,18 +2256,19 @@
       ],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.016141+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.016141+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Red Rock Falls County Park",
       "park_type": "county",
-      "latitude": 43.666,
-      "longitude": -92.973,
-      "managing_agency": "Mower County Parks",
+      "latitude": 44.122282,
+      "longitude": -95.105284,
+      "managing_agency": "Cottonwood County Parks",
       "source": "curated_greater_mn_county",
       "source_id": "county:red-rock-falls-county-park",
-      "source_url": "https://www.co.mower.mn.us/",
-      "highlights": "Mower County park on the Cedar River with a small falls and a picnic ground near Austin's orbit.",
+      "source_url": "https://www.co.cottonwood.mn.us/",
+      "highlights": "Cottonwood County park at Red Rock Falls near Sanborn, not a Mower County Cedar River picnic near Austin.",
       "amenities": [
         "picnic",
         "hiking",
@@ -2224,7 +2279,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015758+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015758+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Renville County Vicksburg County Park",
@@ -2247,7 +2303,8 @@
         "wildlife watching"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015810+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015810+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Rice Creek North Regional Trail",
@@ -2262,7 +2319,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.012797+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.012797+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Rice Creek North Regional Trail Corridor",
@@ -2277,7 +2335,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.011493+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.011493+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Rice Creek West Regional Trail Corridor",
@@ -2292,7 +2351,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.011330+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.011330+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Root River County Park (Riverside)",
@@ -2316,7 +2376,8 @@
         "hiking"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015731+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015731+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Roseau River County Park",
@@ -2338,7 +2399,8 @@
         "wildlife watching"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.016118+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.016118+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Rum River North County Park",
@@ -2353,7 +2415,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.011249+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.011249+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Rum River South County Park",
@@ -2368,7 +2431,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.011293+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.011293+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Saint Croix Bluffs Regional Park",
@@ -2383,7 +2447,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.013598+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.013598+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Sandhill Crane Natural Area",
@@ -2398,7 +2463,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.011909+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.011909+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Seven Mile Creek County Park",
@@ -2422,7 +2488,8 @@
         "wildlife watching"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015722+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015722+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Shager Park",
@@ -2447,7 +2514,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015513+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015513+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Sherburne County Woodland Trails Park",
@@ -2471,7 +2539,8 @@
         "biking"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.016044+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.016044+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Shooting Star Trailhead (county)",
@@ -2491,7 +2560,8 @@
         "biking"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015767+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015767+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Sibley County Park (High Island Creek)",
@@ -2513,7 +2583,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015545+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015545+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Silver Bay Lax Lake County Park",
@@ -2539,7 +2610,8 @@
         "boating"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.016224+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.016224+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Snail Lake Marsh",
@@ -2554,7 +2626,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.012618+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.012618+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Spruce Center Springs County Park",
@@ -2576,7 +2649,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015497+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015497+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Stanley Eddy Memorial Park",
@@ -2598,7 +2672,8 @@
         "wildlife watching"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.016068+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.016068+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Starbuck Marina County Park",
@@ -2622,7 +2697,8 @@
         "swimming"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015853+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015853+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Steele County Oak Glen County Park",
@@ -2646,7 +2722,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015991+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015991+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Stevens County Perkins Park",
@@ -2670,7 +2747,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015835+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015835+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Sturgeon Lake County Park",
@@ -2696,7 +2774,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.016018+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.016018+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Suburban Pond",
@@ -2711,7 +2790,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.012231+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.012231+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Tamarack Nature Center",
@@ -2726,7 +2806,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.012072+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.012072+00:00",
+      "source_url_hub": false
     },
     {
       "name": "The Ponds at Battle Creek",
@@ -2741,7 +2822,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.012301+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.012301+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Thompson County Park",
@@ -2756,7 +2838,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.012025+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.012025+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Todd County Battle Point Park",
@@ -2782,7 +2865,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.016189+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.016189+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Traverse County Mud Lake Park",
@@ -2804,7 +2888,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015827+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015827+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Turtle Creek",
@@ -2819,7 +2904,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.012120+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.012120+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Turtle Lake County Park",
@@ -2834,7 +2920,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.012640+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.012640+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Unnamed",
@@ -2849,7 +2936,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.013164+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.013164+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Vadnais-Snail Lakes Regional Park - Snail Lake",
@@ -2864,7 +2952,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.012683+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.012683+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Wadena County Sunnybrook Park",
@@ -2888,18 +2977,19 @@
         "hiking"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.016180+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.016180+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Warner Lake County Park",
       "park_type": "county",
-      "latitude": 45.4472,
-      "longitude": -94.4067,
+      "latitude": 45.422578,
+      "longitude": -94.084016,
       "managing_agency": "Stearns County Parks",
       "source": "curated_greater_mn_county",
       "source_id": "county:warner-lake-county-park",
       "source_url": "https://co.stearns.mn.us/Recreation/Parks",
-      "highlights": "A quieter Stearns County lake park west of Cold Spring.",
+      "highlights": "Stearns County park on Warner Lake near Clearwater.",
       "amenities": [
         "hiking",
         "fishing",
@@ -2914,7 +3004,8 @@
         "camping"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015434+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015434+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Waseca County Clear Lake Park",
@@ -2939,7 +3030,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015982+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015982+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Watonwan County Ewy Park",
@@ -2960,7 +3052,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015966+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015966+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Wealthwood / Mille Lacs County Park",
@@ -2984,7 +3077,8 @@
         "camping"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015662+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015662+00:00",
+      "source_url_hub": true
     },
     {
       "name": "White Bear Lake County Park",
@@ -2999,7 +3093,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.012740+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.012740+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Willow Lake",
@@ -3014,7 +3109,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.012754+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.012754+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Winnibigoshish Recreation Area (county)",
@@ -3040,7 +3136,8 @@
         "swimming"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015603+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015603+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Woodview Open Space",
@@ -3055,7 +3152,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.012107+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.012107+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Yellow Medicine County Timm Park",
@@ -3079,7 +3177,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:09.015923+00:00"
+      "retrieved_at": "2026-09-21T02:20:09.015923+00:00",
+      "source_url_hub": true
     },
     {
       "name": "Grand Portage National Monument",
@@ -3108,7 +3207,8 @@
         "wildlife watching"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:05.654904+00:00"
+      "retrieved_at": "2026-09-21T02:20:05.654904+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Mississippi National River & Recreation Area",
@@ -3140,7 +3240,8 @@
         "wildlife watching"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:05.654934+00:00"
+      "retrieved_at": "2026-09-21T02:20:05.654934+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Pipestone National Monument",
@@ -3163,7 +3264,8 @@
         "wildlife watching"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:05.654944+00:00"
+      "retrieved_at": "2026-09-21T02:20:05.654944+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Saint Croix National Scenic Riverway",
@@ -3192,7 +3294,8 @@
         "wildlife watching"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:05.654956+00:00"
+      "retrieved_at": "2026-09-21T02:20:05.654956+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Voyageurs National Park",
@@ -3231,7 +3334,8 @@
         "swimming"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:05.654970+00:00"
+      "retrieved_at": "2026-09-21T02:20:05.654970+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Above the Falls Regional Park",
@@ -3246,7 +3350,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:07.330229+00:00"
+      "retrieved_at": "2026-09-21T02:20:07.330229+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Anoka County Riverfront/Islands of Peace Regional Park",
@@ -3261,7 +3366,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:07.346320+00:00"
+      "retrieved_at": "2026-09-21T02:20:07.346320+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Baker Regional Park",
@@ -3287,7 +3393,8 @@
         "biking"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:07.375813+00:00"
+      "retrieved_at": "2026-09-21T02:20:07.375813+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Bald Eagle-Otter Lake Regional Park",
@@ -3302,7 +3409,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:07.395884+00:00"
+      "retrieved_at": "2026-09-21T02:20:07.395884+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Battle Creek & Indian Mounds Regional Park",
@@ -3317,7 +3425,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:07.452300+00:00"
+      "retrieved_at": "2026-09-21T02:20:07.452300+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Battle Creek Regional Park",
@@ -3338,7 +3447,8 @@
         "hiking"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:07.435183+00:00"
+      "retrieved_at": "2026-09-21T02:20:07.435183+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Baylor Regional Park",
@@ -3361,7 +3471,8 @@
         "boating"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:07.472434+00:00"
+      "retrieved_at": "2026-09-21T02:20:07.472434+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Big Marine Regional Park",
@@ -3384,7 +3495,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:07.571173+00:00"
+      "retrieved_at": "2026-09-21T02:20:07.571173+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Bryant Lake Regional Park",
@@ -3407,7 +3519,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:07.584847+00:00"
+      "retrieved_at": "2026-09-21T02:20:07.584847+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Bunker Hills Regional Park",
@@ -3432,7 +3545,8 @@
         "swimming"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:07.601169+00:00"
+      "retrieved_at": "2026-09-21T02:20:07.601169+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Carver Regional Park",
@@ -3456,7 +3570,8 @@
         "camping"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:07.643229+00:00"
+      "retrieved_at": "2026-09-21T02:20:07.643229+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Cedar Lake Farm Regional Park",
@@ -3479,7 +3594,8 @@
         "boating"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:07.658279+00:00"
+      "retrieved_at": "2026-09-21T02:20:07.658279+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Central Mississippi Riverfront Regional Park",
@@ -3500,7 +3616,8 @@
         "biking"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:07.679041+00:00"
+      "retrieved_at": "2026-09-21T02:20:07.679041+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Cleary Lake Regional Park",
@@ -3523,7 +3640,8 @@
         "boating"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:07.696582+00:00"
+      "retrieved_at": "2026-09-21T02:20:07.696582+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Clifton E. French Regional Park",
@@ -3547,7 +3665,8 @@
         "boating"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:07.713774+00:00"
+      "retrieved_at": "2026-09-21T02:20:07.713774+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Como Park Zoo",
@@ -3562,7 +3681,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:07.738767+00:00"
+      "retrieved_at": "2026-09-21T02:20:07.738767+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Coon Lake Regional Park",
@@ -3577,7 +3697,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:07.751637+00:00"
+      "retrieved_at": "2026-09-21T02:20:07.751637+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Coon Rapids Dam Regional Park",
@@ -3599,7 +3720,8 @@
         "biking"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:07.767125+00:00"
+      "retrieved_at": "2026-09-21T02:20:07.767125+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Cottage Grove Ravine Regional Park",
@@ -3621,7 +3743,8 @@
         "cross-country skiing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:07.781845+00:00"
+      "retrieved_at": "2026-09-21T02:20:07.781845+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Crow-Hassan Regional Park",
@@ -3644,7 +3767,8 @@
         "cross-country skiing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:07.800439+00:00"
+      "retrieved_at": "2026-09-21T02:20:07.800439+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Doyle-Kennefick Regional Park",
@@ -3659,7 +3783,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:07.819701+00:00"
+      "retrieved_at": "2026-09-21T02:20:07.819701+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Eagle Lake Regional Park",
@@ -3674,7 +3799,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:07.834372+00:00"
+      "retrieved_at": "2026-09-21T02:20:07.834372+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Elm Creek Regional Park",
@@ -3699,7 +3825,8 @@
         "cross-country skiing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:07.863602+00:00"
+      "retrieved_at": "2026-09-21T02:20:07.863602+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Fish Lake Regional Park",
@@ -3722,7 +3849,8 @@
         "swimming"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:07.877692+00:00"
+      "retrieved_at": "2026-09-21T02:20:07.877692+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Gale Woods Farm Regional Park",
@@ -3737,7 +3865,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:07.893352+00:00"
+      "retrieved_at": "2026-09-21T02:20:07.893352+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Hidden Falls-Crosby Farm Regional Park",
@@ -3752,7 +3881,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:07.909417+00:00"
+      "retrieved_at": "2026-09-21T02:20:07.909417+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Hyland-Bush-Anderson Lakes Regional Park",
@@ -3776,7 +3906,8 @@
         "swimming"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:07.950229+00:00"
+      "retrieved_at": "2026-09-21T02:20:07.950229+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Keller Regional Park",
@@ -3791,7 +3922,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:07.965189+00:00"
+      "retrieved_at": "2026-09-21T02:20:07.965189+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Kingswood Regional Park",
@@ -3806,7 +3938,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:07.980309+00:00"
+      "retrieved_at": "2026-09-21T02:20:07.980309+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Lake Byllesby Regional Park",
@@ -3821,7 +3954,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:07.999673+00:00"
+      "retrieved_at": "2026-09-21T02:20:07.999673+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Lake Elmo Regional Park",
@@ -3845,7 +3979,8 @@
         "boating"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:08.047450+00:00"
+      "retrieved_at": "2026-09-21T02:20:08.047450+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Lake George Regional Park",
@@ -3860,7 +3995,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:08.063398+00:00"
+      "retrieved_at": "2026-09-21T02:20:08.063398+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Lake Minnetonka Islands Regional Park",
@@ -3875,7 +4011,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:08.095729+00:00"
+      "retrieved_at": "2026-09-21T02:20:08.095729+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Lake Minnetonka Regional Park",
@@ -3890,7 +4027,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:08.077218+00:00"
+      "retrieved_at": "2026-09-21T02:20:08.077218+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Lake Minnewashta Regional Park",
@@ -3912,7 +4050,8 @@
         "boating"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:08.114620+00:00"
+      "retrieved_at": "2026-09-21T02:20:08.114620+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Lake Rebecca Regional Park",
@@ -3927,7 +4066,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:08.150607+00:00"
+      "retrieved_at": "2026-09-21T02:20:08.150607+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Lake Sarah Regional Park",
@@ -3942,7 +4082,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:08.172079+00:00"
+      "retrieved_at": "2026-09-21T02:20:08.172079+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Lake Waconia Regional Park",
@@ -3957,7 +4098,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:08.184888+00:00"
+      "retrieved_at": "2026-09-21T02:20:08.184888+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Lebanon Hills Regional Park",
@@ -3972,7 +4114,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:08.210709+00:00"
+      "retrieved_at": "2026-09-21T02:20:08.210709+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Lilydale-Harriet Island & Cherokee Heights Regional Park",
@@ -3987,7 +4130,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:08.229053+00:00"
+      "retrieved_at": "2026-09-21T02:20:08.229053+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Long Lake Regional Park",
@@ -4002,7 +4146,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:08.242656+00:00"
+      "retrieved_at": "2026-09-21T02:20:08.242656+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Manomin Park",
@@ -4017,7 +4162,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:08.254672+00:00"
+      "retrieved_at": "2026-09-21T02:20:08.254672+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Marjorie McNeely Conservatory Regional Park",
@@ -4032,7 +4178,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:08.268428+00:00"
+      "retrieved_at": "2026-09-21T02:20:08.268428+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Martin-Island-Linwood Regional Park",
@@ -4047,7 +4194,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:08.284910+00:00"
+      "retrieved_at": "2026-09-21T02:20:08.284910+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Miesville Ravine Park Reserve",
@@ -4062,7 +4210,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:08.301867+00:00"
+      "retrieved_at": "2026-09-21T02:20:08.301867+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Minneapolis Chain of Lakes Regional Park",
@@ -4077,7 +4226,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:08.324830+00:00"
+      "retrieved_at": "2026-09-21T02:20:08.324830+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Minnehaha Regional Park",
@@ -4098,7 +4248,8 @@
         "biking"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:08.337009+00:00"
+      "retrieved_at": "2026-09-21T02:20:08.337009+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Mississippi Gateway Regional Park",
@@ -4113,7 +4264,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:08.351399+00:00"
+      "retrieved_at": "2026-09-21T02:20:08.351399+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Mississippi Gorge (East River Parkway)",
@@ -4128,7 +4280,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:08.382164+00:00"
+      "retrieved_at": "2026-09-21T02:20:08.382164+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Mississippi Gorge (West River Parkway)",
@@ -4143,7 +4296,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:08.397912+00:00"
+      "retrieved_at": "2026-09-21T02:20:08.397912+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Mississippi West Regional Park",
@@ -4158,7 +4312,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:08.411243+00:00"
+      "retrieved_at": "2026-09-21T02:20:08.411243+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Murphy-Hanrehan Regional Park",
@@ -4173,7 +4328,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:08.445824+00:00"
+      "retrieved_at": "2026-09-21T02:20:08.445824+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Noerenberg Gardens Regional Park",
@@ -4188,7 +4344,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:08.460432+00:00"
+      "retrieved_at": "2026-09-21T02:20:08.460432+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Nokomis-Hiawatha Regional Park",
@@ -4203,7 +4360,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:08.473872+00:00"
+      "retrieved_at": "2026-09-21T02:20:08.473872+00:00",
+      "source_url_hub": false
     },
     {
       "name": "North Mississippi Regional Park",
@@ -4218,7 +4376,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:08.488541+00:00"
+      "retrieved_at": "2026-09-21T02:20:08.488541+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Phalen-Keller Regional Park",
@@ -4233,7 +4392,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:08.502408+00:00"
+      "retrieved_at": "2026-09-21T02:20:08.502408+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Pine Point Regional Park",
@@ -4248,7 +4408,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:08.516385+00:00"
+      "retrieved_at": "2026-09-21T02:20:08.516385+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Rice Creek Chain of Lakes Regional Park",
@@ -4263,7 +4424,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:08.570076+00:00"
+      "retrieved_at": "2026-09-21T02:20:08.570076+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Rum River Central Regional Park",
@@ -4278,7 +4440,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:08.583495+00:00"
+      "retrieved_at": "2026-09-21T02:20:08.583495+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Silverwood Regional Park",
@@ -4293,7 +4456,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:08.595750+00:00"
+      "retrieved_at": "2026-09-21T02:20:08.595750+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Spring Lake Park Reserve",
@@ -4308,7 +4472,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:08.639994+00:00"
+      "retrieved_at": "2026-09-21T02:20:08.639994+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Spring Lake Regional Park",
@@ -4323,7 +4488,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:08.617062+00:00"
+      "retrieved_at": "2026-09-21T02:20:08.617062+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Square Lake Regional Park",
@@ -4346,7 +4512,8 @@
         "boating"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:08.653279+00:00"
+      "retrieved_at": "2026-09-21T02:20:08.653279+00:00",
+      "source_url_hub": false
     },
     {
       "name": "St. Croix Bluffs Regional Park",
@@ -4361,7 +4528,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:08.677697+00:00"
+      "retrieved_at": "2026-09-21T02:20:08.677697+00:00",
+      "source_url_hub": false
     },
     {
       "name": "St. Croix Valley Regional Park",
@@ -4376,7 +4544,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:08.690970+00:00"
+      "retrieved_at": "2026-09-21T02:20:08.690970+00:00",
+      "source_url_hub": false
     },
     {
       "name": "The Landing Regional Park",
@@ -4391,7 +4560,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:08.703722+00:00"
+      "retrieved_at": "2026-09-21T02:20:08.703722+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Theodore Wirth Regional Park",
@@ -4406,7 +4576,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:08.719955+00:00"
+      "retrieved_at": "2026-09-21T02:20:08.719955+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Tony Schmidt Regional Park",
@@ -4421,7 +4592,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:08.735573+00:00"
+      "retrieved_at": "2026-09-21T02:20:08.735573+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Vadnais-Snail Lake Regional Park",
@@ -4436,7 +4608,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:08.757638+00:00"
+      "retrieved_at": "2026-09-21T02:20:08.757638+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Whitetail Woods Regional Park",
@@ -4451,7 +4624,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:08.771459+00:00"
+      "retrieved_at": "2026-09-21T02:20:08.771459+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Afton State Park",
@@ -4474,7 +4648,8 @@
         "swimming"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:00.193343+00:00"
+      "retrieved_at": "2026-09-21T02:20:00.193343+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Banning State Park",
@@ -4497,7 +4672,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:53.045908+00:00"
+      "retrieved_at": "2026-09-21T02:19:53.045908+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Bear Head Lake State Park",
@@ -4523,7 +4699,8 @@
         "boating"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:53.473652+00:00"
+      "retrieved_at": "2026-09-21T02:19:53.473652+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Beaver Creek Valley State Park",
@@ -4538,7 +4715,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:40.892783+00:00"
+      "retrieved_at": "2026-09-21T02:19:40.892783+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Big Bog State Recreation Area",
@@ -4562,7 +4740,8 @@
         "camping"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:02.100785+00:00"
+      "retrieved_at": "2026-09-21T02:20:02.100785+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Big Stone Lake State Park",
@@ -4577,7 +4756,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:43.127887+00:00"
+      "retrieved_at": "2026-09-21T02:19:43.127887+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Blue Mounds State Park",
@@ -4601,7 +4781,8 @@
         "climbing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:42.678910+00:00"
+      "retrieved_at": "2026-09-21T02:19:42.678910+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Buffalo River State Park",
@@ -4622,7 +4803,8 @@
         "wildlife watching"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:01.589128+00:00"
+      "retrieved_at": "2026-09-21T02:20:01.589128+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Camden State Park",
@@ -4637,7 +4819,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:49.680433+00:00"
+      "retrieved_at": "2026-09-21T02:19:49.680433+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Carley State Park",
@@ -4652,7 +4835,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:50.630770+00:00"
+      "retrieved_at": "2026-09-21T02:19:50.630770+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Cascade River State Park",
@@ -4674,7 +4858,8 @@
         "cross-country skiing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:56.639934+00:00"
+      "retrieved_at": "2026-09-21T02:19:56.639934+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Charles A. Lindbergh State Park",
@@ -4689,7 +4874,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:34.155340+00:00"
+      "retrieved_at": "2026-09-21T02:19:34.155340+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Crow Wing State Park",
@@ -4704,7 +4890,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:57.100222+00:00"
+      "retrieved_at": "2026-09-21T02:19:57.100222+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Cuyuna Country State Recreation Area",
@@ -4731,7 +4918,8 @@
         "swimming"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:03.006326+00:00"
+      "retrieved_at": "2026-09-21T02:20:03.006326+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Father Hennepin State Park",
@@ -4746,7 +4934,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:38.280534+00:00"
+      "retrieved_at": "2026-09-21T02:19:38.280534+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Flandrau State Park",
@@ -4761,7 +4950,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:39.168996+00:00"
+      "retrieved_at": "2026-09-21T02:19:39.168996+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Forestville Mystery Cave State Park",
@@ -4784,7 +4974,8 @@
         "horseback riding"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:33.219338+00:00"
+      "retrieved_at": "2026-09-21T02:19:33.219338+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Fort Ridgely State Park",
@@ -4799,7 +4990,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:51.632452+00:00"
+      "retrieved_at": "2026-09-21T02:19:51.632452+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Fort Snelling State Park",
@@ -4824,7 +5016,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:40.033614+00:00"
+      "retrieved_at": "2026-09-21T02:19:40.033614+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Franz Jevne State Park",
@@ -4839,7 +5032,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:39.600452+00:00"
+      "retrieved_at": "2026-09-21T02:19:39.600452+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Frontenac State Park",
@@ -4862,7 +5056,8 @@
         "cross-country skiing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:52.139307+00:00"
+      "retrieved_at": "2026-09-21T02:19:52.139307+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Garden Island State Recreation Area",
@@ -4885,7 +5080,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:02.574719+00:00"
+      "retrieved_at": "2026-09-21T02:20:02.574719+00:00",
+      "source_url_hub": false
     },
     {
       "name": "George H. Crosby Manitou State Park",
@@ -4900,7 +5096,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:48.361276+00:00"
+      "retrieved_at": "2026-09-21T02:19:48.361276+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Glacial Lakes State Park",
@@ -4925,7 +5122,8 @@
         "boating"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:48.813128+00:00"
+      "retrieved_at": "2026-09-21T02:19:48.813128+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Glendalough State Park",
@@ -4940,7 +5138,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:49.224942+00:00"
+      "retrieved_at": "2026-09-21T02:19:49.224942+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Gooseberry Falls State Park",
@@ -4961,7 +5160,8 @@
         "camping"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:51.116520+00:00"
+      "retrieved_at": "2026-09-21T02:19:51.116520+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Grand Portage State Park",
@@ -4979,7 +5179,8 @@
       ],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:41.803719+00:00"
+      "retrieved_at": "2026-09-21T02:19:41.803719+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Great River Bluffs State Park",
@@ -5000,7 +5201,8 @@
         "wildlife watching"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:52.614561+00:00"
+      "retrieved_at": "2026-09-21T02:19:52.614561+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Greenleaf Lake State Recreation Area",
@@ -5015,7 +5217,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:05.192165+00:00"
+      "retrieved_at": "2026-09-21T02:20:05.192165+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Hayes Lake State Park",
@@ -5030,7 +5233,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:43.552845+00:00"
+      "retrieved_at": "2026-09-21T02:19:43.552845+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Hill-Annex Mine State Park",
@@ -5045,7 +5249,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:43.998609+00:00"
+      "retrieved_at": "2026-09-21T02:19:43.998609+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Interstate State Park",
@@ -5067,7 +5272,8 @@
         "boating"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:41.363246+00:00"
+      "retrieved_at": "2026-09-21T02:19:41.363246+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Iron Range Off-Highway Vehicle State Recreation Area",
@@ -5082,7 +5288,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:04.323845+00:00"
+      "retrieved_at": "2026-09-21T02:20:04.323845+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Itasca State Park",
@@ -5113,7 +5320,8 @@
         "cross-country skiing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:53.910586+00:00"
+      "retrieved_at": "2026-09-21T02:19:53.910586+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Jay Cooke State Park",
@@ -5137,7 +5345,8 @@
         "biking"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:42.246853+00:00"
+      "retrieved_at": "2026-09-21T02:19:42.246853+00:00",
+      "source_url_hub": false
     },
     {
       "name": "John A. Latsch State Park",
@@ -5152,7 +5361,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:47.050411+00:00"
+      "retrieved_at": "2026-09-21T02:19:47.050411+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Judge C. R. Magney State Park",
@@ -5167,7 +5377,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:55.245859+00:00"
+      "retrieved_at": "2026-09-21T02:19:55.245859+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Kilen Woods State Park",
@@ -5182,7 +5393,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:50.163637+00:00"
+      "retrieved_at": "2026-09-21T02:19:50.163637+00:00",
+      "source_url_hub": false
     },
     {
       "name": "La Salle Lake State Recreation Area",
@@ -5197,7 +5409,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:04.756409+00:00"
+      "retrieved_at": "2026-09-21T02:20:04.756409+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Lac qui Parle State Park",
@@ -5212,7 +5425,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:32.782184+00:00"
+      "retrieved_at": "2026-09-21T02:19:32.782184+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Lake Bemidji State Park",
@@ -5237,7 +5451,8 @@
         "biking"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:44.836382+00:00"
+      "retrieved_at": "2026-09-21T02:19:44.836382+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Lake Bronson State Park",
@@ -5252,7 +5467,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:44.419097+00:00"
+      "retrieved_at": "2026-09-21T02:19:44.419097+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Lake Carlos State Park",
@@ -5267,7 +5483,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:46.627637+00:00"
+      "retrieved_at": "2026-09-21T02:19:46.627637+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Lake Louise State Park",
@@ -5282,7 +5499,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:45.292130+00:00"
+      "retrieved_at": "2026-09-21T02:19:45.292130+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Lake Maria State Park",
@@ -5305,7 +5523,8 @@
         "wildlife watching"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:34.618969+00:00"
+      "retrieved_at": "2026-09-21T02:19:34.618969+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Lake Shetek State Park",
@@ -5320,7 +5539,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:35.085260+00:00"
+      "retrieved_at": "2026-09-21T02:19:35.085260+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Lake Vermilion-Soudan Underground Mine State Park",
@@ -5343,7 +5563,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:40.461165+00:00"
+      "retrieved_at": "2026-09-21T02:19:40.461165+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Maplewood State Park",
@@ -5368,7 +5589,8 @@
         "boating"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:57.954992+00:00"
+      "retrieved_at": "2026-09-21T02:19:57.954992+00:00",
+      "source_url_hub": false
     },
     {
       "name": "McCarthy Beach State Park",
@@ -5385,7 +5607,8 @@
       ],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:57.535905+00:00"
+      "retrieved_at": "2026-09-21T02:19:57.535905+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Mille Lacs Kathio State Park",
@@ -5408,7 +5631,8 @@
         "swimming"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:47.511651+00:00"
+      "retrieved_at": "2026-09-21T02:19:47.511651+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Minneopa State Park",
@@ -5430,7 +5654,8 @@
         "camping"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:47.938832+00:00"
+      "retrieved_at": "2026-09-21T02:19:47.938832+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Minnesota Valley State Recreation Area",
@@ -5445,7 +5670,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:03.466482+00:00"
+      "retrieved_at": "2026-09-21T02:20:03.466482+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Monson Lake State Park",
@@ -5460,7 +5686,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:58.377236+00:00"
+      "retrieved_at": "2026-09-21T02:19:58.377236+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Moose Lake State Park",
@@ -5475,7 +5702,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:36.064131+00:00"
+      "retrieved_at": "2026-09-21T02:19:36.064131+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Myre-Big Island State Park",
@@ -5490,7 +5718,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:45.736268+00:00"
+      "retrieved_at": "2026-09-21T02:19:45.736268+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Nerstrand Big Woods State Park",
@@ -5510,7 +5739,8 @@
         "hiking"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:35.557807+00:00"
+      "retrieved_at": "2026-09-21T02:19:35.557807+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Old Mill State Park",
@@ -5525,7 +5755,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:58.869079+00:00"
+      "retrieved_at": "2026-09-21T02:19:58.869079+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Red River State Recreation Area",
@@ -5540,7 +5771,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:05.654325+00:00"
+      "retrieved_at": "2026-09-21T02:20:05.654325+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Rice Lake State Park",
@@ -5555,7 +5787,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:59.317694+00:00"
+      "retrieved_at": "2026-09-21T02:19:59.317694+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Saint Croix Islands State Recreation Area",
@@ -5570,7 +5803,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:03.895930+00:00"
+      "retrieved_at": "2026-09-21T02:20:03.895930+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Sakatah Lake State Park",
@@ -5585,7 +5819,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:46.205575+00:00"
+      "retrieved_at": "2026-09-21T02:19:46.205575+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Savanna Portage State Park",
@@ -5610,7 +5845,8 @@
         "swimming"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:36.968622+00:00"
+      "retrieved_at": "2026-09-21T02:19:36.968622+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Scenic State Park",
@@ -5636,7 +5872,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:00.637496+00:00"
+      "retrieved_at": "2026-09-21T02:20:00.637496+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Schoolcraft State Park",
@@ -5651,7 +5888,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:59.758393+00:00"
+      "retrieved_at": "2026-09-21T02:19:59.758393+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Sibley State Park",
@@ -5675,7 +5913,8 @@
         "boating"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:01.111359+00:00"
+      "retrieved_at": "2026-09-21T02:20:01.111359+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Split Rock Creek State Park",
@@ -5690,7 +5929,8 @@
       "amenities": [],
       "activities": [],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:36.506695+00:00"
+      "retrieved_at": "2026-09-21T02:19:36.506695+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Split Rock Lighthouse State Park",
@@ -5712,7 +5952,8 @@
         "camping"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:56.163922+00:00"
+      "retrieved_at": "2026-09-21T02:19:56.163922+00:00",
+      "source_url_hub": false
     },
     {
       "name": "St. Croix State Park",
@@ -5738,7 +5979,8 @@
         "swimming"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:37.416217+00:00"
+      "retrieved_at": "2026-09-21T02:19:37.416217+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Temperance River State Park",
@@ -5760,7 +6002,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:55.705856+00:00"
+      "retrieved_at": "2026-09-21T02:19:55.705856+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Tettegouche State Park",
@@ -5785,7 +6028,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:37.850828+00:00"
+      "retrieved_at": "2026-09-21T02:19:37.850828+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Whitewater State Park",
@@ -5807,7 +6051,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:54.380219+00:00"
+      "retrieved_at": "2026-09-21T02:19:54.380219+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Wild River State Park",
@@ -5832,7 +6077,8 @@
         "cross-country skiing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:54.815358+00:00"
+      "retrieved_at": "2026-09-21T02:19:54.815358+00:00",
+      "source_url_hub": false
     },
     {
       "name": "William O'Brien State Park",
@@ -5857,7 +6103,8 @@
         "cross-country skiing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:33.649551+00:00"
+      "retrieved_at": "2026-09-21T02:19:33.649551+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Zippel Bay State Park",
@@ -5881,7 +6128,8 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:19:38.722425+00:00"
+      "retrieved_at": "2026-09-21T02:19:38.722425+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Agassiz Wilderness",
@@ -5902,7 +6150,8 @@
         "hiking"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:06.512059+00:00"
+      "retrieved_at": "2026-09-21T02:20:06.512059+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Boundary Waters Canoe Area Wilderness",
@@ -5929,7 +6178,8 @@
         "hiking"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:06.931384+00:00"
+      "retrieved_at": "2026-09-21T02:20:06.931384+00:00",
+      "source_url_hub": false
     },
     {
       "name": "Tamarac Wilderness",
@@ -5954,8 +6204,9 @@
         "fishing"
       ],
       "in_minnesota": true,
-      "retrieved_at": "2026-09-21T02:20:06.575416+00:00"
+      "retrieved_at": "2026-09-21T02:20:06.575416+00:00",
+      "source_url_hub": false
     }
   ],
-  "geo_checked_at": "2026-10-19T18:05:28.677941+00:00"
+  "geo_checked_at": "2026-10-19T18:43:02.146218+00:00"
 }

@@ -94,12 +94,12 @@ v1 is **state + national + wilderness + regional + county**. City parks are a se
 
 The source of truth is committed static assets:
 
-- **`db/data/parks.json`** — park inventory (including `source_url` and cross-checked lat/lng)
-- **`db/data/park_geo.json`** — lat/lng audit (second-source hits, corrections, flags)
+- **`db/data/parks.json`** — park inventory (including `source_url`, `source_url_hub`, and cross-checked lat/lng)
+- **`db/data/park_geo.json`** — lat/lng audit (second-source hits, corrections, flags) plus domain-only official URL flags
 - **`db/data/dark_sky.json`** — DarkSky International certified places, matched onto parks
 - **`db/data/park_reviews.json`** — camping inventory / camping score
 
-`db:seed`, `parks:ingest`, and the JSON API all read those files (API via Postgres after seed). The map loads `/api/parks`. **`rails server` and Vite never call DNR, NPS, Met Council, USFS, Wilderness Connect, DarkSky, The Dyrt, or any review site.** Details **Official source** is `source_url` from that inventory.
+`db:seed`, `parks:ingest`, and the JSON API all read those files (API via Postgres after seed). Ingest **deletes** parks whose `source`/`source_id` is no longer in `parks.json`, so human drops stick. The map loads `/api/parks`. **`rails server` and Vite never call DNR, NPS, Met Council, USFS, Wilderness Connect, DarkSky, The Dyrt, or any review site.** Details **Official source** is `source_url` from that inventory; a domain-only or missing URL is flagged with `source_url_hub`.
 
 | Type | Count (current asset) | Source |
 | --- | --- | --- |
@@ -107,9 +107,9 @@ The source of truth is committed static assets:
 | **National** | 5 | NPS Parks API (`stateCode=MN`): Voyageurs, Grand Portage, Pipestone, Mississippi NRRA, Saint Croix NSR. North Country NST omitted (trail, not a park unit). |
 | **Wilderness** | 3 | National Wilderness Preservation System polygons (Wilderness Connect GIS). Minnesota units: Boundary Waters Canoe Area Wilderness (Superior NF), Agassiz Wilderness, Tamarac Wilderness. Pin is a point on the official polygon (not a city). |
 | **Regional** | 70 | Metropolitan Council regional parks / park reserves (`LPH/Parks_CD`). Twin Cities system. |
-| **County** | 146 | MetroGIS Collaborative Parks (county-owned units in the seven-county metro) **plus** curated Greater Minnesota county parks with real coordinates. |
+| **County** | 144 | MetroGIS Collaborative Parks (county-owned units in the seven-county metro) **plus** curated Greater Minnesota county parks with real coordinates. |
 
-**Official `source_url`:** refresh resolves a **park-specific** page when one exists and can be confirmed — DNR `park.html?id=spk#####` / `sra#####` from the GIS unit code, NPS unit URL from the Parks API, USFS/FWS or Wilderness Connect unit page for wilderness, MetroGIS `PARK_URL` when it names that park. A system hub (DNR parks index, Met Council Parks.aspx, a county homepage) is kept only when no unit page is found. URLs are not invented: IDs and links come from GIS/APIs, and guessed manager pages are kept only after an HTTP check that does not land on a hub.
+**Official `source_url`:** refresh resolves a **park-specific** page when one exists and can be confirmed — DNR `park.html?id=spk#####` / `sra#####` from the GIS unit code, NPS unit URL from the Parks API, USFS/FWS or Wilderness Connect unit page for wilderness, MetroGIS `PARK_URL` when it names that park. A system hub (DNR parks index, Met Council Parks.aspx, a county homepage) is kept only when no unit page is found. URLs are not invented: IDs and links come from GIS/APIs, and guessed manager pages are kept only after an HTTP check that does not land on a hub. When the shipped URL is **missing or only a domain** (no path — e.g. `https://www.chisagocounty.us/`), `source_url_hub` is true and park details say so. A path such as `/456/Parks` is not flagged. Refresh does not Google-scrape a better page.
 
 Coordinates are cross-checked during `parks:refresh` (OSM Nominatim with a Minnesota bias, NPS visitor centers, Census MN boundary). Pins should sit on the named unit (campground, visitor center, lake), not a township or county-seat guess. The map still never geocodes at runtime. Highlights and amenities are **sparse on purpose**: official GIS rarely includes a full amenity inventory. Empty states say “Not listed in our sources yet.” Do not invent amenities to fill chips.
 

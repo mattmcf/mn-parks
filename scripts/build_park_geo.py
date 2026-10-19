@@ -19,6 +19,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from ingest_lib import PARKS_JSON, load_parks  # noqa: E402
 from park_geo import (  # noqa: E402
     OUT,
+    apply_human_edits,
     apply_to_parks,
     build_payload,
     decide,
@@ -59,9 +60,10 @@ def main() -> None:
     ]
 
     parks = load_parks()
+    parks, drop_decisions = apply_human_edits(parks)
     print(f"Cross-checking coordinates for {len(parks)} shipped parks…")
     nps_vcs = load_nps_visitor_centers(skip_fetch=skip)
-    decisions = []
+    decisions = list(drop_decisions)
     geocoded = 0
     for park in parks:
         if only and not any(s in park["name"].lower() for s in only):
@@ -82,26 +84,34 @@ def main() -> None:
     print(
         f"Wrote {OUT}: checked {payload['counts']['checked']}, "
         f"corrected {payload['counts']['corrected']}, "
-        f"flagged {payload['counts']['flagged']} "
+        f"flagged {payload['counts']['flagged']}, "
+        f"dropped {payload['counts']['dropped']}, "
+        f"source_url_hub {payload['counts']['source_url_hub']} "
         f"(Nominatim queries for {geocoded} parks)"
     )
     for row in decisions:
-        if row.action == "corrected" or row.flagged:
+        if row.action in {"corrected", "dropped"} or row.flagged:
             print(
                 f"  {row.action:9} {row.name}: {row.original_latitude},{row.original_longitude} "
                 f"-> {row.latitude},{row.longitude} ({row.miles} mi) {row.reason[:120]}"
             )
+    hub_rows = [d for d in decisions if d.source_url_hub and d.action != "dropped"]
+    for row in hub_rows[:8]:
+        print(f"  source_url_hub {row.name}: {row.source_url or '(missing)'}")
+    if len(hub_rows) > 8:
+        print(f"  … {len(hub_rows) - 8} more domain-only official sources")
 
     if args.dry_run:
         print("Dry run: parks.json not rewritten.")
         return
 
     changed = apply_to_parks(parks, decisions)
-    if not changed:
-        print("No pin corrections to apply to parks.json.")
-        return
     shipped = json.loads(PARKS_JSON.read_text())
     shipped["parks"] = parks
+    shipped["counts"] = {
+        ptype: sum(1 for p in parks if p.get("park_type") == ptype)
+        for ptype in ("county", "national", "regional", "state", "wilderness")
+    }
     shipped["geo_checked_at"] = payload["generated_at"]
     attribution = list(shipped.get("attribution") or [])
     note = (
@@ -109,11 +119,16 @@ def main() -> None:
         "(MN-biased), NPS visitor centers, and the Census Minnesota boundary. "
         "Audit: db/data/park_geo.json."
     )
-    if note not in attribution:
-        attribution.append(note)
+    hub_note = (
+        "Official source_url_hub is true when source_url is missing or only a "
+        "domain (no path). Park-specific GIS URLs are kept; no Google scrape."
+    )
+    for extra in (note, hub_note):
+        if extra not in attribution:
+            attribution.append(extra)
     shipped["attribution"] = attribution
     PARKS_JSON.write_text(json.dumps(shipped, indent=2) + "\n")
-    print(f"Updated {changed} park coordinates in {PARKS_JSON}")
+    print(f"Updated {changed} park rows in {PARKS_JSON} ({len(parks)} parks)")
 
 
 if __name__ == "__main__":

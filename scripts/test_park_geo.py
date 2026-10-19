@@ -9,9 +9,13 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from ingest_lib import is_domain_only_source_url  # noqa: E402
 from park_geo import (  # noqa: E402
+    HUMAN_DROPS,
+    HUMAN_RENAMES,
     MANUAL_OVERRIDES,
     GeoHit,
+    apply_human_edits,
     apply_to_parks,
     decide,
     geo_names_ok,
@@ -246,9 +250,95 @@ class DecideTests(unittest.TestCase):
         parks = [dict(NESSEL), dict(VOYA)]
         decisions = [decide(NESSEL, []), decide(VOYA, [], overrides={})]
         changed = apply_to_parks(parks, decisions)
-        self.assertEqual(changed, 1)
+        self.assertGreaterEqual(changed, 1)
         self.assertAlmostEqual(parks[0]["latitude"], 45.689118, places=5)
         self.assertEqual(parks[1]["latitude"], VOYA["latitude"])
+        self.assertTrue(parks[0]["source_url_hub"])
+        self.assertTrue(parks[1]["source_url_hub"])
+
+    def test_arrowhead_override_uses_maps_point(self):
+        park = {
+            "name": "Arrowhead Point County Park",
+            "park_type": "county",
+            "latitude": 43.652,
+            "longitude": -93.368,
+            "managing_agency": "Freeborn County Parks",
+            "source": "curated_greater_mn_county",
+            "source_id": "county:arrowhead-point-county-park",
+            "source_url": "https://www.co.freeborn.mn.us/",
+        }
+        d = decide(park, [])
+        self.assertEqual(d.action, "corrected")
+        self.assertAlmostEqual(d.latitude, 43.739915, places=5)
+        self.assertAlmostEqual(d.longitude, -93.553606, places=5)
+        self.assertTrue(d.source_url_hub)
+
+    def test_human_edits_drop_and_rename(self):
+        parks = [
+            {
+                "name": "Ortonville / Big Stone County Park",
+                "park_type": "county",
+                "latitude": 45.305,
+                "longitude": -96.445,
+                "source": "curated_greater_mn_county",
+                "source_id": "county:ortonville-big-stone-county-park",
+                "source_url": "https://www.bigstonecounty.org/",
+            },
+            {
+                "name": "Dalles / Snake River County Park",
+                "park_type": "county",
+                "latitude": 45.826,
+                "longitude": -93.010,
+                "source": "curated_greater_mn_county",
+                "source_id": "county:dalles-snake-river-county-park",
+                "source_url": "https://www.co.pine.mn.us/",
+            },
+            dict(VOYA, source_url="https://www.nps.gov/voya/"),
+        ]
+        kept, dropped = apply_human_edits(parks)
+        self.assertEqual(len(dropped), 1)
+        self.assertEqual(dropped[0].action, "dropped")
+        self.assertEqual(kept[0]["name"], "Snake River Landing (Pine City)")
+        self.assertEqual(kept[0]["source_id"], "county:snake-river-landing-pine-city")
+        self.assertIn(
+            ("curated_greater_mn_county", "county:ortonville-big-stone-county-park"),
+            HUMAN_DROPS,
+        )
+        self.assertIn(
+            ("curated_greater_mn_county", "county:dalles-snake-river-county-park"),
+            HUMAN_RENAMES,
+        )
+        d = decide(kept[0], [])
+        self.assertEqual(d.action, "corrected")
+        self.assertAlmostEqual(d.latitude, 45.840293, places=5)
+
+
+class DomainOnlySourceUrlTests(unittest.TestCase):
+    def test_flags_missing_slash_and_query_homepage(self):
+        self.assertTrue(is_domain_only_source_url(""))
+        self.assertTrue(is_domain_only_source_url(None))
+        self.assertTrue(is_domain_only_source_url("https://www.chisagocountymn.gov/"))
+        self.assertTrue(is_domain_only_source_url("https://www.chisagocountymn.gov"))
+        self.assertTrue(is_domain_only_source_url("https://www.chisagocounty.us/"))
+        self.assertTrue(is_domain_only_source_url("https://www.example.com/?utm=1"))
+        self.assertTrue(is_domain_only_source_url("/"))
+
+    def test_does_not_flag_park_or_department_path(self):
+        self.assertFalse(
+            is_domain_only_source_url("https://www.chisagocountymn.gov/456/Parks")
+        )
+        self.assertFalse(
+            is_domain_only_source_url("https://www.blueearthcountymn.gov/181/Parks")
+        )
+        self.assertFalse(
+            is_domain_only_source_url(
+                "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00115"
+            )
+        )
+        self.assertIn(
+            ("curated_greater_mn_county", "county:arrowhead-point-county-park"),
+            MANUAL_OVERRIDES,
+        )
 
 
 if __name__ == "__main__":

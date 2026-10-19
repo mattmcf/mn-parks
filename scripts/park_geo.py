@@ -22,6 +22,7 @@ from ingest_lib import (
     haversine_miles,
     http_json,
     in_minnesota as in_minnesota_bbox,
+    is_domain_only_source_url,
     strip_suffixes,
 )
 
@@ -91,8 +92,9 @@ STOPWORDS = {
 }
 
 # Pins that automated geocoders cannot resolve to the named unit. Keyed by
-# (source, source_id). Nessel was a guessed farmland point south of the
-# township, not Rush Lake and not Rush Creek Park in Rush City.
+# (source, source_id). Human Maps/satellite review wins over Nominatim on
+# refresh. Nessel was a guessed farmland point south of the township, not
+# Rush Lake and not Rush Creek Park in Rush City.
 MANUAL_OVERRIDES: dict[tuple[str, str], dict] = {
     ("curated_greater_mn_county", "county:nessel-campground-rush-creek"): {
         "latitude": 45.689118,
@@ -105,6 +107,110 @@ MANUAL_OVERRIDES: dict[tuple[str, str], dict] = {
             "Rush City, and not a campground. Nominatim has no 'Nessel "
             "Campground'. Prefer the named lake in Nessel Township (OSM "
             "relation Rush Lake) over a township/city centroid."
+        ),
+    },
+    ("curated_greater_mn_county", "county:arrowhead-point-county-park"): {
+        "latitude": 43.73991496641728,
+        "longitude": -93.55360626469496,
+        "check_name": "Arrowhead Point County Park (Maps review)",
+        "check_source": "human_maps_review",
+        "reason": (
+            "Matthew Maps review: curated centroid was 11 mi east of the "
+            "Freeborn County unit. Pin moved onto the park."
+        ),
+    },
+    ("curated_greater_mn_county", "county:bray-park"): {
+        "latitude": 44.182884628060606,
+        "longitude": -93.78960964428298,
+        "managing_agency": "Blue Earth County Parks",
+        "source_url": "https://www.blueearthcountymn.gov/181/Parks",
+        "highlights": (
+            "Blue Earth County park on Madison Lake — camping and lake access, "
+            "not Martin County's Lake George park at Fairmont."
+        ),
+        "check_name": "Bray Park, Madison Lake (Maps review)",
+        "check_source": "human_maps_review",
+        "reason": (
+            "Matthew Maps review: the Fairmont / Lake George pin was a "
+            "different Bray. Moved onto Blue Earth County's Madison Lake unit."
+        ),
+    },
+    ("curated_greater_mn_county", "county:snake-river-landing-pine-city"): {
+        "latitude": 45.840293456991624,
+        "longitude": -92.93316942339543,
+        "check_name": "Snake River Landing, Pine City (Maps review)",
+        "check_source": "human_maps_review",
+        "reason": (
+            "Matthew Maps review: this is Snake River Landing in Pine City, "
+            "not Pine County 'Dalles' and not Aitkin's Snake River County Park."
+        ),
+    },
+    ("curated_greater_mn_county", "county:daly-park"): {
+        "latitude": 43.87411501149293,
+        "longitude": -93.99934525778492,
+        "highlights": (
+            "Blue Earth County camping park near Mapleton / Sterling Township."
+        ),
+        "check_name": "Daly Park & Campground (Maps review)",
+        "check_source": "human_maps_review",
+        "reason": (
+            "Matthew Maps review: curated Hall Lake guess was ~16 mi from the "
+            "Blue Earth camping unit. Pin moved onto Daly Park near Mapleton."
+        ),
+    },
+    ("curated_greater_mn_county", "county:red-rock-falls-county-park"): {
+        "latitude": 44.122282251871425,
+        "longitude": -95.10528353968522,
+        "managing_agency": "Cottonwood County Parks",
+        "source_url": "https://www.co.cottonwood.mn.us/",
+        "highlights": (
+            "Cottonwood County park at Red Rock Falls near Sanborn, not a "
+            "Mower County Cedar River picnic near Austin."
+        ),
+        "check_name": "Red Rock Falls County Park, Sanborn (Maps review)",
+        "check_source": "human_maps_review",
+        "reason": (
+            "Matthew Maps review: the Mower / Austin pin was the wrong county. "
+            "Moved onto Cottonwood County's Red Rock Falls unit near Sanborn."
+        ),
+    },
+    ("curated_greater_mn_county", "county:warner-lake-county-park"): {
+        "latitude": 45.4225777283712,
+        "longitude": -94.08401563362033,
+        "highlights": "Stearns County park on Warner Lake near Clearwater.",
+        "check_name": "Warner Lake County Park, Clearwater (Maps review)",
+        "check_source": "human_maps_review",
+        "reason": (
+            "Matthew Maps review: curated pin west of Cold Spring was 16 mi "
+            "from the Stearns unit. Moved onto Warner Lake near Clearwater."
+        ),
+    },
+}
+
+# Removed from inventory so refresh cannot resurrect them. Keyed by the
+# source/source_id that parks.json used before the drop.
+HUMAN_DROPS: dict[tuple[str, str], dict] = {
+    ("curated_greater_mn_county", "county:ortonville-big-stone-county-park"): {
+        "reason": (
+            "Matthew Maps review: this is Big Stone Lake State Park (DNR "
+            "SPK00115 already in inventory ~0.12 mi from the reviewed point). "
+            "County duplicate removed."
+        ),
+    },
+    ("curated_greater_mn_county", "county:rainy-lake-international-falls-county-dock"): {
+        "reason": (
+            "Matthew Maps review: remove the Koochiching county dock record."
+        ),
+    },
+}
+
+HUMAN_RENAMES: dict[tuple[str, str], dict] = {
+    ("curated_greater_mn_county", "county:dalles-snake-river-county-park"): {
+        "name": "Snake River Landing (Pine City)",
+        "source_id": "county:snake-river-landing-pine-city",
+        "reason": (
+            "Matthew Maps review: this is Snake River Landing in Pine City, "
+            "not Dalles / Snake River County Park."
         ),
     },
 }
@@ -174,6 +280,8 @@ class GeoDecision:
     original_in_minnesota: bool
     check_in_minnesota: bool | None
     flagged: bool = False
+    source_url: str | None = None
+    source_url_hub: bool = False
     extra: dict = field(default_factory=dict)
 
     def as_json(self) -> dict:
@@ -499,6 +607,7 @@ def decide(
     if nps_vcs:
         all_hits.extend(nps_vcs)
 
+    source_url = park.get("source_url") or ""
     base = dict(
         name=park["name"],
         park_type=park.get("park_type") or "",
@@ -507,6 +616,8 @@ def decide(
         original_latitude=lat,
         original_longitude=lon,
         original_in_minnesota=orig_in,
+        source_url=source_url or None,
+        source_url_hub=is_domain_only_source_url(source_url),
     )
 
     if looks_swapped(lat, lon) and in_mn_polygon(lon, lat):
@@ -526,7 +637,10 @@ def decide(
     if override:
         olat, olon = float(override["latitude"]), float(override["longitude"])
         miles = haversine_miles(lat, lon, olat, olon)
-        if miles < 0.15:
+        if miles < 0.15 and not any(
+            override.get(field) and park.get(field) != override.get(field)
+            for field in ("managing_agency", "source_url", "highlights", "name")
+        ):
             return GeoDecision(
                 action="keep",
                 latitude=lat,
@@ -738,17 +852,84 @@ def should_geocode(park: dict) -> bool:
     return False
 
 
+def drop_decision(park: dict, spec: dict) -> GeoDecision:
+    lat = float(park["latitude"])
+    lon = float(park["longitude"])
+    source_url = park.get("source_url") or ""
+    return GeoDecision(
+        name=park["name"],
+        park_type=park.get("park_type") or "",
+        source=park.get("source") or "",
+        source_id=str(park.get("source_id") or ""),
+        action="dropped",
+        latitude=lat,
+        longitude=lon,
+        original_latitude=lat,
+        original_longitude=lon,
+        miles=None,
+        reason=spec["reason"],
+        check_source="human_maps_review",
+        check_name=park["name"],
+        original_in_minnesota=in_mn_polygon(lat, lon),
+        check_in_minnesota=None,
+        flagged=False,
+        source_url=source_url or None,
+        source_url_hub=is_domain_only_source_url(source_url),
+        extra={"human_drop": True},
+    )
+
+
+def apply_human_edits(parks: list[dict]) -> tuple[list[dict], list[GeoDecision]]:
+    """Rename/drop curated rows before Nominatim so refresh cannot resurrect them."""
+    kept: list[dict] = []
+    dropped: list[GeoDecision] = []
+    for original in parks:
+        park = dict(original)
+        key = (park.get("source") or "", str(park.get("source_id") or ""))
+        spec = HUMAN_DROPS.get(key)
+        if spec:
+            dropped.append(drop_decision(park, spec))
+            continue
+        rename = HUMAN_RENAMES.get(key)
+        if rename:
+            park["name"] = rename["name"]
+            park["source_id"] = rename["source_id"]
+            key = (park.get("source") or "", str(park.get("source_id") or ""))
+        override = MANUAL_OVERRIDES.get(key)
+        if override:
+            for field in ("managing_agency", "source_url", "highlights", "name"):
+                if override.get(field):
+                    park[field] = override[field]
+        kept.append(park)
+    return kept, dropped
+
+
 def apply_to_parks(parks: list[dict], decisions: list[GeoDecision]) -> int:
-    by_key = {(d.source, d.source_id): d for d in decisions}
+    by_key = {(d.source, d.source_id): d for d in decisions if d.action != "dropped"}
     changed = 0
+    out: list[dict] = []
     for park in parks:
         key = (park.get("source") or "", str(park.get("source_id") or ""))
-        decision = by_key.get(key)
-        if not decision or decision.action != "corrected":
+        if key in HUMAN_DROPS:
+            changed += 1
             continue
-        park["latitude"] = decision.latitude
-        park["longitude"] = decision.longitude
-        changed += 1
+        decision = by_key.get(key)
+        if decision and decision.action == "corrected":
+            park["latitude"] = decision.latitude
+            park["longitude"] = decision.longitude
+            changed += 1
+        override = MANUAL_OVERRIDES.get(key)
+        if override:
+            for field in ("managing_agency", "source_url", "highlights", "name"):
+                if override.get(field) and park.get(field) != override.get(field):
+                    park[field] = override[field]
+                    changed += 1
+        hub = is_domain_only_source_url(park.get("source_url"))
+        if park.get("source_url_hub") != hub:
+            changed += 1
+        park["source_url_hub"] = hub
+        out.append(park)
+    parks[:] = out
     return changed
 
 
@@ -760,6 +941,8 @@ def build_payload(decisions: list[GeoDecision]) -> dict:
         "corrected": sum(1 for d in decisions if d.action == "corrected"),
         "kept": sum(1 for d in decisions if d.action == "keep"),
         "flagged": sum(1 for d in decisions if d.flagged or d.action == "flagged"),
+        "dropped": sum(1 for d in decisions if d.action == "dropped"),
+        "source_url_hub": sum(1 for d in decisions if d.source_url_hub and d.action != "dropped"),
     }
     return {
         "generated_at": datetime.now(timezone.utc).isoformat(),
@@ -768,6 +951,7 @@ def build_payload(decisions: list[GeoDecision]) -> dict:
             "OpenStreetMap Nominatim (ODbL). Batch geocode during parks:refresh only; 1 req/s; runtime map never calls Nominatim.",
             "National Park Service Visitor Centers API for in-MN unit points on national parks.",
             "Minnesota outline: US Census Bureau cartographic boundary 20m (cb_2023_us_state_20m).",
+            "Official source_url flagged source_url_hub when it is missing or only a domain (no path). Park-specific GIS URLs are kept; no Google scrape.",
         ],
         "counts": counts,
         "checks": [d.as_json() for d in decisions],

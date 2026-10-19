@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_20_204500) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_19_183000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -45,6 +45,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_20_204500) do
     t.string "source", null: false
     t.string "source_id", null: false
     t.string "source_url"
+    t.boolean "source_url_hub", default: false, null: false
     t.datetime "updated_at", null: false
     t.index ["activities"], name: "index_parks_on_activities", using: :gin
     t.index ["amenities"], name: "index_parks_on_amenities", using: :gin

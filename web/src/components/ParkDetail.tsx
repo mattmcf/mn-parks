@@ -144,16 +144,32 @@ export function ParkDetail({ park, origin, miles, user, onClose, onNeedAuth, onT
         <ChipBlock title="Amenities" kind="amenity" values={park.amenities} />
         <ChipBlock title="Activities" kind="activity" values={park.activities} />
 
-        {park.source_url && (
-          <a
-            className="inline-block text-sm text-[hsl(var(--accent))] underline"
-            href={park.source_url}
-            target="_blank"
-            rel="noreferrer"
-          >
+        <section>
+          <h3 className="text-xs font-semibold uppercase tracking-wide text-[hsl(var(--muted-foreground))]">
             Official source
-          </a>
-        )}
+          </h3>
+          {park.source_url ? (
+            <a
+              className="mt-1 inline-block text-sm text-[hsl(var(--accent))] underline"
+              href={park.source_url}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Official source
+            </a>
+          ) : (
+            <p className="mt-1 text-sm text-[hsl(var(--muted-foreground))]">
+              No official page listed yet.
+            </p>
+          )}
+          {park.source_url_hub && (
+            <p className="mt-1 text-sm text-[hsl(var(--muted-foreground))]">
+              {park.source_url
+                ? "This is only the agency homepage, not a park-specific page."
+                : "We do not have a park-specific official URL for this unit."}
+            </p>
+          )}
+        </section>
       </div>
       <div className="grid grid-cols-2 gap-2 border-t border-[hsl(var(--border))] p-3">
         <Button
