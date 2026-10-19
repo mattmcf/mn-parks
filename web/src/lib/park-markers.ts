@@ -18,12 +18,29 @@ export function createParkMarkerElement(park: Park, onSelect: (park: Park) => vo
   button.className = "park-marker"
   button.dataset.parkId = String(park.id)
   button.dataset.parkType = park.park_type
-  button.title = `${park.name} · ${TYPE_LABELS[park.park_type]}`
   button.setAttribute("aria-label", `${park.name}, ${TYPE_LABELS[park.park_type]}`)
   button.setAttribute("aria-pressed", "false")
-  button.innerHTML = `<span class="park-marker__dot" style="background:${TYPE_COLORS[park.park_type]}">${TYPE_ICONS[park.park_type]}</span>`
+
+  const dot = document.createElement("span")
+  dot.className = "park-marker__dot"
+  dot.style.background = TYPE_COLORS[park.park_type]
+  dot.innerHTML = TYPE_ICONS[park.park_type]
+
+  const name = document.createElement("span")
+  name.className = "park-marker__name"
+  name.textContent = park.name
+  name.setAttribute("aria-hidden", "true")
+
+  button.append(dot, name)
 
   const stop = (event: Event) => event.stopPropagation()
+  button.addEventListener("pointerenter", (event) => {
+    if (event.pointerType !== "mouse" && event.pointerType !== "pen") return
+    button.classList.add("is-hover")
+  })
+  button.addEventListener("pointerleave", () => {
+    button.classList.remove("is-hover")
+  })
   button.addEventListener("pointerdown", stop)
   button.addEventListener("pointerup", stop)
   button.addEventListener("click", (event) => {
@@ -37,5 +54,4 @@ export function createParkMarkerElement(park: Park, onSelect: (park: Park) => vo
 export function setParkMarkerSelected(element: HTMLElement, selected: boolean) {
   element.classList.toggle("is-selected", selected)
   element.setAttribute("aria-pressed", selected ? "true" : "false")
-  element.style.zIndex = selected ? "4" : ""
 }
