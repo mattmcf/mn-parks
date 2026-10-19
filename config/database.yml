@@ -22,4 +22,8 @@ production:
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  url: <%= ENV.fetch("DATABASE_URL") %>
+  # YAML is parsed for every env, so do not ENV.fetch here — that breaks `bin/rails test`.
+  # Production still needs DATABASE_URL at boot (Render sets it).
+<% if ENV["DATABASE_URL"].to_s != "" %>
+  url: <%= ENV["DATABASE_URL"] %>
+<% end %>

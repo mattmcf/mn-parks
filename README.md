@@ -228,7 +228,7 @@ GitHub Actions runs on pull requests and pushes to `main` (`.github/workflows/ci
 
 ```bash
 npm --prefix web test
-npm --prefix web exec -- tsc -b
+npm --prefix web run typecheck
 bin/rails test                  # Postgres; `mn_parks_test`
 python3 scripts/test_park_geo.py  # pip install -r scripts/requirements.txt
 ```
