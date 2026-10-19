@@ -9,6 +9,7 @@ import os
 import re
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 import zipfile
 from pathlib import Path
@@ -116,6 +117,23 @@ def names_match(a: str, b: str) -> bool:
     if sa and sb and (sa in sb or sb in sa) and min(len(sa), len(sb)) >= 8:
         return True
     return False
+
+
+def is_domain_only_source_url(url: str | None) -> bool:
+    """True when official source is missing or just a host (no path).
+
+    Flag-worthy: empty, `/`, `https://www.chisagocountymn.gov/`,
+    `https://www.chisagocountymn.gov`, query-only homepages.
+    Not flagged: a park/department path such as `/456/Parks`.
+    """
+    raw = (url or "").strip()
+    if not raw:
+        return True
+    parsed = urllib.parse.urlparse(raw)
+    if not parsed.scheme:
+        parsed = urllib.parse.urlparse("https://" + raw.lstrip("/"))
+    path = (parsed.path or "").rstrip("/")
+    return path == ""
 
 
 def in_minnesota(lat: float | None, lon: float | None) -> bool:

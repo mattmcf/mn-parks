@@ -1,18 +1,63 @@
 {
-  "generated_at": "2026-10-19T18:05:28.677941+00:00",
+  "generated_at": "2026-10-19T18:43:02.146218+00:00",
   "source": "nominatim+nps_visitorcenters+census_mn_boundary",
   "attribution": [
     "OpenStreetMap Nominatim (ODbL). Batch geocode during parks:refresh only; 1 req/s; runtime map never calls Nominatim.",
     "National Park Service Visitor Centers API for in-MN unit points on national parks.",
-    "Minnesota outline: US Census Bureau cartographic boundary 20m (cb_2023_us_state_20m)."
+    "Minnesota outline: US Census Bureau cartographic boundary 20m (cb_2023_us_state_20m).",
+    "Official source_url flagged source_url_hub when it is missing or only a domain (no path). Park-specific GIS URLs are kept; no Google scrape."
   ],
   "counts": {
     "checked": 298,
-    "corrected": 19,
-    "kept": 271,
-    "flagged": 11
+    "corrected": 6,
+    "kept": 290,
+    "flagged": 0,
+    "dropped": 2,
+    "source_url_hub": 94
   },
   "checks": [
+    {
+      "name": "Ortonville / Big Stone County Park",
+      "park_type": "county",
+      "source": "curated_greater_mn_county",
+      "source_id": "county:ortonville-big-stone-county-park",
+      "action": "dropped",
+      "latitude": 45.305,
+      "longitude": -96.445,
+      "original_latitude": 45.305,
+      "original_longitude": -96.445,
+      "miles": null,
+      "reason": "Matthew Maps review: this is Big Stone Lake State Park (DNR SPK00115 already in inventory ~0.12 mi from the reviewed point). County duplicate removed.",
+      "check_source": "human_maps_review",
+      "check_name": "Ortonville / Big Stone County Park",
+      "original_in_minnesota": true,
+      "check_in_minnesota": null,
+      "flagged": false,
+      "source_url": "https://www.bigstonecounty.org/",
+      "source_url_hub": true,
+      "human_drop": true
+    },
+    {
+      "name": "Rainy Lake / International Falls county dock",
+      "park_type": "county",
+      "source": "curated_greater_mn_county",
+      "source_id": "county:rainy-lake-international-falls-county-dock",
+      "action": "dropped",
+      "latitude": 48.609,
+      "longitude": -93.351,
+      "original_latitude": 48.609,
+      "original_longitude": -93.351,
+      "miles": null,
+      "reason": "Matthew Maps review: remove the Koochiching county dock record.",
+      "check_source": "human_maps_review",
+      "check_name": "Rainy Lake / International Falls county dock",
+      "original_in_minnesota": true,
+      "check_in_minnesota": null,
+      "flagged": false,
+      "source_url": "https://www.co.koochiching.mn.us/",
+      "source_url_hub": true,
+      "human_drop": true
+    },
     {
       "name": "Aitkin County Campground (Ripple Lake)",
       "park_type": "county",
@@ -29,43 +74,50 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.aitkin.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Apple Blossom / county overlook",
       "park_type": "county",
       "source": "curated_greater_mn_county",
       "source_id": "county:apple-blossom-county-overlook",
-      "action": "corrected",
+      "action": "keep",
       "latitude": 43.855915,
       "longitude": -91.312107,
-      "original_latitude": 43.996,
-      "original_longitude": -91.43,
-      "miles": 11.32,
-      "reason": "Original pin is outside the Minnesota polygon; moved to nominatim unit point 'Apple Blossom Overlook Park'.",
+      "original_latitude": 43.855915,
+      "original_longitude": -91.312107,
+      "miles": 0.0,
+      "reason": "Agrees with nominatim 'Apple Blossom Overlook Park' within 0.0 miles.",
       "check_source": "nominatim",
       "check_name": "Apple Blossom Overlook Park, 169, Dresbach Township, Winona County, Minnesota, United States",
-      "original_in_minnesota": false,
+      "original_in_minnesota": true,
       "check_in_minnesota": true,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.winona.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Arrowhead Point County Park",
       "park_type": "county",
       "source": "curated_greater_mn_county",
       "source_id": "county:arrowhead-point-county-park",
-      "action": "flagged",
-      "latitude": 43.652,
-      "longitude": -93.368,
+      "action": "corrected",
+      "latitude": 43.739915,
+      "longitude": -93.553606,
       "original_latitude": 43.652,
       "original_longitude": -93.368,
-      "miles": 11.28,
-      "reason": "A same-name hit 'Arrowhead Point County Park' is 11.3 miles away (cap 10 mi) \u2014 treated as a different place, pin left.",
-      "check_source": "nominatim",
-      "check_name": "Arrowhead Point County Park, Carlston Township, Freeborn County, Minnesota, United States",
+      "miles": 11.08,
+      "reason": "Matthew Maps review: curated centroid was 11 mi east of the Freeborn County unit. Pin moved onto the park.",
+      "check_source": "human_maps_review",
+      "check_name": "Arrowhead Point County Park (Maps review)",
       "original_in_minnesota": true,
       "check_in_minnesota": true,
-      "flagged": true
+      "flagged": false,
+      "source_url": "https://www.co.freeborn.mn.us/",
+      "source_url_hub": true,
+      "override": true
     },
     {
       "name": "Bald Eagle-Otter Lakes - Bald Eagle Lake",
@@ -83,7 +135,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.ramseycounty.us/residents/parks-recreation",
+      "source_url_hub": false
     },
     {
       "name": "Barsness Park (county/city Glenwood mix)",
@@ -101,7 +155,9 @@
       "check_name": "Barsness Park, Glenwood, Pope County, Minnesota, United States",
       "original_in_minnesota": true,
       "check_in_minnesota": true,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.pope.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Baudette Riverfront County Park",
@@ -119,7 +175,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.lake-of-the-woods.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Beaver Creek",
@@ -137,7 +195,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": null,
+      "source_url_hub": true
     },
     {
       "name": "Beaver Lake County Park",
@@ -155,7 +215,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.ramseycounty.us/residents/parks-recreation",
+      "source_url_hub": false
     },
     {
       "name": "Belle Prairie County Park",
@@ -173,7 +235,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.morrison.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Bend in the River Regional Park",
@@ -191,25 +255,29 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.benton.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Bertram Chain of Lakes Regional Park",
       "park_type": "county",
       "source": "curated_greater_mn_county",
       "source_id": "county:bertram-chain-of-lakes-regional-park",
-      "action": "corrected",
+      "action": "keep",
       "latitude": 45.291485,
       "longitude": -93.849917,
-      "original_latitude": 45.2373,
-      "original_longitude": -93.9474,
-      "miles": 6.04,
-      "reason": "6.0 miles from nominatim unit point 'Bertram Chain of Lakes Regional Park' (leisure=park); moved onto the named unit rather than a township/polygon guess.",
+      "original_latitude": 45.291485,
+      "original_longitude": -93.849917,
+      "miles": 0.0,
+      "reason": "Agrees with nominatim 'Bertram Chain of Lakes Regional Park' within 0.0 miles.",
       "check_source": "nominatim",
       "check_name": "Bertram Chain of Lakes Regional Park, Monticello, Wright County, Minnesota, 55362, United States",
       "original_in_minnesota": true,
       "check_in_minnesota": true,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.wright.mn.us/148/Parks-Recreation",
+      "source_url_hub": false
     },
     {
       "name": "Bierman Park",
@@ -227,7 +295,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://claycountymn.gov/",
+      "source_url_hub": true
     },
     {
       "name": "Big Kandiyohi Lake County Park",
@@ -245,7 +315,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.kcmn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Boulder Lake Conservation Area",
@@ -263,25 +335,30 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.stlouiscountymn.gov/departments-a-z/public-works/parks-recreation",
+      "source_url_hub": false
     },
     {
       "name": "Bray Park",
       "park_type": "county",
       "source": "curated_greater_mn_county",
       "source_id": "county:bray-park",
-      "action": "flagged",
-      "latitude": 43.6431,
-      "longitude": -94.4614,
+      "action": "corrected",
+      "latitude": 44.182885,
+      "longitude": -93.78961,
       "original_latitude": 43.6431,
       "original_longitude": -94.4614,
-      "miles": 50.0,
-      "reason": "A same-name hit 'Bray County Park & Campground' is 50.0 miles away (cap 10 mi) \u2014 treated as a different place, pin left.",
-      "check_source": "nominatim",
-      "check_name": "Bray County Park & Campground, 22214, Madison Lake, Blue Earth County, Minnesota, 56063, United States",
+      "miles": 50.09,
+      "reason": "Matthew Maps review: the Fairmont / Lake George pin was a different Bray. Moved onto Blue Earth County's Madison Lake unit.",
+      "check_source": "human_maps_review",
+      "check_name": "Bray Park, Madison Lake (Maps review)",
       "original_in_minnesota": true,
       "check_in_minnesota": true,
-      "flagged": true
+      "flagged": false,
+      "source_url": "https://www.blueearthcountymn.gov/181/Parks",
+      "source_url_hub": false,
+      "override": true
     },
     {
       "name": "CG RAVINE REGIONAL PARK",
@@ -299,7 +376,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.washington.mn.us/501/Cottage-Grove-Ravine-Regional-Park",
+      "source_url_hub": false
     },
     {
       "name": "Cannon River Wilderness Area",
@@ -317,7 +396,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.ricecountymn.gov/",
+      "source_url_hub": true
     },
     {
       "name": "Cass County Stony Point",
@@ -335,7 +416,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.cass.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Cedar Creek Conservation Area",
@@ -353,7 +436,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "http://www.ci.oak-grove.mn.us/vertical/sites/%7B28775C3F-84E3-4D8E-9DE7-F09871C00BE5%7D/uploads/%7BE2D288E2-6D0E-4C6B-8714-4C5080EE3C67%7D.PDF",
+      "source_url_hub": false
     },
     {
       "name": "Charles M Schulz/Highland Arena",
@@ -371,7 +456,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.ramseycounty.us/residents/parks-recreation",
+      "source_url_hub": false
     },
     {
       "name": "Chengwatana / Pine County Park",
@@ -389,25 +476,29 @@
       "check_name": "Chengwatana Township, Pine County, Minnesota, United States",
       "original_in_minnesota": true,
       "check_in_minnesota": true,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.pine.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Chester Woods Park",
       "park_type": "county",
       "source": "curated_greater_mn_county",
       "source_id": "county:chester-woods-park",
-      "action": "corrected",
+      "action": "keep",
       "latitude": 43.990475,
       "longitude": -92.322656,
-      "original_latitude": 44.0236,
-      "original_longitude": -92.3335,
-      "miles": 2.35,
-      "reason": "2.4 miles from nominatim unit point 'Chester Woods Park' (leisure=park); moved onto the named unit rather than a township/polygon guess.",
+      "original_latitude": 43.990475,
+      "original_longitude": -92.322656,
+      "miles": 0.0,
+      "reason": "Agrees with nominatim 'Chester Woods Park' within 0.0 miles.",
       "check_source": "nominatim",
       "check_name": "Chester Woods Park, Marion Township, Olmsted County, Minnesota, United States",
       "original_in_minnesota": true,
       "check_in_minnesota": true,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.olmstedcounty.gov/residents/parks-recreation",
+      "source_url_hub": false
     },
     {
       "name": "Chippewa County Swift Falls County Park",
@@ -425,7 +516,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.swiftcounty.com/",
+      "source_url_hub": true
     },
     {
       "name": "Chub Lake Park",
@@ -443,25 +536,29 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.carlton.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Collinwood Regional Park",
       "park_type": "county",
       "source": "curated_greater_mn_county",
       "source_id": "county:collinwood-regional-park",
-      "action": "corrected",
+      "action": "keep",
       "latitude": 45.043827,
       "longitude": -94.245943,
-      "original_latitude": 45.0808,
-      "original_longitude": -94.1657,
-      "miles": 4.68,
-      "reason": "4.7 miles from nominatim unit point 'Collinwood Regional Park' (leisure=park); moved onto the named unit rather than a township/polygon guess.",
+      "original_latitude": 45.043827,
+      "original_longitude": -94.245943,
+      "miles": 0.0,
+      "reason": "Agrees with nominatim 'Collinwood Regional Park' within 0.0 miles.",
       "check_source": "nominatim",
       "check_name": "Collinwood Regional Park, Stockholm, Stockholm Township, Wright County, Minnesota, United States",
       "original_in_minnesota": true,
       "check_in_minnesota": true,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.wright.mn.us/148/Parks-Recreation",
+      "source_url_hub": false
     },
     {
       "name": "Columbus Lake Conservation Area",
@@ -479,7 +576,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.anokacounty.us/1533/Columbus-Lake-Conservation-Area",
+      "source_url_hub": false
     },
     {
       "name": "Cook County Devil Track Lake Park",
@@ -497,7 +596,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.cook.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Cottonwood County Talcot Lake County Park",
@@ -515,7 +616,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.cottonwood.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Dakota County Park Conservation Area",
@@ -533,25 +636,30 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dakotacounty.us/parks",
+      "source_url_hub": false
     },
     {
-      "name": "Dalles / Snake River County Park",
+      "name": "Snake River Landing (Pine City)",
       "park_type": "county",
       "source": "curated_greater_mn_county",
-      "source_id": "county:dalles-snake-river-county-park",
-      "action": "flagged",
-      "latitude": 45.826,
-      "longitude": -93.01,
+      "source_id": "county:snake-river-landing-pine-city",
+      "action": "corrected",
+      "latitude": 45.840293,
+      "longitude": -92.933169,
       "original_latitude": 45.826,
       "original_longitude": -93.01,
-      "miles": 26.56,
-      "reason": "A same-name hit 'Snake River County Park' is 26.6 miles away (cap 10 mi) \u2014 treated as a different place, pin left.",
-      "check_source": "nominatim",
-      "check_name": "Snake River County Park, Snake River Campground Road, Williams Township, Aitkin County, Minnesota, United States",
+      "miles": 3.83,
+      "reason": "Matthew Maps review: this is Snake River Landing in Pine City, not Pine County 'Dalles' and not Aitkin's Snake River County Park.",
+      "check_source": "human_maps_review",
+      "check_name": "Snake River Landing, Pine City (Maps review)",
       "original_in_minnesota": true,
       "check_in_minnesota": true,
-      "flagged": true
+      "flagged": false,
+      "source_url": "https://www.co.pine.mn.us/",
+      "source_url_hub": true,
+      "override": true
     },
     {
       "name": "Dalske Woodlands Preserve",
@@ -569,25 +677,30 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.andovermn.gov/131/Parks-Maintenance-Dept",
+      "source_url_hub": false
     },
     {
       "name": "Daly Park",
       "park_type": "county",
       "source": "curated_greater_mn_county",
       "source_id": "county:daly-park",
-      "action": "flagged",
-      "latitude": 44.0536,
-      "longitude": -94.2197,
+      "action": "corrected",
+      "latitude": 43.874115,
+      "longitude": -93.999345,
       "original_latitude": 44.0536,
       "original_longitude": -94.2197,
-      "miles": 16.3,
-      "reason": "A same-name hit 'Daly Park & Campground' is 16.3 miles away (cap 10 mi) \u2014 treated as a different place, pin left.",
-      "check_source": "nominatim",
-      "check_name": "Daly Park & Campground, 11056, Sterling Township, Mapleton, Blue Earth County, Minnesota, 56065, United States",
+      "miles": 16.55,
+      "reason": "Matthew Maps review: curated Hall Lake guess was ~16 mi from the Blue Earth camping unit. Pin moved onto Daly Park near Mapleton.",
+      "check_source": "human_maps_review",
+      "check_name": "Daly Park & Campground (Maps review)",
       "original_in_minnesota": true,
       "check_in_minnesota": true,
-      "flagged": true
+      "flagged": false,
+      "source_url": "https://www.blueearthcountymn.gov/181/Parks",
+      "source_url_hub": false,
+      "override": true
     },
     {
       "name": "Dodge County Wasioja park",
@@ -605,25 +718,29 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.dodge.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Dunton Locks County Park",
       "park_type": "county",
       "source": "curated_greater_mn_county",
       "source_id": "county:dunton-locks-county-park",
-      "action": "corrected",
+      "action": "keep",
       "latitude": 46.782907,
       "longitude": -95.882501,
-      "original_latitude": 46.7186,
-      "original_longitude": -95.6957,
-      "miles": 9.9,
-      "reason": "9.9 miles from nominatim unit point 'Dunton Locks County Park' (leisure=park); moved onto the named unit rather than a township/polygon guess.",
+      "original_latitude": 46.782907,
+      "original_longitude": -95.882501,
+      "miles": 0.0,
+      "reason": "Agrees with nominatim 'Dunton Locks County Park' within 0.0 miles.",
       "check_source": "nominatim",
       "check_name": "Dunton Locks County Park, Becker County, Minnesota, United States",
       "original_in_minnesota": true,
       "check_in_minnesota": true,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.becker.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Faribault County Blue Earth River Park",
@@ -641,7 +758,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.faribault.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Fish Creek",
@@ -659,7 +778,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": null,
+      "source_url_hub": true
     },
     {
       "name": "Florian Park",
@@ -677,7 +798,9 @@
       "check_name": "Florian Park, 28219, Marshall County, Minnesota, 56757, United States",
       "original_in_minnesota": true,
       "check_in_minnesota": true,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.marshall.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "GREY CLOUD COUNTY PARK",
@@ -695,7 +818,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": null,
+      "source_url_hub": true
     },
     {
       "name": "Glen Lake Golf & Practice Center",
@@ -713,7 +838,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": null,
+      "source_url_hub": true
     },
     {
       "name": "Goodhue County Lake Byllesby (Goodhue side)",
@@ -731,7 +858,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://co.goodhue.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Goodrich Golf Course",
@@ -749,7 +878,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.ramseycounty.us/residents/parks-recreation",
+      "source_url_hub": false
     },
     {
       "name": "Gramse County Park",
@@ -767,7 +898,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.sherburne.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Grant County Pomme de Terre Park",
@@ -785,7 +918,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.grant.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Green Lake County Park",
@@ -803,7 +938,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.kcmn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Gull Lake Recreation Area (county/federal mix)",
@@ -821,7 +958,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://crowwing.gov/181/Parks",
+      "source_url_hub": false
     },
     {
       "name": "Hallock County Park",
@@ -839,7 +978,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.kittson.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Heartland Park",
@@ -857,7 +998,9 @@
       "check_name": "Heartland County Park, Park Rapids, Hubbard County, Minnesota, United States",
       "original_in_minnesota": true,
       "check_in_minnesota": true,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.hubbard.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Holloway Marsh",
@@ -875,7 +1018,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": null,
+      "source_url_hub": true
     },
     {
       "name": "Houston County Money Creek Campground",
@@ -893,7 +1038,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.houston.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Hoyt Lakes Colby Lake County Park",
@@ -911,7 +1058,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.stlouiscountymn.gov/departments-a-z/public-works/parks-recreation",
+      "source_url_hub": false
     },
     {
       "name": "Isanti County Springvale County Park",
@@ -929,7 +1078,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.isanti.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Island Lake County Park",
@@ -947,7 +1098,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.ramseycounty.us/residents/parks-recreation",
+      "source_url_hub": false
     },
     {
       "name": "Island Lake Golf & Training Center",
@@ -965,7 +1118,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.ramseycounty.us/residents/parks-recreation",
+      "source_url_hub": false
     },
     {
       "name": "Islands of Peace Park",
@@ -983,7 +1138,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "http://www.ci.fridley.mn.us/DocumentCenter/View/253",
+      "source_url_hub": false
     },
     {
       "name": "Jackson County Belmont Park",
@@ -1001,25 +1158,29 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.jackson.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Jacobson Campground",
       "park_type": "county",
       "source": "curated_greater_mn_county",
       "source_id": "county:jacobson-campground",
-      "action": "corrected",
+      "action": "keep",
       "latitude": 47.023126,
       "longitude": -93.276516,
-      "original_latitude": 47.004,
-      "original_longitude": -93.416,
-      "miles": 6.7,
-      "reason": "6.7 miles from nominatim unit point 'Jacobson Campground' (tourism=camp_site); moved onto the named unit rather than a township/polygon guess.",
+      "original_latitude": 47.023126,
+      "original_longitude": -93.276516,
+      "miles": 0.0,
+      "reason": "Agrees with nominatim 'Jacobson Campground' within 0.0 miles.",
       "check_source": "nominatim",
       "check_name": "Jacobson Campground, Rabey Line ATV Trail, Ball Bluff Township, Aitkin County, Minnesota, 55784, United States",
       "original_in_minnesota": true,
       "check_in_minnesota": true,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.aitkin.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Kanabec County Ann Lake Park",
@@ -1037,7 +1198,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.kanabeccounty.org/",
+      "source_url_hub": true
     },
     {
       "name": "KiChiSaga Park",
@@ -1055,7 +1218,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.chisagocounty.us/",
+      "source_url_hub": true
     },
     {
       "name": "Kohlman Creek",
@@ -1073,7 +1238,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": null,
+      "source_url_hub": true
     },
     {
       "name": "Kordiak County Park",
@@ -1091,7 +1258,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.anokacounty.us/763/Kordiak-County-Park",
+      "source_url_hub": false
     },
     {
       "name": "Lac qui Parle County Watson Sag Park",
@@ -1109,7 +1278,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.lqpco.com/",
+      "source_url_hub": true
     },
     {
       "name": "Lake Alexander County Park",
@@ -1127,7 +1298,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.morrison.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Lake Benton County Park",
@@ -1145,25 +1318,29 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.lincoln.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Lake Brophy County Park",
       "park_type": "county",
       "source": "curated_greater_mn_county",
       "source_id": "county:lake-brophy-county-park",
-      "action": "corrected",
+      "action": "keep",
       "latitude": 45.914632,
       "longitude": -95.441799,
-      "original_latitude": 45.8934,
-      "original_longitude": -95.4182,
-      "miles": 1.85,
-      "reason": "1.9 miles from nominatim unit point 'Lake Brophy County Park' (leisure=park); moved onto the named unit rather than a township/polygon guess.",
+      "original_latitude": 45.914632,
+      "original_longitude": -95.441799,
+      "miles": 0.0,
+      "reason": "Agrees with nominatim 'Lake Brophy County Park' within 0.0 miles.",
       "check_source": "nominatim",
       "check_name": "Lake Brophy County Park, Douglas County, Minnesota, United States",
       "original_in_minnesota": true,
       "check_in_minnesota": true,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.douglascountymn.gov/",
+      "source_url_hub": true
     },
     {
       "name": "Lake Gervais County Park",
@@ -1181,7 +1358,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.ramseycounty.us/residents/parks-recreation",
+      "source_url_hub": false
     },
     {
       "name": "Lake Hanska County Park",
@@ -1199,7 +1378,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.brown.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Lake Josephine County Park",
@@ -1217,7 +1398,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.ramseycounty.us/residents/parks-recreation",
+      "source_url_hub": false
     },
     {
       "name": "Lake Koronis Regional Park",
@@ -1235,7 +1418,9 @@
       "check_name": "Lake Koronis Regional Park, 14076, Paynesville, Stearns County, Minnesota, 56362, United States",
       "original_in_minnesota": true,
       "check_in_minnesota": true,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://co.stearns.mn.us/Recreation/Parks",
+      "source_url_hub": false
     },
     {
       "name": "Lake Marion County Park",
@@ -1253,7 +1438,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.mcleod.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Lake McCarrons County Park",
@@ -1271,7 +1458,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.ramseycounty.us/residents/parks-recreation",
+      "source_url_hub": false
     },
     {
       "name": "Lake Owasso County Park",
@@ -1289,7 +1478,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.ramseycounty.us/residents/parks-recreation",
+      "source_url_hub": false
     },
     {
       "name": "Locke Park",
@@ -1307,7 +1498,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "http://www.ci.fridley.mn.us/DocumentCenter/View/253",
+      "source_url_hub": false
     },
     {
       "name": "Long Prairie River County Park",
@@ -1325,7 +1518,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.todd.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Lower Rice Lake County Park",
@@ -1343,7 +1538,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.clearwater.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Madelia Lakes County Park",
@@ -1361,7 +1558,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.watonwan.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Mahnomen County North Twin Park",
@@ -1379,7 +1578,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.mahnomen.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Manitou Ridge Golf Course",
@@ -1397,7 +1598,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.ramseycounty.us/residents/parks-recreation",
+      "source_url_hub": false
     },
     {
       "name": "Mantrap Township / County access",
@@ -1415,7 +1618,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.hubbard.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "McIntosh County Park",
@@ -1433,7 +1638,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.polk.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "McLeod County Buffalo Creek Park",
@@ -1451,7 +1658,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.mcleod.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Meeker County Lake Ripley Park",
@@ -1469,43 +1678,49 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.meeker.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Mississippi River County Park",
       "park_type": "county",
       "source": "curated_greater_mn_county",
       "source_id": "county:mississippi-river-county-park",
-      "action": "corrected",
+      "action": "keep",
       "latitude": 45.722771,
       "longitude": -94.223906,
-      "original_latitude": 45.6145,
-      "original_longitude": -94.1934,
-      "miles": 7.62,
-      "reason": "7.6 miles from nominatim unit point 'Mississippi River County Park' (leisure=park); moved onto the named unit rather than a township/polygon guess.",
+      "original_latitude": 45.722771,
+      "original_longitude": -94.223906,
+      "miles": 0.0,
+      "reason": "Agrees with nominatim 'Mississippi River County Park' within 0.0 miles.",
       "check_source": "nominatim",
       "check_name": "Mississippi River County Park, Brockway Township, Stearns County, Minnesota, United States",
       "original_in_minnesota": true,
       "check_in_minnesota": true,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://co.stearns.mn.us/Recreation/Parks",
+      "source_url_hub": false
     },
     {
       "name": "Montissippi County Park",
       "park_type": "county",
       "source": "curated_greater_mn_county",
       "source_id": "county:montissippi-county-park",
-      "action": "corrected",
+      "action": "keep",
       "latitude": 45.325369,
       "longitude": -93.828616,
-      "original_latitude": 45.305,
-      "original_longitude": -93.76,
-      "miles": 3.62,
-      "reason": "3.6 miles from nominatim unit point 'Montissippi County Park' (leisure=park); moved onto the named unit rather than a township/polygon guess.",
+      "original_latitude": 45.325369,
+      "original_longitude": -93.828616,
+      "miles": 0.0,
+      "reason": "Agrees with nominatim 'Montissippi County Park' within 0.0 miles.",
       "check_source": "nominatim",
       "check_name": "Montissippi County Park, River Terrace Mobile Home Park, Monticello, Wright County, Minnesota, United States",
       "original_in_minnesota": true,
       "check_in_minnesota": true,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.wright.mn.us/148/Parks-Recreation",
+      "source_url_hub": false
     },
     {
       "name": "Moose Lake County Park",
@@ -1523,7 +1738,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.carlton.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Mountain Lake County Park",
@@ -1541,7 +1758,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.cottonwood.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Muskrat Lake County Park",
@@ -1559,25 +1778,29 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.becker.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Nessel Campground / Rush Creek",
       "park_type": "county",
       "source": "curated_greater_mn_county",
       "source_id": "county:nessel-campground-rush-creek",
-      "action": "corrected",
+      "action": "keep",
       "latitude": 45.689118,
       "longitude": -93.054827,
-      "original_latitude": 45.627,
-      "original_longitude": -93.137,
-      "miles": 5.85,
-      "reason": "Original pin (45.627, -93.137) sits in empty farmland south of Nessel Township \u2014 not on Rush Lake, not at Rush Creek Park in Rush City, and not a campground. Nominatim has no 'Nessel Campground'. Prefer the named lake in Nessel Township (OSM relation Rush Lake) over a township/city centroid.",
+      "original_latitude": 45.689118,
+      "original_longitude": -93.054827,
+      "miles": 0.0,
+      "reason": "Already on the documented unit point for this park.",
       "check_source": "osm_nominatim_named_lake",
       "check_name": "Rush Lake, Nessel Township, Chisago County",
       "original_in_minnesota": true,
       "check_in_minnesota": true,
       "flagged": false,
+      "source_url": "https://www.chisagocounty.us/",
+      "source_url_hub": true,
       "override": true
     },
     {
@@ -1596,7 +1819,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.nobles.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Norman County Twin Valley Park",
@@ -1614,7 +1839,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.norman.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Norseland / Nicollet County Park",
@@ -1632,25 +1859,29 @@
       "check_name": "Norseland, Lake Prairie Township, Nicollet County, Minnesota, United States",
       "original_in_minnesota": true,
       "check_in_minnesota": true,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.nicollet.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Ojiketa Regional Park",
       "park_type": "county",
       "source": "curated_greater_mn_county",
       "source_id": "county:ojiketa-regional-park",
-      "action": "corrected",
+      "action": "keep",
       "latitude": 45.346001,
       "longitude": -92.887655,
-      "original_latitude": 45.4195,
-      "original_longitude": -92.6478,
-      "miles": 12.7,
-      "reason": "Original pin is outside the Minnesota polygon; moved to nominatim unit point 'Ojiketa Regional Park'.",
+      "original_latitude": 45.346001,
+      "original_longitude": -92.887655,
+      "miles": 0.0,
+      "reason": "Agrees with nominatim 'Ojiketa Regional Park' within 0.0 miles.",
       "check_source": "nominatim",
       "check_name": "Ojiketa Regional Park, Camp Ojiketa, Chisago City, Chisago County, Minnesota, 55013, United States",
-      "original_in_minnesota": false,
+      "original_in_minnesota": true,
       "check_in_minnesota": true,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.chisagocounty.us/",
+      "source_url_hub": true
     },
     {
       "name": "Onamia Lake County Park",
@@ -1668,25 +1899,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
-    },
-    {
-      "name": "Ortonville / Big Stone County Park",
-      "park_type": "county",
-      "source": "curated_greater_mn_county",
-      "source_id": "county:ortonville-big-stone-county-park",
-      "action": "flagged",
-      "latitude": 45.305,
-      "longitude": -96.445,
-      "original_latitude": 45.305,
-      "original_longitude": -96.445,
-      "miles": 0.02,
-      "reason": "Second source only returned an administrative place (township/city/county). Left the pin in place and flagged it \u2014 do not snap to a county seat.",
-      "check_source": "nominatim",
-      "check_name": "Ortonville, Big Stone County, Minnesota, 56278, United States",
-      "original_in_minnesota": true,
-      "check_in_minnesota": true,
-      "flagged": true
+      "flagged": false,
+      "source_url": "https://www.millelacs.mn.gov/",
+      "source_url_hub": true
     },
     {
       "name": "Oxbow Park & Zollman Zoo",
@@ -1704,25 +1919,29 @@
       "check_name": "Oxbow Park and Zollman Zoo, 5731, County Road 105 Northwest, Post Town, Byron, Olmsted County, Minnesota, 55920, United States",
       "original_in_minnesota": true,
       "check_in_minnesota": true,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.olmstedcounty.gov/residents/parks-recreation",
+      "source_url_hub": false
     },
     {
       "name": "Pebble Lake Park",
       "park_type": "county",
       "source": "curated_greater_mn_county",
       "source_id": "county:pebble-lake-park",
-      "action": "corrected",
+      "action": "keep",
       "latitude": 46.24687,
       "longitude": -96.035725,
-      "original_latitude": 46.252,
-      "original_longitude": -96.075,
-      "miles": 1.91,
-      "reason": "1.9 miles from nominatim unit point 'Pebble Lake Park' (leisure=park); moved onto the named unit rather than a township/polygon guess.",
+      "original_latitude": 46.24687,
+      "original_longitude": -96.035725,
+      "miles": 0.0,
+      "reason": "Agrees with nominatim 'Pebble Lake Park' within 0.0 miles.",
       "check_source": "nominatim",
       "check_name": "Pebble Lake Park, Fergus Falls, Otter Tail County, Minnesota, United States",
       "original_in_minnesota": true,
       "check_in_minnesota": true,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://ottertailcountymn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Pfeiffer Lake County Park",
@@ -1740,7 +1959,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.stlouiscountymn.gov/departments-a-z/public-works/parks-recreation",
+      "source_url_hub": false
     },
     {
       "name": "Pig's Eye Regional Park",
@@ -1758,7 +1979,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": null,
+      "source_url_hub": true
     },
     {
       "name": "Poplar Lake",
@@ -1776,7 +1999,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.ramseycounty.us/residents/parks-recreation",
+      "source_url_hub": false
     },
     {
       "name": "Quarry Park & Nature Preserve",
@@ -1794,43 +2019,29 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
-    },
-    {
-      "name": "Rainy Lake / International Falls county dock",
-      "park_type": "county",
-      "source": "curated_greater_mn_county",
-      "source_id": "county:rainy-lake-international-falls-county-dock",
-      "action": "flagged",
-      "latitude": 48.609,
-      "longitude": -93.351,
-      "original_latitude": 48.609,
-      "original_longitude": -93.351,
-      "miles": 132.14,
-      "reason": "A same-name hit 'Rainy Lake' is 132.1 miles away (cap 10 mi) \u2014 treated as a different place, pin left.",
-      "check_source": "nominatim",
-      "check_name": "Rainy Lake, Cass County, Minnesota, United States",
-      "original_in_minnesota": true,
-      "check_in_minnesota": true,
-      "flagged": true
+      "flagged": false,
+      "source_url": "https://co.stearns.mn.us/Recreation/Parks",
+      "source_url_hub": false
     },
     {
       "name": "Rapidan Dam County Park",
       "park_type": "county",
       "source": "curated_greater_mn_county",
       "source_id": "county:rapidan-dam-county-park",
-      "action": "corrected",
+      "action": "keep",
       "latitude": 44.095568,
       "longitude": -94.109812,
-      "original_latitude": 44.0973,
-      "original_longitude": -94.0664,
-      "miles": 2.16,
-      "reason": "2.2 miles from nominatim unit point 'Rapidan Dam County Park' (leisure=park); moved onto the named unit rather than a township/polygon guess.",
+      "original_latitude": 44.095568,
+      "original_longitude": -94.109812,
+      "miles": 0.0,
+      "reason": "Agrees with nominatim 'Rapidan Dam County Park' within 0.0 miles.",
       "check_source": "nominatim",
       "check_name": "Rapidan Dam County Park, Mankato, Blue Earth County, Minnesota, 56001, United States",
       "original_in_minnesota": true,
       "check_in_minnesota": true,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.blueearthcountymn.gov/181/Parks",
+      "source_url_hub": false
     },
     {
       "name": "Red Lake County Brooks Park",
@@ -1848,25 +2059,30 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.red-lake.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Red Rock Falls County Park",
       "park_type": "county",
       "source": "curated_greater_mn_county",
       "source_id": "county:red-rock-falls-county-park",
-      "action": "flagged",
-      "latitude": 43.666,
-      "longitude": -92.973,
+      "action": "corrected",
+      "latitude": 44.122282,
+      "longitude": -95.105284,
       "original_latitude": 43.666,
       "original_longitude": -92.973,
-      "miles": 110.72,
-      "reason": "A same-name hit 'Red Rock Falls County Park' is 110.7 miles away (cap 10 mi) \u2014 treated as a different place, pin left.",
-      "check_source": "nominatim",
-      "check_name": "Red Rock Falls County Park, 48771, Sanborn, Cottonwood County, Minnesota, 56083, United States",
+      "miles": 110.75,
+      "reason": "Matthew Maps review: the Mower / Austin pin was the wrong county. Moved onto Cottonwood County's Red Rock Falls unit near Sanborn.",
+      "check_source": "human_maps_review",
+      "check_name": "Red Rock Falls County Park, Sanborn (Maps review)",
       "original_in_minnesota": true,
       "check_in_minnesota": true,
-      "flagged": true
+      "flagged": false,
+      "source_url": "https://www.co.cottonwood.mn.us/",
+      "source_url_hub": true,
+      "override": true
     },
     {
       "name": "Renville County Vicksburg County Park",
@@ -1884,7 +2100,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.renvillecountymn.com/",
+      "source_url_hub": true
     },
     {
       "name": "Rice Creek North Regional Trail",
@@ -1902,7 +2120,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.ramseycounty.us/residents/parks-recreation",
+      "source_url_hub": false
     },
     {
       "name": "Rice Creek North Regional Trail Corridor",
@@ -1920,7 +2140,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": null,
+      "source_url_hub": true
     },
     {
       "name": "Rice Creek West Regional Trail Corridor",
@@ -1938,7 +2160,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "http://www.ci.fridley.mn.us/DocumentCenter/View/253",
+      "source_url_hub": false
     },
     {
       "name": "Root River County Park (Riverside)",
@@ -1956,7 +2180,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.fillmore.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Roseau River County Park",
@@ -1974,7 +2200,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.roseau.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Rum River North County Park",
@@ -1992,7 +2220,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.anokacounty.us/803/Rum-River-North-County-Park",
+      "source_url_hub": false
     },
     {
       "name": "Rum River South County Park",
@@ -2010,25 +2240,29 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.anokacounty.us/806/Rum-River-South-County-Park",
+      "source_url_hub": false
     },
     {
       "name": "Saint Croix Bluffs Regional Park",
       "park_type": "county",
       "source": "metrogis_collaborative_parks",
       "source_id": "163-3362",
-      "action": "corrected",
+      "action": "keep",
       "latitude": 44.803048,
       "longitude": -92.791293,
-      "original_latitude": 44.800971,
-      "original_longitude": -92.787158,
-      "miles": 0.25,
-      "reason": "Pin is outside the Minnesota polygon (border HQ, river centroid, or cartographic-boundary miss). Snapped to the Minnesota side from Minnesota boundary.",
-      "check_source": "mn_boundary_snap",
-      "check_name": "Minnesota boundary",
-      "original_in_minnesota": false,
-      "check_in_minnesota": true,
-      "flagged": true
+      "original_latitude": 44.803048,
+      "original_longitude": -92.791293,
+      "miles": null,
+      "reason": "No unit-level second source (park, campground, named lake).",
+      "check_source": null,
+      "check_name": null,
+      "original_in_minnesota": true,
+      "check_in_minnesota": null,
+      "flagged": false,
+      "source_url": "https://www.co.washington.mn.us/505/St-Croix-Bluffs-Regional-Park",
+      "source_url_hub": false
     },
     {
       "name": "Sandhill Crane Natural Area",
@@ -2046,7 +2280,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.anokacounty.us/809/Sandhill-Crane-Nature-Area",
+      "source_url_hub": false
     },
     {
       "name": "Seven Mile Creek County Park",
@@ -2064,25 +2300,29 @@
       "check_name": "Seven Mile Creek County Park, Oshawa Township, Belgrade Township, Nicollet County, Minnesota, United States",
       "original_in_minnesota": true,
       "check_in_minnesota": true,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.nicollet.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Shager Park",
       "park_type": "county",
       "source": "curated_greater_mn_county",
       "source_id": "county:shager-park",
-      "action": "corrected",
+      "action": "keep",
       "latitude": 44.260948,
       "longitude": -93.343208,
-      "original_latitude": 44.3542,
-      "original_longitude": -93.2681,
-      "miles": 7.44,
-      "reason": "7.4 miles from nominatim unit point 'Shager County Park' (leisure=park); moved onto the named unit rather than a township/polygon guess.",
+      "original_latitude": 44.260948,
+      "original_longitude": -93.343208,
+      "miles": 0.0,
+      "reason": "Agrees with nominatim 'Shager County Park' within 0.0 miles.",
       "check_source": "nominatim",
       "check_name": "Shager County Park, 22399, Warsaw Township, Rice County, Minnesota, 55021, United States",
       "original_in_minnesota": true,
       "check_in_minnesota": true,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.ricecountymn.gov/",
+      "source_url_hub": true
     },
     {
       "name": "Sherburne County Woodland Trails Park",
@@ -2100,7 +2340,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.sherburne.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Shooting Star Trailhead (county)",
@@ -2118,7 +2360,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.mower.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Sibley County Park (High Island Creek)",
@@ -2136,7 +2380,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.sibleycounty.gov/",
+      "source_url_hub": true
     },
     {
       "name": "Silver Bay Lax Lake County Park",
@@ -2154,7 +2400,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.lake.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Snail Lake Marsh",
@@ -2172,7 +2420,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": null,
+      "source_url_hub": true
     },
     {
       "name": "Spruce Center Springs County Park",
@@ -2190,7 +2440,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.douglascountymn.gov/",
+      "source_url_hub": true
     },
     {
       "name": "Stanley Eddy Memorial Park",
@@ -2208,7 +2460,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.wright.mn.us/148/Parks-Recreation",
+      "source_url_hub": false
     },
     {
       "name": "Starbuck Marina County Park",
@@ -2226,7 +2480,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.pope.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Steele County Oak Glen County Park",
@@ -2244,7 +2500,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.steele.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Stevens County Perkins Park",
@@ -2262,7 +2520,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.stevens.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Sturgeon Lake County Park",
@@ -2280,7 +2540,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.pine.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Suburban Pond",
@@ -2298,7 +2560,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": null,
+      "source_url_hub": true
     },
     {
       "name": "Tamarack Nature Center",
@@ -2316,7 +2580,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.ramseycounty.us/residents/parks-recreation",
+      "source_url_hub": false
     },
     {
       "name": "The Ponds at Battle Creek",
@@ -2334,7 +2600,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.ramseycounty.us/residents/parks-recreation",
+      "source_url_hub": false
     },
     {
       "name": "Thompson County Park",
@@ -2352,7 +2620,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.dakota.mn.us/parks/parksTrails/Thompson/Pages/default.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Todd County Battle Point Park",
@@ -2370,7 +2640,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.todd.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Traverse County Mud Lake Park",
@@ -2388,7 +2660,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.traverse.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Turtle Creek",
@@ -2406,7 +2680,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": null,
+      "source_url_hub": true
     },
     {
       "name": "Turtle Lake County Park",
@@ -2424,7 +2700,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.ramseycounty.us/residents/parks-recreation",
+      "source_url_hub": false
     },
     {
       "name": "Unnamed",
@@ -2442,7 +2720,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": null,
+      "source_url_hub": true
     },
     {
       "name": "Vadnais-Snail Lakes Regional Park - Snail Lake",
@@ -2460,7 +2740,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.ramseycounty.us/residents/parks-recreation",
+      "source_url_hub": false
     },
     {
       "name": "Wadena County Sunnybrook Park",
@@ -2478,25 +2760,30 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.wadena.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Warner Lake County Park",
       "park_type": "county",
       "source": "curated_greater_mn_county",
       "source_id": "county:warner-lake-county-park",
-      "action": "flagged",
-      "latitude": 45.4472,
-      "longitude": -94.4067,
+      "action": "corrected",
+      "latitude": 45.422578,
+      "longitude": -94.084016,
       "original_latitude": 45.4472,
       "original_longitude": -94.4067,
-      "miles": 15.77,
-      "reason": "A same-name hit 'Warner Lake County Park' is 15.8 miles away (cap 10 mi) \u2014 treated as a different place, pin left.",
-      "check_source": "nominatim",
-      "check_name": "Warner Lake County Park, 1485, Clearwater, Stearns County, Minnesota, 55320, United States",
+      "miles": 15.74,
+      "reason": "Matthew Maps review: curated pin west of Cold Spring was 16 mi from the Stearns unit. Moved onto Warner Lake near Clearwater.",
+      "check_source": "human_maps_review",
+      "check_name": "Warner Lake County Park, Clearwater (Maps review)",
       "original_in_minnesota": true,
       "check_in_minnesota": true,
-      "flagged": true
+      "flagged": false,
+      "source_url": "https://co.stearns.mn.us/Recreation/Parks",
+      "source_url_hub": false,
+      "override": true
     },
     {
       "name": "Waseca County Clear Lake Park",
@@ -2514,7 +2801,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.waseca.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Watonwan County Ewy Park",
@@ -2532,7 +2821,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.watonwan.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Wealthwood / Mille Lacs County Park",
@@ -2550,7 +2841,9 @@
       "check_name": "Wealthwood Township, Aitkin County, Minnesota, United States",
       "original_in_minnesota": true,
       "check_in_minnesota": true,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.millelacs.mn.gov/",
+      "source_url_hub": true
     },
     {
       "name": "White Bear Lake County Park",
@@ -2568,7 +2861,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.ramseycounty.us/residents/parks-recreation",
+      "source_url_hub": false
     },
     {
       "name": "Willow Lake",
@@ -2586,7 +2881,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": null,
+      "source_url_hub": true
     },
     {
       "name": "Winnibigoshish Recreation Area (county)",
@@ -2604,7 +2901,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.itasca.mn.us/",
+      "source_url_hub": true
     },
     {
       "name": "Woodview Open Space",
@@ -2622,7 +2921,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.ramseycounty.us/residents/parks-recreation",
+      "source_url_hub": false
     },
     {
       "name": "Yellow Medicine County Timm Park",
@@ -2640,7 +2941,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.ym.mn.gov/",
+      "source_url_hub": true
     },
     {
       "name": "Grand Portage National Monument",
@@ -2658,7 +2961,9 @@
       "check_name": "Grand Portage National Monument, Grand Portage, Cook County, Minnesota, United States",
       "original_in_minnesota": true,
       "check_in_minnesota": true,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.nps.gov/grpo/index.htm",
+      "source_url_hub": false
     },
     {
       "name": "Mississippi National River & Recreation Area",
@@ -2676,7 +2981,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.nps.gov/miss/index.htm",
+      "source_url_hub": false
     },
     {
       "name": "Pipestone National Monument",
@@ -2694,25 +3001,29 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.nps.gov/pipe/index.htm",
+      "source_url_hub": false
     },
     {
       "name": "Saint Croix National Scenic Riverway",
       "park_type": "national",
       "source": "nps_api",
       "source_id": "sacn",
-      "action": "corrected",
+      "action": "keep",
       "latitude": 45.418205,
       "longitude": -92.653095,
-      "original_latitude": 45.700192,
-      "original_longitude": -92.361267,
-      "miles": 24.06,
-      "reason": "Pin is outside the Minnesota polygon (border HQ, river centroid, or cartographic-boundary miss). Snapped to the Minnesota side from St. Croix River Visitor Center.",
-      "check_source": "nps_visitorcenter",
-      "check_name": "St. Croix River Visitor Center",
-      "original_in_minnesota": false,
-      "check_in_minnesota": true,
-      "flagged": true
+      "original_latitude": 45.418205,
+      "original_longitude": -92.653095,
+      "miles": 50.24,
+      "reason": "Keep NPS Parks API coordinates; they already fall inside Minnesota.",
+      "check_source": "nominatim",
+      "check_name": "Saint Croix National Scenic Riverway, Town of Blaine, Town of Somerset, Burnett County, Wisconsin, United States",
+      "original_in_minnesota": true,
+      "check_in_minnesota": false,
+      "flagged": false,
+      "source_url": "https://www.nps.gov/sacn/index.htm",
+      "source_url_hub": false
     },
     {
       "name": "Voyageurs National Park",
@@ -2730,7 +3041,9 @@
       "check_name": "Voyageurs National Park, Saint Louis County, Minnesota, United States",
       "original_in_minnesota": true,
       "check_in_minnesota": true,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.nps.gov/voya/index.htm",
+      "source_url_hub": false
     },
     {
       "name": "Above the Falls Regional Park",
@@ -2748,7 +3061,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Anoka County Riverfront/Islands of Peace Regional Park",
@@ -2766,7 +3081,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Baker Regional Park",
@@ -2784,7 +3101,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Bald Eagle-Otter Lake Regional Park",
@@ -2802,7 +3121,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Battle Creek & Indian Mounds Regional Park",
@@ -2820,7 +3141,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Battle Creek Regional Park",
@@ -2838,7 +3161,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Baylor Regional Park",
@@ -2856,7 +3181,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Big Marine Regional Park",
@@ -2874,7 +3201,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.washington.mn.us/500/Big-Marine-Park-Reserve",
+      "source_url_hub": false
     },
     {
       "name": "Bryant Lake Regional Park",
@@ -2892,7 +3221,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Bunker Hills Regional Park",
@@ -2910,7 +3241,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.anokacounty.us/721/Bunker-Hills-Regional-Park",
+      "source_url_hub": false
     },
     {
       "name": "Carver Regional Park",
@@ -2928,7 +3261,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Cedar Lake Farm Regional Park",
@@ -2946,7 +3281,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Central Mississippi Riverfront Regional Park",
@@ -2964,7 +3301,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Cleary Lake Regional Park",
@@ -2982,7 +3321,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Clifton E. French Regional Park",
@@ -3000,7 +3341,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Como Park Zoo",
@@ -3018,7 +3361,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Coon Lake Regional Park",
@@ -3036,7 +3381,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Coon Rapids Dam Regional Park",
@@ -3054,7 +3401,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.anokacounty.us/723/Coon-Rapids-Dam-Regional-Park",
+      "source_url_hub": false
     },
     {
       "name": "Cottage Grove Ravine Regional Park",
@@ -3072,7 +3421,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Crow-Hassan Regional Park",
@@ -3090,7 +3441,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Doyle-Kennefick Regional Park",
@@ -3108,7 +3461,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Eagle Lake Regional Park",
@@ -3126,7 +3481,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Elm Creek Regional Park",
@@ -3144,7 +3501,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Fish Lake Regional Park",
@@ -3162,7 +3521,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Gale Woods Farm Regional Park",
@@ -3180,7 +3541,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Hidden Falls-Crosby Farm Regional Park",
@@ -3198,7 +3561,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Hyland-Bush-Anderson Lakes Regional Park",
@@ -3216,7 +3581,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Keller Regional Park",
@@ -3234,7 +3601,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Kingswood Regional Park",
@@ -3252,7 +3621,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Lake Byllesby Regional Park",
@@ -3270,7 +3641,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.dakota.mn.us/parks/parksTrails/LakeByllesby/Pages/default.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Lake Elmo Regional Park",
@@ -3288,7 +3661,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.washington.mn.us/502/Lake-Elmo-Park-Reserve",
+      "source_url_hub": false
     },
     {
       "name": "Lake George Regional Park",
@@ -3306,7 +3681,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Lake Minnetonka Islands Regional Park",
@@ -3324,7 +3701,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Lake Minnetonka Regional Park",
@@ -3342,7 +3721,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Lake Minnewashta Regional Park",
@@ -3360,7 +3741,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Lake Rebecca Regional Park",
@@ -3378,7 +3761,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Lake Sarah Regional Park",
@@ -3396,7 +3781,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Lake Waconia Regional Park",
@@ -3414,7 +3801,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Lebanon Hills Regional Park",
@@ -3432,7 +3821,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.dakota.mn.us/parks/parksTrails/LebanonHills/Pages/default.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Lilydale-Harriet Island & Cherokee Heights Regional Park",
@@ -3450,7 +3841,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Long Lake Regional Park",
@@ -3468,7 +3861,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Manomin Park",
@@ -3486,7 +3881,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Marjorie McNeely Conservatory Regional Park",
@@ -3504,7 +3901,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Martin-Island-Linwood Regional Park",
@@ -3522,7 +3921,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Miesville Ravine Park Reserve",
@@ -3540,7 +3941,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.dakota.mn.us/parks/parksTrails/MiesvilleRavine/Pages/default.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Minneapolis Chain of Lakes Regional Park",
@@ -3558,7 +3961,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Minnehaha Regional Park",
@@ -3576,7 +3981,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Mississippi Gateway Regional Park",
@@ -3594,7 +4001,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Mississippi Gorge (East River Parkway)",
@@ -3612,7 +4021,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Mississippi Gorge (West River Parkway)",
@@ -3630,7 +4041,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Mississippi West Regional Park",
@@ -3648,7 +4061,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Murphy-Hanrehan Regional Park",
@@ -3666,7 +4081,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Noerenberg Gardens Regional Park",
@@ -3684,7 +4101,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Nokomis-Hiawatha Regional Park",
@@ -3702,7 +4121,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "North Mississippi Regional Park",
@@ -3720,7 +4141,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Phalen-Keller Regional Park",
@@ -3738,7 +4161,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Pine Point Regional Park",
@@ -3756,7 +4181,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.washington.mn.us/503/Pine-Point-Regional-Park",
+      "source_url_hub": false
     },
     {
       "name": "Rice Creek Chain of Lakes Regional Park",
@@ -3774,7 +4201,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.anokacounty.us/789/Rice-Creek-Chain-of-Lakes-Park-Reserve",
+      "source_url_hub": false
     },
     {
       "name": "Rum River Central Regional Park",
@@ -3792,7 +4221,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Silverwood Regional Park",
@@ -3810,7 +4241,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Spring Lake Park Reserve",
@@ -3828,7 +4261,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.dakota.mn.us/parks/parksTrails/SpringLake/Pages/default.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Spring Lake Regional Park",
@@ -3846,7 +4281,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Square Lake Regional Park",
@@ -3864,7 +4301,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "St. Croix Bluffs Regional Park",
@@ -3882,7 +4321,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "St. Croix Valley Regional Park",
@@ -3900,7 +4341,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "The Landing Regional Park",
@@ -3918,7 +4361,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Theodore Wirth Regional Park",
@@ -3936,7 +4381,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Tony Schmidt Regional Park",
@@ -3954,7 +4401,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Vadnais-Snail Lake Regional Park",
@@ -3972,7 +4421,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://metrocouncil.org/Parks.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Whitetail Woods Regional Park",
@@ -3990,7 +4441,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.co.dakota.mn.us/parks/parksTrails/WhitetailWoods/Pages/default.aspx",
+      "source_url_hub": false
     },
     {
       "name": "Afton State Park",
@@ -4008,7 +4461,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00100",
+      "source_url_hub": false
     },
     {
       "name": "Banning State Park",
@@ -4026,7 +4481,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00103",
+      "source_url_hub": false
     },
     {
       "name": "Bear Head Lake State Park",
@@ -4044,7 +4501,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00109",
+      "source_url_hub": false
     },
     {
       "name": "Beaver Creek Valley State Park",
@@ -4062,7 +4521,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00112",
+      "source_url_hub": false
     },
     {
       "name": "Big Bog State Recreation Area",
@@ -4080,7 +4541,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=sra00308",
+      "source_url_hub": false
     },
     {
       "name": "Big Stone Lake State Park",
@@ -4098,7 +4561,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00115",
+      "source_url_hub": false
     },
     {
       "name": "Blue Mounds State Park",
@@ -4116,7 +4581,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00121",
+      "source_url_hub": false
     },
     {
       "name": "Buffalo River State Park",
@@ -4134,7 +4601,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00124",
+      "source_url_hub": false
     },
     {
       "name": "Camden State Park",
@@ -4152,7 +4621,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00127",
+      "source_url_hub": false
     },
     {
       "name": "Carley State Park",
@@ -4170,25 +4641,29 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00130",
+      "source_url_hub": false
     },
     {
       "name": "Cascade River State Park",
       "park_type": "state",
       "source": "mn_dnr_state_parks",
       "source_id": "SPK00133",
-      "action": "corrected",
+      "action": "keep",
       "latitude": 47.700841,
       "longitude": -90.553544,
-      "original_latitude": 47.710959,
-      "original_longitude": -90.505919,
-      "miles": 2.32,
-      "reason": "Original pin is outside the Minnesota polygon; moved to nominatim unit point 'Cascade River State Park'.",
-      "check_source": "nominatim",
-      "check_name": "Cascade River State Park, 3481, West Cook, Cook County, Minnesota, 55612, United States",
-      "original_in_minnesota": false,
-      "check_in_minnesota": true,
-      "flagged": false
+      "original_latitude": 47.700841,
+      "original_longitude": -90.553544,
+      "miles": null,
+      "reason": "Keep official GIS point/polygon representative (already inside Minnesota).",
+      "check_source": null,
+      "check_name": null,
+      "original_in_minnesota": true,
+      "check_in_minnesota": null,
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00133",
+      "source_url_hub": false
     },
     {
       "name": "Charles A. Lindbergh State Park",
@@ -4206,7 +4681,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00136",
+      "source_url_hub": false
     },
     {
       "name": "Crow Wing State Park",
@@ -4224,7 +4701,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00139",
+      "source_url_hub": false
     },
     {
       "name": "Cuyuna Country State Recreation Area",
@@ -4242,7 +4721,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=sra00302",
+      "source_url_hub": false
     },
     {
       "name": "Father Hennepin State Park",
@@ -4260,7 +4741,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00142",
+      "source_url_hub": false
     },
     {
       "name": "Flandrau State Park",
@@ -4278,7 +4761,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00145",
+      "source_url_hub": false
     },
     {
       "name": "Forestville Mystery Cave State Park",
@@ -4296,7 +4781,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00148",
+      "source_url_hub": false
     },
     {
       "name": "Fort Ridgely State Park",
@@ -4314,7 +4801,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00151",
+      "source_url_hub": false
     },
     {
       "name": "Fort Snelling State Park",
@@ -4332,25 +4821,29 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00154",
+      "source_url_hub": false
     },
     {
       "name": "Franz Jevne State Park",
       "park_type": "state",
       "source": "mn_dnr_state_parks",
       "source_id": "SPK00157",
-      "action": "corrected",
+      "action": "keep",
       "latitude": 48.640406,
       "longitude": -94.058695,
-      "original_latitude": 48.641689,
-      "original_longitude": -94.058496,
-      "miles": 0.09,
-      "reason": "Pin is outside the Minnesota polygon (border HQ, river centroid, or cartographic-boundary miss). Snapped to the Minnesota side from Minnesota boundary.",
-      "check_source": "mn_boundary_snap",
-      "check_name": "Minnesota boundary",
-      "original_in_minnesota": false,
-      "check_in_minnesota": true,
-      "flagged": true
+      "original_latitude": 48.640406,
+      "original_longitude": -94.058695,
+      "miles": null,
+      "reason": "Keep official GIS point/polygon representative (already inside Minnesota).",
+      "check_source": null,
+      "check_name": null,
+      "original_in_minnesota": true,
+      "check_in_minnesota": null,
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00157",
+      "source_url_hub": false
     },
     {
       "name": "Frontenac State Park",
@@ -4368,7 +4861,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00160",
+      "source_url_hub": false
     },
     {
       "name": "Garden Island State Recreation Area",
@@ -4386,7 +4881,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=sra00307",
+      "source_url_hub": false
     },
     {
       "name": "George H. Crosby Manitou State Park",
@@ -4404,7 +4901,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00163",
+      "source_url_hub": false
     },
     {
       "name": "Glacial Lakes State Park",
@@ -4422,7 +4921,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00166",
+      "source_url_hub": false
     },
     {
       "name": "Glendalough State Park",
@@ -4440,7 +4941,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00167",
+      "source_url_hub": false
     },
     {
       "name": "Gooseberry Falls State Park",
@@ -4458,7 +4961,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00172",
+      "source_url_hub": false
     },
     {
       "name": "Grand Portage State Park",
@@ -4476,7 +4981,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00173",
+      "source_url_hub": false
     },
     {
       "name": "Great River Bluffs State Park",
@@ -4494,7 +5001,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00244",
+      "source_url_hub": false
     },
     {
       "name": "Greenleaf Lake State Recreation Area",
@@ -4512,7 +5021,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=sra00310",
+      "source_url_hub": false
     },
     {
       "name": "Hayes Lake State Park",
@@ -4530,7 +5041,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00174",
+      "source_url_hub": false
     },
     {
       "name": "Hill-Annex Mine State Park",
@@ -4548,7 +5061,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00176",
+      "source_url_hub": false
     },
     {
       "name": "Interstate State Park",
@@ -4566,7 +5081,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00178",
+      "source_url_hub": false
     },
     {
       "name": "Iron Range Off-Highway Vehicle State Recreation Area",
@@ -4584,7 +5101,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=sra00305",
+      "source_url_hub": false
     },
     {
       "name": "Itasca State Park",
@@ -4602,7 +5121,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00181",
+      "source_url_hub": false
     },
     {
       "name": "Jay Cooke State Park",
@@ -4620,7 +5141,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00187",
+      "source_url_hub": false
     },
     {
       "name": "John A. Latsch State Park",
@@ -4638,7 +5161,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00177",
+      "source_url_hub": false
     },
     {
       "name": "Judge C. R. Magney State Park",
@@ -4656,7 +5181,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00193",
+      "source_url_hub": false
     },
     {
       "name": "Kilen Woods State Park",
@@ -4674,7 +5201,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00196",
+      "source_url_hub": false
     },
     {
       "name": "La Salle Lake State Recreation Area",
@@ -4692,7 +5221,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=sra00311",
+      "source_url_hub": false
     },
     {
       "name": "Lac qui Parle State Park",
@@ -4710,7 +5241,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00197",
+      "source_url_hub": false
     },
     {
       "name": "Lake Bemidji State Park",
@@ -4728,7 +5261,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00205",
+      "source_url_hub": false
     },
     {
       "name": "Lake Bronson State Park",
@@ -4746,7 +5281,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00208",
+      "source_url_hub": false
     },
     {
       "name": "Lake Carlos State Park",
@@ -4764,7 +5301,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00211",
+      "source_url_hub": false
     },
     {
       "name": "Lake Louise State Park",
@@ -4782,7 +5321,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00214",
+      "source_url_hub": false
     },
     {
       "name": "Lake Maria State Park",
@@ -4800,7 +5341,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00217",
+      "source_url_hub": false
     },
     {
       "name": "Lake Shetek State Park",
@@ -4818,7 +5361,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00220",
+      "source_url_hub": false
     },
     {
       "name": "Lake Vermilion-Soudan Underground Mine State Park",
@@ -4836,7 +5381,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00285",
+      "source_url_hub": false
     },
     {
       "name": "Maplewood State Park",
@@ -4854,7 +5401,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00229",
+      "source_url_hub": false
     },
     {
       "name": "McCarthy Beach State Park",
@@ -4872,7 +5421,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00226",
+      "source_url_hub": false
     },
     {
       "name": "Mille Lacs Kathio State Park",
@@ -4890,7 +5441,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00232",
+      "source_url_hub": false
     },
     {
       "name": "Minneopa State Park",
@@ -4908,7 +5461,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00235",
+      "source_url_hub": false
     },
     {
       "name": "Minnesota Valley State Recreation Area",
@@ -4926,7 +5481,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=sra00304",
+      "source_url_hub": false
     },
     {
       "name": "Monson Lake State Park",
@@ -4944,7 +5501,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00238",
+      "source_url_hub": false
     },
     {
       "name": "Moose Lake State Park",
@@ -4962,7 +5521,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00239",
+      "source_url_hub": false
     },
     {
       "name": "Myre-Big Island State Park",
@@ -4980,7 +5541,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00175",
+      "source_url_hub": false
     },
     {
       "name": "Nerstrand Big Woods State Park",
@@ -4998,7 +5561,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00241",
+      "source_url_hub": false
     },
     {
       "name": "Old Mill State Park",
@@ -5016,7 +5581,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00247",
+      "source_url_hub": false
     },
     {
       "name": "Red River State Recreation Area",
@@ -5034,7 +5601,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=sra00309",
+      "source_url_hub": false
     },
     {
       "name": "Rice Lake State Park",
@@ -5052,7 +5621,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00250",
+      "source_url_hub": false
     },
     {
       "name": "Saint Croix Islands State Recreation Area",
@@ -5070,7 +5641,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=sra00303",
+      "source_url_hub": false
     },
     {
       "name": "Sakatah Lake State Park",
@@ -5088,7 +5661,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00256",
+      "source_url_hub": false
     },
     {
       "name": "Savanna Portage State Park",
@@ -5106,7 +5681,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00259",
+      "source_url_hub": false
     },
     {
       "name": "Scenic State Park",
@@ -5124,7 +5701,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00262",
+      "source_url_hub": false
     },
     {
       "name": "Schoolcraft State Park",
@@ -5142,7 +5721,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00263",
+      "source_url_hub": false
     },
     {
       "name": "Sibley State Park",
@@ -5160,7 +5741,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00265",
+      "source_url_hub": false
     },
     {
       "name": "Split Rock Creek State Park",
@@ -5178,7 +5761,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00267",
+      "source_url_hub": false
     },
     {
       "name": "Split Rock Lighthouse State Park",
@@ -5196,7 +5781,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00266",
+      "source_url_hub": false
     },
     {
       "name": "St. Croix State Park",
@@ -5214,7 +5801,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00253",
+      "source_url_hub": false
     },
     {
       "name": "Temperance River State Park",
@@ -5232,7 +5821,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00268",
+      "source_url_hub": false
     },
     {
       "name": "Tettegouche State Park",
@@ -5250,7 +5841,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00269",
+      "source_url_hub": false
     },
     {
       "name": "Whitewater State Park",
@@ -5268,7 +5861,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00280",
+      "source_url_hub": false
     },
     {
       "name": "Wild River State Park",
@@ -5286,25 +5881,29 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00254",
+      "source_url_hub": false
     },
     {
       "name": "William O'Brien State Park",
       "park_type": "state",
       "source": "mn_dnr_state_parks",
       "source_id": "SPK00283",
-      "action": "corrected",
+      "action": "keep",
       "latitude": 45.218471,
       "longitude": -92.775729,
-      "original_latitude": 45.225346,
-      "original_longitude": -92.763574,
-      "miles": 0.76,
-      "reason": "Original pin is outside the Minnesota polygon; moved to nominatim unit point 'William O'Brien State Park'.",
-      "check_source": "nominatim",
-      "check_name": "William O'Brien State Park, Scandia, Washington County, Minnesota, United States",
-      "original_in_minnesota": false,
-      "check_in_minnesota": true,
-      "flagged": false
+      "original_latitude": 45.218471,
+      "original_longitude": -92.775729,
+      "miles": null,
+      "reason": "Keep official GIS point/polygon representative (already inside Minnesota).",
+      "check_source": null,
+      "check_name": null,
+      "original_in_minnesota": true,
+      "check_in_minnesota": null,
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00283",
+      "source_url_hub": false
     },
     {
       "name": "Zippel Bay State Park",
@@ -5322,7 +5921,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.dnr.state.mn.us/state_parks/park.html?id=spk00284",
+      "source_url_hub": false
     },
     {
       "name": "Agassiz Wilderness",
@@ -5340,7 +5941,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.fws.gov/refuge/agassiz",
+      "source_url_hub": false
     },
     {
       "name": "Boundary Waters Canoe Area Wilderness",
@@ -5358,7 +5961,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.fs.usda.gov/r09/superior/recreation/boundary-waters-canoe-area-wilderness",
+      "source_url_hub": false
     },
     {
       "name": "Tamarac Wilderness",
@@ -5376,7 +5981,9 @@
       "check_name": null,
       "original_in_minnesota": true,
       "check_in_minnesota": null,
-      "flagged": false
+      "flagged": false,
+      "source_url": "https://www.fws.gov/refuge/tamarac",
+      "source_url_hub": false
     }
   ]
 }

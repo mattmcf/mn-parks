@@ -33,6 +33,9 @@ from pyproj import Transformer
 from shapely.geometry import shape
 from shapely.ops import unary_union
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from ingest_lib import is_domain_only_source_url  # noqa: E402
+
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "db" / "data" / "parks.json"
 CACHE = Path(os.environ.get("MN_PARKS_CACHE", "/tmp/mn-parks-data"))
@@ -679,6 +682,7 @@ def make_park(
         "source": source,
         "source_id": str(source_id),
         "source_url": source_url or "",
+        "source_url_hub": is_domain_only_source_url(source_url),
         "highlights": highlights or highlights_for(name),
         "amenities": am,
         "activities": acts,
@@ -1039,7 +1043,7 @@ GREATER_MN_COUNTY = [
     ("Chester Woods Park", 43.990475, -92.322656, "Olmsted County Parks", "https://www.olmstedcounty.gov/residents/parks-recreation", ["camping", "hiking", "fishing", "boating", "picnic", "playground"], "Olmsted County reservoir park east of Rochester with camping, a swimming beach in season, and a trail that actually loops."),
     ("Oxbow Park & Zollman Zoo", 44.0869, -92.6442, "Olmsted County Parks", "https://www.olmstedcounty.gov/residents/parks-recreation", ["hiking", "picnic", "playground", "wildlife", "visitor_center"], "A wooded oxbow of the Zumbro with a small zoo of Minnesota animals — county park, not a city lot."),
     ("Quarry Park & Nature Preserve", 45.5334, -94.2471, "Stearns County Parks", "https://co.stearns.mn.us/Recreation/Parks", ["hiking", "climbing", "swimming", "biking", "picnic", "wildlife"], "Flooded granite quarries on the edge of St. Cloud, with climbing walls, swimming holes, and a trail network through oak savanna."),
-    ("Warner Lake County Park", 45.4472, -94.4067, "Stearns County Parks", "https://co.stearns.mn.us/Recreation/Parks", ["hiking", "fishing", "picnic", "swimming", "camping"], "A quieter Stearns County lake park west of Cold Spring."),
+    ("Warner Lake County Park", 45.4225777283712, -94.08401563362033, "Stearns County Parks", "https://co.stearns.mn.us/Recreation/Parks", ["hiking", "fishing", "picnic", "swimming", "camping"], "Stearns County park on Warner Lake near Clearwater."),
     ("Mississippi River County Park", 45.722771, -94.223906, "Stearns County Parks", "https://co.stearns.mn.us/Recreation/Parks", ["hiking", "fishing", "picnic", "canoeing"], "Stearns County park on the Mississippi north of St. Cloud, built for river access more than playgrounds."),
     ("Bertram Chain of Lakes Regional Park", 45.291485, -93.849917, "Wright County Parks", "https://www.co.wright.mn.us/148/Parks-Recreation", ["hiking", "swimming", "biking", "picnic", "fishing", "camping"], "Wright County's chain-of-lakes park near Monticello — swimming, trail, and enough water that a bike loop is not the whole visit."),
     ("Collinwood Regional Park", 45.043827, -94.245943, "Wright County Parks", "https://www.co.wright.mn.us/148/Parks-Recreation", ["camping", "swimming", "boating", "fishing", "picnic"], "Wright County park on Collinwood Lake with a campground that fills on summer weekends."),
@@ -1050,8 +1054,8 @@ GREATER_MN_COUNTY = [
     ("Cannon River Wilderness Area", 44.4374, -93.3269, "Rice County Parks", "https://www.ricecountymn.gov/", ["hiking", "camping", "fishing", "wildlife", "canoeing"], "Rice County's wildest tract: a steep, wooded canyon of the Cannon between Faribault and Northfield."),
     ("Shager Park", 44.260948, -93.343208, "Rice County Parks", "https://www.ricecountymn.gov/", ["swimming", "picnic", "playground", "boating", "fishing"], "Rice County park on Circle Lake with a swimming beach and a busy summer picnic ground."),
     ("Rapidan Dam County Park", 44.095568, -94.109812, "Blue Earth County Parks", "https://www.blueearthcountymn.gov/181/Parks", ["fishing", "picnic", "hiking", "wildlife"], "Blue Earth County park at the Rapidan Dam on the Blue Earth River, known for fishing below the dam."),
-    ("Daly Park", 44.0536, -94.2197, "Blue Earth County Parks", "https://www.blueearthcountymn.gov/181/Parks", ["camping", "swimming", "fishing", "picnic", "playground"], "Blue Earth County camping park on Hall Lake southwest of Mankato."),
-    ("Bray Park", 43.6431, -94.4614, "Martin County Parks", "https://www.co.martin.mn.us/", ["camping", "swimming", "fishing", "picnic", "boating"], "Martin County park on Lake George at Fairmont — beach, campground, and a classic southern-Minnesota county lake."),
+    ("Daly Park", 43.87411501149293, -93.99934525778492, "Blue Earth County Parks", "https://www.blueearthcountymn.gov/181/Parks", ["camping", "swimming", "fishing", "picnic", "playground"], "Blue Earth County camping park near Mapleton / Sterling Township."),
+    ("Bray Park", 44.182884628060606, -93.78960964428298, "Blue Earth County Parks", "https://www.blueearthcountymn.gov/181/Parks", ["camping", "swimming", "fishing", "picnic", "boating"], "Blue Earth County park on Madison Lake — camping and lake access, not Martin County's Lake George park at Fairmont."),
     ("Kilen Woods is state", 0, 0, "", "", [], ""),  # placeholder skipped
     ("Pinawa Howling Wildlife Management Area skip", 0, 0, "", "", [], ""),
     ("Lake Louise is state skip", 0, 0, "", "", [], ""),
@@ -1102,7 +1106,7 @@ GREATER_MN_COUNTY = [
     ("Banning is state skip", 0, 0, "", "", [], ""),
     ("St. Croix is state skip", 0, 0, "", "", [], ""),
     ("Chengwatana / Pine County Park", 45.824, -92.969, "Pine County Parks", "https://www.co.pine.mn.us/", ["hiking", "picnic", "wildlife"], "Pine County parkland on the edge of Chengwatana State Forest near Pine City."),
-    ("Dalles / Snake River County Park", 45.826, -93.010, "Pine County Parks", "https://www.co.pine.mn.us/", ["canoeing", "fishing", "picnic"], "Snake River access in Pine County, used as a paddling put-in toward the St. Croix."),
+    ("Snake River Landing (Pine City)", 45.840293456991624, -92.93316942339543, "Pine County Parks", "https://www.co.pine.mn.us/", ["canoeing", "fishing", "picnic"], "Pine County landing on the Snake River at Pine City, a paddling put-in toward the St. Croix."),
     ("Wild River is state skip", 0, 0, "", "", [], ""),
     ("Interstate is state skip", 0, 0, "", "", [], ""),
     ("William O'Brien is state skip", 0, 0, "", "", [], ""),
@@ -1133,10 +1137,10 @@ GREATER_MN_COUNTY = [
     ("Apple Blossom / county overlook", 43.855915, -91.312107, "Winona County Parks", "https://www.co.winona.mn.us/", ["picnic", "hiking"], "Winona County Apple Blossom Drive overlook park above the Mississippi."),
     ("Olmsted Chester already listed", 0, 0, "", "", [], ""),
     ("Mower County Lake Louise is state skip", 0, 0, "", "", [], ""),
-    ("Red Rock Falls County Park", 43.666, -92.973, "Mower County Parks", "https://www.co.mower.mn.us/", ["picnic", "hiking", "fishing"], "Mower County park on the Cedar River with a small falls and a picnic ground near Austin's orbit."),
+    ("Red Rock Falls County Park", 44.122282251871425, -95.10528353968522, "Cottonwood County Parks", "https://www.co.cottonwood.mn.us/", ["picnic", "hiking", "fishing"], "Cottonwood County park at Red Rock Falls near Sanborn, not a Mower County Cedar River picnic near Austin."),
     ("Shooting Star Trailhead (county)", 43.615, -92.730, "Mower County Parks", "https://www.co.mower.mn.us/", ["biking", "picnic"], "County trailhead on the Shooting Star State Trail in southern Mower County."),
     ("Freeborn County Albert Lea lake park (Myre-Big Island is state)", 0, 0, "", "", [], ""),
-    ("Arrowhead Point County Park", 43.652, -93.368, "Freeborn County Parks", "https://www.co.freeborn.mn.us/", ["camping", "swimming", "boating", "fishing", "picnic"], "Freeborn County park on Fountain Lake / Albert Lea waters, separate from Myre-Big Island State Park."),
+    ("Arrowhead Point County Park", 43.73991496641728, -93.55360626469496, "Freeborn County Parks", "https://www.co.freeborn.mn.us/", ["camping", "swimming", "boating", "fishing", "picnic"], "Freeborn County park at Arrowhead Point west of Albert Lea, separate from Myre-Big Island State Park."),
     ("Faribault County Blue Earth River Park", 43.711, -94.101, "Faribault County Parks", "https://www.co.faribault.mn.us/", ["picnic", "fishing", "hiking"], "Faribault County park along the Blue Earth River near Blue Earth."),
     ("Jackson County Belmont Park", 43.621, -95.010, "Jackson County Parks", "https://www.co.jackson.mn.us/", ["camping", "swimming", "picnic", "boating"], "Jackson County park on Belmont Park / Loon Lake area west of Jackson."),
     ("Kilen Woods is state skip2", 0, 0, "", "", [], ""),
@@ -1148,7 +1152,7 @@ GREATER_MN_COUNTY = [
     ("Upper Sioux is state skip", 0, 0, "", "", [], ""),
     ("Lac qui Parle is state skip", 0, 0, "", "", [], ""),
     ("Big Stone Lake is state skip", 0, 0, "", "", [], ""),
-    ("Ortonville / Big Stone County Park", 45.305, -96.445, "Big Stone County Parks", "https://www.bigstonecounty.org/", ["boating", "fishing", "picnic", "swimming"], "Big Stone County lake access on Big Stone Lake in Ortonville, separate from the state park units."),
+    ("Ortonville / Big Stone County Park skip (duplicate of Big Stone Lake SP)", 0, 0, "", "", [], ""),
     ("Traverse County Mud Lake Park", 45.819, -96.498, "Traverse County Parks", "https://www.co.traverse.mn.us/", ["boating", "fishing", "picnic"], "Traverse County park on Lake Traverse / Mud Lake, a prairie pothole reservoir on the Dakota line."),
     ("Wheaton City is city skip", 0, 0, "", "", [], ""),
     ("Stevens County Perkins Park", 45.584, -95.911, "Stevens County Parks", "https://www.co.stevens.mn.us/", ["camping", "swimming", "picnic", "fishing"], "Stevens County park on Perkins Lake near Hancock."),
@@ -1205,7 +1209,7 @@ GREATER_MN_COUNTY = [
     ("Deep Portage / county skip private", 0, 0, "", "", [], ""),
     ("Winnibigoshish already listed itasca", 0, 0, "", "", [], ""),
     ("Koochiching County Franz Jevne adjacent skip", 0, 0, "", "", [], ""),
-    ("Rainy Lake / International Falls county dock", 48.609, -93.351, "Koochiching County Parks", "https://www.co.koochiching.mn.us/", ["boating", "fishing", "picnic"], "Koochiching County public access on Rainy Lake at International Falls."),
+    ("Rainy Lake / International Falls county dock skip", 0, 0, "", "", [], ""),
     ("Voyageurs is national skip", 0, 0, "", "", [], ""),
     ("Lake of the Woods County Zippel adjacent skip", 0, 0, "", "", [], ""),
     ("Baudette Riverfront County Park", 48.712, -94.599, "Lake of the Woods County Parks", "https://www.co.lake-of-the-woods.mn.us/", ["picnic", "fishing", "boating"], "County riverfront park in Baudette on the Rainy River."),

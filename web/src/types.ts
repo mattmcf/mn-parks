@@ -23,6 +23,7 @@ export type Park = {
   source: string
   source_id: string
   source_url: string | null
+  source_url_hub: boolean
   latitude: number
   longitude: number
   highlights: string | null
