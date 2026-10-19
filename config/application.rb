@@ -18,6 +18,8 @@ require "action_view/railtie"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+require_relative "../lib/spa_cache_headers"
+
 module MnParks
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
@@ -38,5 +40,9 @@ module MnParks
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    # Wrap ActionDispatch::Static so HTML and hashed /spa-assets/ can use
+    # different Cache-Control values. See lib/spa_cache_headers.rb.
+    config.middleware.insert_before 0, SpaCacheHeaders
   end
 end

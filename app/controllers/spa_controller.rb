@@ -8,6 +8,9 @@ class SpaController < ApplicationController
     path = Rails.public_path.join("index.html")
     return head :not_found unless path.exist?
 
+    # Fallback when Static does not serve public/index.html (client routes).
+    # SpaCacheHeaders also sets this; keep both so HTML never inherits a 1y asset cache.
+    expires_in 60.seconds, public: true, must_revalidate: true
     send_file path, type: "text/html; charset=utf-8", disposition: "inline"
   end
 end
