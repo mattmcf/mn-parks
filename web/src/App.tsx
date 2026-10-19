@@ -15,6 +15,7 @@ import { FilterPanel, defaultFilters } from "@/components/FilterPanel"
 import { MapCanvas } from "@/components/MapCanvas"
 import { ParkDetail } from "@/components/ParkDetail"
 import { ParkList } from "@/components/ParkList"
+import { ParkSearch } from "@/components/ParkSearch"
 import { Button } from "@/components/ui/button"
 import { api } from "@/lib/api"
 import { TYPE_COLORS, TYPE_LABELS } from "@/lib/constants"
@@ -130,6 +131,10 @@ export default function App() {
 
   const selected = parks.find((park) => park.id === selectedId) ?? null
   const noFilterMatch = !loading && parks.length > 0 && filtered.length === 0
+  const mapParks = useMemo(() => {
+    if (!selected || filtered.some((park) => park.id === selected.id)) return filtered
+    return [...filtered, selected]
+  }, [filtered, selected])
 
   const selectPark = (park: Park) => {
     setSelectedId(park.id)
@@ -204,40 +209,51 @@ export default function App() {
 
   return (
     <div className="flex h-full flex-col bg-[hsl(var(--background))]">
-      <header className="z-20 flex items-center gap-2 border-b border-[hsl(var(--border))] bg-[hsl(var(--card))] px-3 py-2 md:px-4">
-        <div className="min-w-0 flex-1">
+      <header className="z-20 flex flex-wrap items-center gap-2 border-b border-[hsl(var(--border))] bg-[hsl(var(--card))] px-3 py-2 md:flex-nowrap md:px-4">
+        <div className="min-w-0 shrink-0">
           <p className="font-[family-name:var(--font-sans)] text-lg leading-none md:text-xl">MN Parks</p>
           <p className="hidden truncate text-xs text-[hsl(var(--muted-foreground))] sm:block">
             State, national, regional, and county parks inside Minnesota
           </p>
         </div>
-        <Button variant="outline" size="sm" onClick={() => setFiltersOpen(true)}>
-          <Filter />
-          Filters
-        </Button>
-        <Button variant="accent" size="sm" onClick={() => void randomPark()}>
-          <Dices />
-          <span className="hidden sm:inline">Random</span>
-        </Button>
-        {user ? (
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => {
-              void api.logout().then((session) => {
-                setUser(session.user)
-                void reloadParks()
-              })
-            }}
-          >
-            <LogOut />
-            <span className="hidden max-w-32 truncate sm:inline">{user.email}</span>
+        <div className="order-last min-w-0 w-full md:order-none md:w-auto md:min-w-0 md:flex-1 md:px-3">
+          <ParkSearch
+            parks={parks}
+            loading={loading}
+            error={error}
+            selectedId={selectedId}
+            onSelect={selectParkFromMap}
+          />
+        </div>
+        <div className="ml-auto flex shrink-0 items-center gap-2">
+          <Button variant="outline" size="sm" onClick={() => setFiltersOpen(true)}>
+            <Filter />
+            Filters
           </Button>
-        ) : (
-          <Button size="sm" onClick={() => setAuthOpen(true)}>
-            Sign in
+          <Button variant="accent" size="sm" onClick={() => void randomPark()}>
+            <Dices />
+            <span className="hidden sm:inline">Random</span>
           </Button>
-        )}
+          {user ? (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                void api.logout().then((session) => {
+                  setUser(session.user)
+                  void reloadParks()
+                })
+              }}
+            >
+              <LogOut />
+              <span className="hidden max-w-32 truncate sm:inline">{user.email}</span>
+            </Button>
+          ) : (
+            <Button size="sm" onClick={() => setAuthOpen(true)}>
+              Sign in
+            </Button>
+          )}
+        </div>
       </header>
 
       {(error || gpsError) && (
@@ -324,7 +340,7 @@ export default function App() {
               </div>
             ) : (
               <MapCanvas
-                parks={filtered}
+                parks={mapParks}
                 selectedId={selectedId}
                 origin={origin}
                 placingPin={placingPin}
