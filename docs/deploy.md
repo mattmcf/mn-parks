@@ -96,6 +96,7 @@ In the GitHub repo:
 - **`bin/install-spa`** / **`rake spa:build`** — copies `web/dist/index.html` → `public/index.html` and hashed assets → `public/spa-assets/` (does not collide with Rails `/assets`).
 - **`web/vite.config.ts`** — `build.assetsDir: "spa-assets"`.
 - **`SpaController`** + root route — Rails serves the map if a request reaches the app instead of the static middleware.
+- **Cache-Control** — HTML (`/`, `index.html`) is `public, max-age=60, must-revalidate` so a deploy does not need a shift-reload. Hashed `/spa-assets/*` stay `public, max-age=31536000, immutable`. `/api` and `/up` are not far-cached. `SpaCacheHeaders` splits these because Rails 8 `config.public_file_server.headers` otherwise applies one max-age to all of `public/`.
 - **`SECRET_KEY_BASE`** from the environment (`generateValue` on Render). **`DATABASE_URL`** from Render Postgres. **`APPLICATION_HOST=parks.mattmcf.com`**. **`RAILS_ENV=production`**. **`RAILS_MASTER_KEY` not required** (`config.require_master_key = false`). No secrets committed.
 - Production SSL / `/up` health skip, host allow-list includes **`parks.mattmcf.com`** plus `RENDER_EXTERNAL_HOSTNAME`, CORS includes `https://parks.mattmcf.com`.
 - **`Procfile`** — Heroku-shaped `web:` process if you ever switch.
@@ -105,6 +106,16 @@ Local preview of the production SPA (still talks to local Rails if you run it):
 
 ```bash
 npm --prefix web ci && npm --prefix web run build && ./bin/install-spa
+```
+
+After a production deploy, HTML must not stay at 1 year:
+
+```bash
+curl -sI https://parks.mattmcf.com/ | grep -i cache-control
+# Cache-Control: public, max-age=60, must-revalidate
+
+curl -sI https://parks.mattmcf.com/spa-assets/<hashed-file>.js | grep -i cache-control
+# Cache-Control: public, max-age=31536000, immutable
 ```
 
 ---
@@ -132,12 +143,17 @@ Floor = cheapest way to run **this** stack (Rails process + Postgres + SPA). “
 Browser  →  https://parks.mattmcf.com
               (CNAME parks → mn-parks.onrender.com)
               ├─ /              Vite index.html (public/index.html)
+              │                 Cache-Control: public, max-age=60, must-revalidate
               ├─ /spa-assets/*  hashed JS/CSS
+              │                 Cache-Control: public, max-age=31536000, immutable
               └─ /api/*         Rails JSON + Devise cookie session
+                                Cache-Control: max-age=0, private, must-revalidate
                       └─ DATABASE_URL → Render Postgres (internal)
 
 Fallback  →  https://mn-parks.onrender.com   (until you disable it)
 ```
+
+Do **not** far-cache the HTML shell. A 1-year `public_file_server.headers` on all of `public/` is what left Live on stale `index.html` after the search merge. Hashed `/spa-assets/*` filenames change on every Vite build, so they can stay immutable.
 
 Development is unchanged: Vite **4174**, Rails **3451**, `/api` proxied.
 
