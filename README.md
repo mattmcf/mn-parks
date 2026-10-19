@@ -76,7 +76,7 @@ Without those env vars, Google is omitted. The map still works.
 
 ## Production (Render)
 
-Default host is **Render** (Hobby workspace, **$0/month** floor). The agent already committed `render.yaml`, the SPA production build, and secret wiring. You create the account and click Approve.
+Default host is **Render** (Hobby workspace, **$0/month** floor). Production URL: **https://parks.mattmcf.com**. The agent already committed `render.yaml` (including the custom domain), the SPA production build, and secret wiring. You create the account, Approve the Blueprint, and add the DNS CNAME.
 
 Exact clicks, pricing, and what not to use (GitHub Pages cannot run Rails/Postgres): **[docs/deploy.md](docs/deploy.md)**.
 

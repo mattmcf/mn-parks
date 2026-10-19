@@ -1,5 +1,5 @@
-# MN Parks on Render (default hobby host).
-# Matthew: New → Blueprint → this repo → Approve. No secrets are committed.
+# MN Parks on Render (default hobby host). Production: https://parks.mattmcf.com
+# Matthew: New → Blueprint → this repo → Approve, then CNAME parks → onrender host.
 # https://dashboard.render.com/blueprints
 #
 # Floor: $0/mo on Hobby + Free web + Free Postgres (spins down; DB expires in 30 days).
@@ -17,7 +17,14 @@ services:
     buildCommand: "./bin/render-build.sh"
     startCommand: "./bin/rails server"
     healthCheckPath: /up
+    # Custom domain is associated on Blueprint Approve. Matthew still adds the
+    # CNAME at DNS (parks → the service's onrender.com hostname from the dashboard).
+    # https://render.com/docs/blueprint-spec  (domains field, 2026-10-19)
+    domains:
+      - parks.mattmcf.com
     envVars:
+      - key: APPLICATION_HOST
+        value: parks.mattmcf.com
       - key: RAILS_ENV
         value: production
       - key: RAILS_LOG_TO_STDOUT

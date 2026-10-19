@@ -65,7 +65,9 @@ Rails.application.configure do
   # config.action_mailer.raise_delivery_errors = false
 
   # Set host to be used by links generated in mailer templates.
-  mailer_host = ENV["RENDER_EXTERNAL_HOSTNAME"].presence || ENV["APPLICATION_HOST"].presence || "example.com"
+  mailer_host = ENV["APPLICATION_HOST"].to_s.split(",").map(&:strip).find(&:present?) ||
+                ENV["RENDER_EXTERNAL_HOSTNAME"].presence ||
+                "parks.mattmcf.com"
   config.action_mailer.default_url_options = { host: mailer_host, protocol: "https" }
 
   # Specify outgoing SMTP server. Remember to add smtp/* credentials via bin/rails credentials:edit.
@@ -87,7 +89,8 @@ Rails.application.configure do
   # Only use :id for inspections in production.
   config.active_record.attributes_for_inspect = [ :id ]
 
-  # Allow the Render hostname plus any comma-separated APPLICATION_HOST values.
+  # Allow the production custom domain, the Render hostname, and any extra APPLICATION_HOST values.
+  config.hosts << "parks.mattmcf.com"
   config.hosts << ENV["RENDER_EXTERNAL_HOSTNAME"] if ENV["RENDER_EXTERNAL_HOSTNAME"].present?
   ENV.fetch("APPLICATION_HOST", "").split(",").each do |host|
     host = host.strip
