@@ -6,7 +6,7 @@
 
 The repo is **public** (`mattmcf/mn-parks`) and that is fine. It is already wired for Render. Matthew’s **Hobby** workspace is connected to this repo. The agent cannot change the Render account or DNS. Do not create a paid Heroku or Render app from this agent. Do **not** enable Preview Environments (Hobby cannot; that is the error he already hit).
 
-**Matthew does this next:** step 3 — **Blueprints → New Blueprint Instance** (production web + Postgres only).
+**Live now:** **https://mn-parks.onrender.com** (Free web; first hit after idle can take ~1 min). Production custom domain **https://parks.mattmcf.com** waits on DNS. **Matthew does this next:** step 5 — GoDaddy CNAME `parks` → `mn-parks.onrender.com`.
 
 ---
 
@@ -14,7 +14,7 @@ The repo is **public** (`mattmcf/mn-parks`) and that is fine. It is already wire
 
 1. **Create a Render Hobby account** (GitHub login). **Done.** Stay on **Hobby** ($0). No credit card for Free compute; add a card only if you later upgrade or blow past included bandwidth.
 2. **Connect GitHub / grant `mattmcf/mn-parks`.** **Done** (public repo; no visibility change).
-3. **Blueprints → New Blueprint Instance → `main` → Deploy Blueprint.** Do **not** enable Preview Environments. Exact Hobby dashboard path (Render docs + dashboard copy, 2026-10-19):
+3. **Blueprints → New Blueprint Instance → `main` → Deploy Blueprint.** **Done.** Do **not** enable Preview Environments. Exact Hobby dashboard path (Render docs + dashboard copy, 2026-10-19):
    1. Open [dashboard.render.com](https://dashboard.render.com) on the Hobby workspace.
    2. Left sidebar **Blueprints** → **New Blueprint Instance** (same flow as top-right **+ New → Blueprint**; URL [dashboard.render.com/blueprints](https://dashboard.render.com/blueprints)).
    3. **Connect** repo **`mn-parks`**. Branch **`main`**. **Blueprint Path** leave default `render.yaml`.
@@ -29,20 +29,20 @@ The repo is **public** (`mattmcf/mn-parks`) and that is fine. It is already wire
    - `APPLICATION_HOST=parks.mattmcf.com` (Rails host allow-list)
 
    If you already saw **Preview Environments are not available for Hobby workspaces**, that was `render.yaml` setting `previews.generation: manual` (which *enables* full-stack preview environments). That key is gone. Retry this step; do not upgrade to Pro.
-4. **Wait for the first deploy; note the `*.onrender.com` URL.** Build is bundle + `npm ci` + Vite + `db:migrate` + `db:seed`. Copy the service hostname from the dashboard (example shape `mn-parks.onrender.com` — **use the real one Render prints**, not a guess). That URL works before DNS.
+4. **Wait for the first deploy; note the `*.onrender.com` URL.** **Done.** Hostname is **`mn-parks.onrender.com`**. Build is bundle + `npm ci` + Vite + `db:migrate` + `db:seed`. That URL works before DNS. Agent verified 2026-10-19: `GET /up` 200, `GET /` 200 SPA HTML, `GET /api/parks` 200 JSON (`meta.count` **298** parks).
 5. **DNS at wherever `mattmcf.com` is registered.** As of 2026-10-19, nameservers are **`ns33.domaincontrol.com` / `ns34.domaincontrol.com`** (GoDaddy DNS). Add **one** record — do **not** use an A record or a guessed IP:
 
    | Field | Value |
    | --- | --- |
    | Type | **CNAME** |
    | Name / Host | **`parks`** |
-   | Points to / Target | **the exact `*.onrender.com` hostname from step 4** (dashboard → web service → URL, without `https://`) |
+   | Points to / Target | **`mn-parks.onrender.com`** (no `https://`) |
    | TTL | default, or 600s / 1 min if you want faster verify |
 
    Remove any **AAAA** on `parks` if one exists (Render is IPv4). Leave the apex `mattmcf.com` alone.
 6. **Render custom domain `parks.mattmcf.com` + TLS.** The Blueprint already associates the domain on **Deploy Blueprint**. After the CNAME exists, Render usually verifies and issues a Let’s Encrypt / Google Trust Services cert automatically; HTTP redirects to HTTPS. If Settings → Custom Domains still says DNS update needed, click **Verify**. If the domain is missing (rare), **+ Add Custom Domain** → `parks.mattmcf.com`. Hobby limit is 2 domains; this uses 1. Keep the `onrender.com` subdomain **enabled** until `parks.mattmcf.com` loads.
-7. **Who clicks vs what the agent already did** — see [Agent vs Matthew](#agent-vs-matthew) below. Short version: Matthew does **Deploy Blueprint** (no Preview Environments), DNS, Verify if needed. The agent already committed Blueprint + Rails host allow-list and pushed; it does **not** create a Render account or edit DNS.
-8. **Verify:** open **https://parks.mattmcf.com** (map) and **https://parks.mattmcf.com/api/parks** (JSON). Also hit the step-4 `onrender.com` URL if DNS has not propagated yet. First hit after 15 minutes idle can show Render’s loading page for about a minute (Free web spin-down).
+7. **Who clicks vs what the agent already did** — see [Agent vs Matthew](#agent-vs-matthew) below. Short version: Matthew does DNS (step 5), then Verify if needed. Blueprint is already deployed. The agent already committed Blueprint + Rails host allow-list and pushed; it does **not** create a Render account or edit DNS.
+8. **Verify:** open **https://parks.mattmcf.com** (map) and **https://parks.mattmcf.com/api/parks** (JSON) after DNS. Until then, the live origin is **https://mn-parks.onrender.com** (`/up`, `/`, `/api/parks` — already healthy 2026-10-19). First hit after 15 minutes idle can show Render’s loading page for about a minute (Free web spin-down).
 
 No `RAILS_MASTER_KEY` paste. Production boots from `SECRET_KEY_BASE`. `config/master.key` stays gitignored. Pushing to `main` after **Deploy Blueprint** redeploys by itself.
 
@@ -63,11 +63,12 @@ Optional later (not required to go live):
 | This checklist and repo `docs/deploy.md` | Done, in git | — |
 | Create Render account / Hobby workspace | **Cannot** (no access, no billing) | **Step 1 (done)** |
 | Grant GitHub App access to `mattmcf/mn-parks` | Cannot | **Step 2 (done)** |
-| Blueprints → New Blueprint Instance → `main` → Deploy Blueprint (no Preview Environments) | Cannot | **Step 3** |
-| Change DNS / registrar | **Cannot** | **Step 5** |
+| Blueprints → New Blueprint Instance → `main` → Deploy Blueprint (no Preview Environments) | Cannot | **Step 3 (done)** |
+| Note `*.onrender.com` hostname | Verified **https://mn-parks.onrender.com** | **Step 4 (done)** |
+| Change DNS / registrar | **Cannot** | **Step 5 (next)** |
 | Click Verify / wait for TLS | Cannot | **Step 6** if it does not auto-complete |
 | Repo visibility | Leave as-is (**public**) | Leave as-is |
-| Open https://parks.mattmcf.com | After Matthew finishes 1–6 | **Step 8** |
+| Open https://parks.mattmcf.com | After Matthew finishes DNS | **Step 8** |
 
 ---
 
@@ -129,13 +130,13 @@ Floor = cheapest way to run **this** stack (Rails process + Postgres + SPA). “
 
 ```
 Browser  →  https://parks.mattmcf.com
-              (CNAME parks → <service>.onrender.com)
+              (CNAME parks → mn-parks.onrender.com)
               ├─ /              Vite index.html (public/index.html)
               ├─ /spa-assets/*  hashed JS/CSS
               └─ /api/*         Rails JSON + Devise cookie session
                       └─ DATABASE_URL → Render Postgres (internal)
 
-Fallback  →  https://<service>.onrender.com   (until you disable it)
+Fallback  →  https://mn-parks.onrender.com   (until you disable it)
 ```
 
 Development is unchanged: Vite **4174**, Rails **3451**, `/api` proxied.
