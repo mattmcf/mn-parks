@@ -1,6 +1,6 @@
 # MN Parks
 
-Map-first website of **parks inside Minnesota**. Browse type-colored markers on a statewide map, filter by type and amenities, open details, jump to a random park, and — once you sign in — save favorites and mark parks visited.
+Map-first website of **parks inside Minnesota**. Browse type-colored markers on a statewide map, search parks by name in the header, filter by type and amenities, open details, jump to a random park, and — once you sign in — save favorites and mark parks visited.
 
 This is a monorepo:
 
