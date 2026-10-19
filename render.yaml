@@ -1,12 +1,16 @@
 # MN Parks on Render (default hobby host). Production: https://parks.mattmcf.com
-# Matthew: New → Blueprint → this repo → Approve, then CNAME parks → onrender host.
-# https://dashboard.render.com/blueprints
+# Matthew: Blueprints → New Blueprint Instance → Connect mn-parks → main →
+# Deploy Blueprint (production web + Postgres only). Do not enable Preview
+# Environments — Hobby cannot (Pro+). https://dashboard.render.com/blueprints
 #
 # Floor: $0/mo on Hobby + Free web + Free Postgres (spins down; DB expires in 30 days).
 # Durable: bump both plans to Starter ($7 web + $6 Postgres = $13/mo).
-
-previews:
-  generation: manual
+#
+# Preview Environments are off on purpose. `previews.generation: manual` or
+# `automatic` (or deprecated `previewsEnabled: true`) enables full-stack
+# preview environments, which Hobby rejects with
+# "Preview Environments are not available for Hobby workspaces".
+# Omitting this field disables them (Blueprint spec, 2026-10-19).
 
 services:
   - type: web
@@ -17,7 +21,7 @@ services:
     buildCommand: "./bin/render-build.sh"
     startCommand: "./bin/rails server"
     healthCheckPath: /up
-    # Custom domain is associated on Blueprint Approve. Matthew still adds the
+    # Custom domain is associated when you Deploy Blueprint. Matthew still adds the
     # CNAME at DNS (parks → the service's onrender.com hostname from the dashboard).
     # https://render.com/docs/blueprint-spec  (domains field, 2026-10-19)
     domains:

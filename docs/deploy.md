@@ -1,25 +1,34 @@
 # MN Parks — hobby hosting and deploy
 
-**Today:** 2026-10-19. Prices below are from vendor pages that day, USD, excluding tax. Custom-domain and Blueprint YAML details are from [Render custom domains](https://render.com/docs/custom-domains) and the [Blueprint YAML reference](https://render.com/docs/blueprint-spec) that day.
+**Today:** 2026-10-19. Prices below are from vendor pages that day, USD, excluding tax. Custom-domain, Blueprint, and Preview Environment details are from [Render custom domains](https://render.com/docs/custom-domains), the [Blueprint YAML reference](https://render.com/docs/blueprint-spec), [Render Blueprints](https://render.com/docs/infrastructure-as-code), [Preview Environments](https://render.com/docs/preview-environments), and [pricing](https://render.com/pricing) that day.
 
 **Default host: [Render](https://render.com/pricing).** Production URL: **https://parks.mattmcf.com**. Monthly floor **$0** on a Hobby workspace with Free web + Free Postgres. Durable hobby (always-on web + a database that does not expire) is **$13/month**. Hobby includes **2 custom domains**; `parks.mattmcf.com` uses one. TLS is included.
 
-The repo is **public** (`mattmcf/mn-parks`) and that is fine. It is already wired for Render. Matthew has **not** created a Render account yet. The agent cannot create that account or change DNS. Do not create a paid Heroku or Render app from this agent.
+The repo is **public** (`mattmcf/mn-parks`) and that is fine. It is already wired for Render. Matthew’s **Hobby** workspace is connected to this repo. The agent cannot change the Render account or DNS. Do not create a paid Heroku or Render app from this agent. Do **not** enable Preview Environments (Hobby cannot; that is the error he already hit).
 
-**Matthew does this first:** step 1 — create a Render Hobby account with GitHub login.
+**Matthew does this next:** step 3 — **Blueprints → New Blueprint Instance** (production web + Postgres only).
 
 ---
 
 ## Checklist (Matthew + agent)
 
-1. **Create a Render Hobby account** (GitHub login). Open [render.com](https://render.com), sign up with GitHub, stay on **Hobby** ($0). No credit card for Free compute; add a card only if you later upgrade or blow past included bandwidth.
-2. **Connect GitHub / grant `mattmcf/mn-parks`.** If Render asks, authorize the GitHub App and grant access to this repo (public is enough; no visibility change).
-3. **Blueprints → New Blueprint → `main` → Approve.** Dashboard → **Blueprints** → **New Blueprint Instance** → repo **`mn-parks`**, branch **`main`**. Render reads `render.yaml`. **Approve**. That creates:
+1. **Create a Render Hobby account** (GitHub login). **Done.** Stay on **Hobby** ($0). No credit card for Free compute; add a card only if you later upgrade or blow past included bandwidth.
+2. **Connect GitHub / grant `mattmcf/mn-parks`.** **Done** (public repo; no visibility change).
+3. **Blueprints → New Blueprint Instance → `main` → Deploy Blueprint.** Do **not** enable Preview Environments. Exact Hobby dashboard path (Render docs + dashboard copy, 2026-10-19):
+   1. Open [dashboard.render.com](https://dashboard.render.com) on the Hobby workspace.
+   2. Left sidebar **Blueprints** → **New Blueprint Instance** (same flow as top-right **+ New → Blueprint**; URL [dashboard.render.com/blueprints](https://dashboard.render.com/blueprints)).
+   3. **Connect** repo **`mn-parks`**. Branch **`main`**. **Blueprint Path** leave default `render.yaml`.
+   4. Review the planned resources. It should list **only** production **web** `mn-parks` (Free, Ohio, custom domain `parks.mattmcf.com`) and **Postgres** `mn-parks-db` (Free, Ohio, private network) — plus the env vars below. Then click **Deploy Blueprint** (current official button; some screens still say **Apply** / **Approve** — same action).
+   5. Ignore anything named **Preview Environments**, **Enable Preview Environments**, **full-stack previews**, or a Pro upgrade for that feature. Hobby includes **single-service previews** later if you ever want them on one web service; this Blueprint does **not** turn those on either.
+
+   That creates:
    - Web service `mn-parks` (Free, Ohio) with custom domain **`parks.mattmcf.com`** declared in the Blueprint (`domains:`)
    - Postgres `mn-parks-db` (Free, Ohio, private network)
    - `DATABASE_URL` from the database
    - `SECRET_KEY_BASE` (generated; never in git)
    - `APPLICATION_HOST=parks.mattmcf.com` (Rails host allow-list)
+
+   If you already saw **Preview Environments are not available for Hobby workspaces**, that was `render.yaml` setting `previews.generation: manual` (which *enables* full-stack preview environments). That key is gone. Retry this step; do not upgrade to Pro.
 4. **Wait for the first deploy; note the `*.onrender.com` URL.** Build is bundle + `npm ci` + Vite + `db:migrate` + `db:seed`. Copy the service hostname from the dashboard (example shape `mn-parks.onrender.com` — **use the real one Render prints**, not a guess). That URL works before DNS.
 5. **DNS at wherever `mattmcf.com` is registered.** As of 2026-10-19, nameservers are **`ns33.domaincontrol.com` / `ns34.domaincontrol.com`** (GoDaddy DNS). Add **one** record — do **not** use an A record or a guessed IP:
 
@@ -31,11 +40,11 @@ The repo is **public** (`mattmcf/mn-parks`) and that is fine. It is already wire
    | TTL | default, or 600s / 1 min if you want faster verify |
 
    Remove any **AAAA** on `parks` if one exists (Render is IPv4). Leave the apex `mattmcf.com` alone.
-6. **Render custom domain `parks.mattmcf.com` + TLS.** The Blueprint already associates the domain on Approve. After the CNAME exists, Render usually verifies and issues a Let’s Encrypt / Google Trust Services cert automatically; HTTP redirects to HTTPS. If Settings → Custom Domains still says DNS update needed, click **Verify**. If the domain is missing (rare), **+ Add Custom Domain** → `parks.mattmcf.com`. Hobby limit is 2 domains; this uses 1. Keep the `onrender.com` subdomain **enabled** until `parks.mattmcf.com` loads.
-7. **Who clicks vs what the agent already did** — see [Agent vs Matthew](#agent-vs-matthew) below. Short version: Matthew does account, GitHub grant, Approve, DNS, Verify if needed. The agent already committed Blueprint + Rails host allow-list and pushed; it does **not** create a Render account or edit DNS.
+6. **Render custom domain `parks.mattmcf.com` + TLS.** The Blueprint already associates the domain on **Deploy Blueprint**. After the CNAME exists, Render usually verifies and issues a Let’s Encrypt / Google Trust Services cert automatically; HTTP redirects to HTTPS. If Settings → Custom Domains still says DNS update needed, click **Verify**. If the domain is missing (rare), **+ Add Custom Domain** → `parks.mattmcf.com`. Hobby limit is 2 domains; this uses 1. Keep the `onrender.com` subdomain **enabled** until `parks.mattmcf.com` loads.
+7. **Who clicks vs what the agent already did** — see [Agent vs Matthew](#agent-vs-matthew) below. Short version: Matthew does **Deploy Blueprint** (no Preview Environments), DNS, Verify if needed. The agent already committed Blueprint + Rails host allow-list and pushed; it does **not** create a Render account or edit DNS.
 8. **Verify:** open **https://parks.mattmcf.com** (map) and **https://parks.mattmcf.com/api/parks** (JSON). Also hit the step-4 `onrender.com` URL if DNS has not propagated yet. First hit after 15 minutes idle can show Render’s loading page for about a minute (Free web spin-down).
 
-No `RAILS_MASTER_KEY` paste. Production boots from `SECRET_KEY_BASE`. `config/master.key` stays gitignored. Pushing to `main` after Approve redeploys by itself.
+No `RAILS_MASTER_KEY` paste. Production boots from `SECRET_KEY_BASE`. `config/master.key` stays gitignored. Pushing to `main` after **Deploy Blueprint** redeploys by itself.
 
 Optional later (not required to go live):
 
@@ -52,9 +61,9 @@ Optional later (not required to go live):
 | `render.yaml` Blueprint (web + Postgres + secrets + `domains: [parks.mattmcf.com]`) | Done, in git | — |
 | Rails production host allow-list / CORS for `parks.mattmcf.com` | Done, in git | — |
 | This checklist and repo `docs/deploy.md` | Done, in git | — |
-| Create Render account / Hobby workspace | **Cannot** (no access, no billing) | **Step 1** |
-| Grant GitHub App access to `mattmcf/mn-parks` | Cannot | **Step 2** |
-| New Blueprint → `main` → Approve | Cannot | **Step 3** |
+| Create Render account / Hobby workspace | **Cannot** (no access, no billing) | **Step 1 (done)** |
+| Grant GitHub App access to `mattmcf/mn-parks` | Cannot | **Step 2 (done)** |
+| Blueprints → New Blueprint Instance → `main` → Deploy Blueprint (no Preview Environments) | Cannot | **Step 3** |
 | Change DNS / registrar | **Cannot** | **Step 5** |
 | Click Verify / wait for TLS | Cannot | **Step 6** if it does not auto-complete |
 | Repo visibility | Leave as-is (**public**) | Leave as-is |
@@ -70,7 +79,7 @@ Optional later (not required to go live):
 | Agent owns deploy | `render.yaml` Blueprint: GitHub push deploys. `DATABASE_URL` and `SECRET_KEY_BASE` are injected; nothing secret is in git. |
 | Rails + Postgres | Native Ruby runtime, official [Rails 8 guide](https://render.com/docs/deploy-rails-8). Node/npm is on the same image, so the Vite build runs in the same service. |
 | SPA + API | Production build of `web/` is copied into `public/`. Rails (Puma) serves the map and `/api` on one origin. No reverse proxy required. |
-| Few clicks | New Blueprint → this repo → Approve, then one CNAME. |
+| Few clicks | Blueprints → New Blueprint Instance → this repo → Deploy Blueprint, then one CNAME. |
 | Custom domain | Blueprint `domains` lists `parks.mattmcf.com`. You still add the CNAME; Render does not edit your DNS. |
 
 **GitHub Pages cannot run this app.** Pages (and Actions that publish to Pages) serve static HTML/CSS/JS only. There is no Rails process, no `/api`, no Devise sessions, and no Postgres. The map would have nothing to talk to. Do not use Pages as the production host.
@@ -81,7 +90,7 @@ Optional later (not required to go live):
 
 In the GitHub repo:
 
-- **`render.yaml`** — Blueprint: Free Ruby web service + Free Postgres, Ohio, health check `/up`, **`domains: [parks.mattmcf.com]`** ([Blueprint spec](https://render.com/docs/blueprint-spec) `domains` field, 2026-10-19). `renderSubdomainPolicy` left at default **enabled** so `*.onrender.com` still works.
+- **`render.yaml`** — Blueprint: Free Ruby web service + Free Postgres, Ohio, health check `/up`, **`domains: [parks.mattmcf.com]`** ([Blueprint spec](https://render.com/docs/blueprint-spec) `domains` field, 2026-10-19). **Preview Environments off** (no `previews` / `previewsEnabled` — Hobby cannot; [Preview Environments](https://render.com/docs/preview-environments) are Pro+). `renderSubdomainPolicy` left at default **enabled** so `*.onrender.com` still works.
 - **`bin/render-build.sh`** — `bundle install`, Vite production build, copy SPA into `public/`, `db:migrate`, `db:seed` (seed is idempotent; it reloads shipped park JSON).
 - **`bin/install-spa`** / **`rake spa:build`** — copies `web/dist/index.html` → `public/index.html` and hashed assets → `public/spa-assets/` (does not collide with Rails `/assets`).
 - **`web/vite.config.ts`** — `build.assetsDir: "spa-assets"`.
