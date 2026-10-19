@@ -179,6 +179,7 @@ Free-plan migrations run **in the build** (`bin/render-build.sh`). Paid plans ca
 - **Park data:** `db:seed` loads `db/data/*.json`. Runtime still does **not** call DNR/NPS/etc. Re-ingest stays `bin/rake parks:refresh` locally, commit JSON, push.
 - **Free Postgres clock:** upgrade or dump before day 30 if this should stay up. Starter Postgres is **$6/month** (`0.1c-256mb`).
 - **Repo visibility:** public website; GitHub repo **`mattmcf/mn-parks` stays public**. That is fine. This doc does not change visibility.
+- **CI:** GitHub Actions on pull requests and pushes to `main` (`.github/workflows/ci.yml`). Node 22 SPA tests + `tsc -b`, `bin/rails test` against Postgres, and `python3 scripts/test_park_geo.py`. No secrets. Playwright is not in CI.
 - **Do not** point GitHub Pages at this repo as the live site.
 
 ---

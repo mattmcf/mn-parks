@@ -221,3 +221,16 @@ Current asset: **66** parks with a camping score, **68** with some camping intel
 | DELETE | `/api/logout` | |
 
 Cookie session. Vite proxies `/api` in development.
+
+## Tests
+
+GitHub Actions runs on pull requests and pushes to `main` (`.github/workflows/ci.yml`). No secrets. Playwright is not in CI.
+
+```bash
+npm --prefix web test
+npm --prefix web exec -- tsc -b
+bin/rails test                  # Postgres; `mn_parks_test`
+python3 scripts/test_park_geo.py  # pip install -r scripts/requirements.txt
+```
+
+The SPA tests are Node’s built-in runner (`park-search`, `park-camera`). The only Rails test today is `test/spa_cache_headers_test.rb` (also runnable as `ruby test/spa_cache_headers_test.rb` without booting Rails). Geo tests are offline.
