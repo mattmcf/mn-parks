@@ -94,7 +94,8 @@ v1 is **state + national + wilderness + regional + county**. City parks are a se
 
 The source of truth is committed static assets:
 
-- **`db/data/parks.json`** — park inventory (including `source_url`)
+- **`db/data/parks.json`** — park inventory (including `source_url` and cross-checked lat/lng)
+- **`db/data/park_geo.json`** — lat/lng audit (second-source hits, corrections, flags)
 - **`db/data/dark_sky.json`** — DarkSky International certified places, matched onto parks
 - **`db/data/park_reviews.json`** — camping inventory / camping score
 
@@ -104,13 +105,13 @@ The source of truth is committed static assets:
 | --- | --- | --- |
 | **State** | 74 | MN DNR Parks & Trails reference points (Geospatial Commons `bdry_dnr_lrs_prk`) — state parks and state recreation areas. Waysides omitted. |
 | **National** | 5 | NPS Parks API (`stateCode=MN`): Voyageurs, Grand Portage, Pipestone, Mississippi NRRA, Saint Croix NSR. North Country NST omitted (trail, not a park unit). |
-| **Wilderness** | 3 | National Wilderness Preservation System polygons (Wilderness Connect GIS). Minnesota units: Boundary Waters Canoe Area Wilderness (Superior NF), Agassiz Wilderness, Tamarac Wilderness. Centroids from the official polygons. |
+| **Wilderness** | 3 | National Wilderness Preservation System polygons (Wilderness Connect GIS). Minnesota units: Boundary Waters Canoe Area Wilderness (Superior NF), Agassiz Wilderness, Tamarac Wilderness. Pin is a point on the official polygon (not a city). |
 | **Regional** | 70 | Metropolitan Council regional parks / park reserves (`LPH/Parks_CD`). Twin Cities system. |
 | **County** | 146 | MetroGIS Collaborative Parks (county-owned units in the seven-county metro) **plus** curated Greater Minnesota county parks with real coordinates. |
 
 **Official `source_url`:** refresh resolves a **park-specific** page when one exists and can be confirmed — DNR `park.html?id=spk#####` / `sra#####` from the GIS unit code, NPS unit URL from the Parks API, USFS/FWS or Wilderness Connect unit page for wilderness, MetroGIS `PARK_URL` when it names that park. A system hub (DNR parks index, Met Council Parks.aspx, a county homepage) is kept only when no unit page is found. URLs are not invented: IDs and links come from GIS/APIs, and guessed manager pages are kept only after an HTTP check that does not land on a hub.
 
-Coordinates are real. Highlights and amenities are **sparse on purpose**: official GIS rarely includes a full amenity inventory. Empty states say “Not listed in our sources yet.” Do not invent amenities to fill chips.
+Coordinates are cross-checked during `parks:refresh` (OSM Nominatim with a Minnesota bias, NPS visitor centers, Census MN boundary). Pins should sit on the named unit (campground, visitor center, lake), not a township or county-seat guess. The map still never geocodes at runtime. Highlights and amenities are **sparse on purpose**: official GIS rarely includes a full amenity inventory. Empty states say “Not listed in our sources yet.” Do not invent amenities to fill chips.
 
 **Not county-complete across all 87 counties.** Many counties do not publish park GIS. Greater MN points are a real-world seed, not a staff directory of every picnic ground.
 
@@ -119,12 +120,20 @@ Coordinates are real. Highlights and amenities are **sparse on purpose**: offici
 Edit sources or filters in `scripts/build_parks_json.py` (types, skip lists, Greater MN rows, amenity mapping, URL resolution). Then:
 
 ```bash
-# Fetches official park GIS/APIs, NWPS wilderness, DarkSky places, and campground inventories;
-# rewrites db/data/parks.json, dark_sky.json, park_reviews.json; loads Postgres
+# Fetches official park GIS/APIs, NWPS wilderness, Nominatim pin checks, DarkSky places,
+# and campground inventories; rewrites parks.json + park_geo.json + dark_sky.json +
+# park_reviews.json; loads Postgres
 bin/rake parks:refresh
 ```
 
-That is the only path that hits DNR / NPS / Met Council / Wilderness Connect / DarkSky. Commit the updated JSON artifacts with the code change. Optional `NPS_API_KEY` (otherwise the NPS `DEMO_KEY`). Optional `RIDB_API_KEY` for Recreation.gov RIDB (skipped if blank). Python packages for the park GIS rebuild: `pip install -r scripts/requirements.txt` (the rake task installs them if missing). Dark Sky and reviews builders need only Python 3 stdlib. Rebuild from already-downloaded GIS with `PARKS_SKIP_FETCH=1` or `python3 scripts/build_parks_json.py --skip-fetch`.
+That is the only path that hits DNR / NPS / Met Council / Wilderness Connect / Nominatim / DarkSky. Commit the updated JSON artifacts with the code change. Optional `NPS_API_KEY` (otherwise the NPS `DEMO_KEY`). Optional `RIDB_API_KEY` for Recreation.gov RIDB (skipped if blank). Python packages for the park GIS rebuild: `pip install -r scripts/requirements.txt` (the rake task installs them if missing). Dark Sky and reviews builders need only Python 3 stdlib. Rebuild from already-downloaded GIS with `PARKS_SKIP_FETCH=1` or `python3 scripts/build_parks_json.py --skip-fetch`.
+
+Cross-check pins only (uses shipped `parks.json`; still writes `park_geo.json` and may rewrite coordinates):
+
+```bash
+bin/rake parks:refresh_geo
+python3 scripts/test_park_geo.py
+```
 
 Offline load of already-shipped files (used by `db:prepare` / `db:seed` as well):
 
@@ -135,6 +144,7 @@ bin/rake parks:ingest
 Rebuild just Dark Sky or camping intel (still offline at boot — these only run when you invoke rake):
 
 ```bash
+bin/rake parks:refresh_geo
 bin/rake parks:refresh_dark_sky
 bin/rake parks:refresh_reviews
 ```

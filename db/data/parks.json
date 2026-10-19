@@ -13,7 +13,8 @@
     "National Wilderness Preservation System boundaries via Wilderness Connect GIS (federal wilderness in Minnesota, including Superior National Forest).",
     "Metropolitan Council Regional Parks (LPH/Parks_CD).",
     "MetroGIS Collaborative Parks (county-owned units in the seven-county metro).",
-    "Greater Minnesota county parks: curated points with real coordinates; not every one of 87 counties publishes GIS."
+    "Greater Minnesota county parks: curated points with real coordinates; not every one of 87 counties publishes GIS.",
+    "Pin coordinates cross-checked during parks:refresh against OSM Nominatim (MN-biased), NPS visitor centers, and the Census Minnesota boundary. Audit: db/data/park_geo.json."
   ],
   "parks": [
     {
@@ -43,8 +44,8 @@
     {
       "name": "Apple Blossom / county overlook",
       "park_type": "county",
-      "latitude": 43.996,
-      "longitude": -91.43,
+      "latitude": 43.855915,
+      "longitude": -91.312107,
       "managing_agency": "Winona County Parks",
       "source": "curated_greater_mn_county",
       "source_id": "county:apple-blossom-county-overlook",
@@ -225,8 +226,8 @@
     {
       "name": "Bertram Chain of Lakes Regional Park",
       "park_type": "county",
-      "latitude": 45.2373,
-      "longitude": -93.9474,
+      "latitude": 45.291485,
+      "longitude": -93.849917,
       "managing_agency": "Wright County Parks",
       "source": "curated_greater_mn_county",
       "source_id": "county:bertram-chain-of-lakes-regional-park",
@@ -469,8 +470,8 @@
     {
       "name": "Chester Woods Park",
       "park_type": "county",
-      "latitude": 44.0236,
-      "longitude": -92.3335,
+      "latitude": 43.990475,
+      "longitude": -92.322656,
       "managing_agency": "Olmsted County Parks",
       "source": "curated_greater_mn_county",
       "source_id": "county:chester-woods-park",
@@ -544,8 +545,8 @@
     {
       "name": "Collinwood Regional Park",
       "park_type": "county",
-      "latitude": 45.0808,
-      "longitude": -94.1657,
+      "latitude": 45.043827,
+      "longitude": -94.245943,
       "managing_agency": "Wright County Parks",
       "source": "curated_greater_mn_county",
       "source_id": "county:collinwood-regional-park",
@@ -735,8 +736,8 @@
     {
       "name": "Dunton Locks County Park",
       "park_type": "county",
-      "latitude": 46.7186,
-      "longitude": -95.6957,
+      "latitude": 46.782907,
+      "longitude": -95.882501,
       "managing_agency": "Becker County Parks",
       "source": "curated_greater_mn_county",
       "source_id": "county:dunton-locks-county-park",
@@ -1183,8 +1184,8 @@
     {
       "name": "Jacobson Campground",
       "park_type": "county",
-      "latitude": 47.004,
-      "longitude": -93.416,
+      "latitude": 47.023126,
+      "longitude": -93.276516,
       "managing_agency": "Aitkin County Parks",
       "source": "curated_greater_mn_county",
       "source_id": "county:jacobson-campground",
@@ -1358,8 +1359,8 @@
     {
       "name": "Lake Brophy County Park",
       "park_type": "county",
-      "latitude": 45.8934,
-      "longitude": -95.4182,
+      "latitude": 45.914632,
+      "longitude": -95.441799,
       "managing_agency": "Douglas County Parks",
       "source": "curated_greater_mn_county",
       "source_id": "county:lake-brophy-county-park",
@@ -1735,8 +1736,8 @@
     {
       "name": "Mississippi River County Park",
       "park_type": "county",
-      "latitude": 45.6145,
-      "longitude": -94.1934,
+      "latitude": 45.722771,
+      "longitude": -94.223906,
       "managing_agency": "Stearns County Parks",
       "source": "curated_greater_mn_county",
       "source_id": "county:mississippi-river-county-park",
@@ -1759,8 +1760,8 @@
     {
       "name": "Montissippi County Park",
       "park_type": "county",
-      "latitude": 45.305,
-      "longitude": -93.76,
+      "latitude": 45.325369,
+      "longitude": -93.828616,
       "managing_agency": "Wright County Parks",
       "source": "curated_greater_mn_county",
       "source_id": "county:montissippi-county-park",
@@ -1855,8 +1856,8 @@
     {
       "name": "Nessel Campground / Rush Creek",
       "park_type": "county",
-      "latitude": 45.627,
-      "longitude": -93.137,
+      "latitude": 45.689118,
+      "longitude": -93.054827,
       "managing_agency": "Chisago County Parks",
       "source": "curated_greater_mn_county",
       "source_id": "county:nessel-campground-rush-creek",
@@ -1941,8 +1942,8 @@
     {
       "name": "Ojiketa Regional Park",
       "park_type": "county",
-      "latitude": 45.4195,
-      "longitude": -92.6478,
+      "latitude": 45.346001,
+      "longitude": -92.887655,
       "managing_agency": "Chisago County Parks",
       "source": "curated_greater_mn_county",
       "source_id": "county:ojiketa-regional-park",
@@ -2035,8 +2036,8 @@
     {
       "name": "Pebble Lake Park",
       "park_type": "county",
-      "latitude": 46.252,
-      "longitude": -96.075,
+      "latitude": 46.24687,
+      "longitude": -96.035725,
       "managing_agency": "Otter Tail County Parks",
       "source": "curated_greater_mn_county",
       "source_id": "county:pebble-lake-park",
@@ -2164,8 +2165,8 @@
     {
       "name": "Rapidan Dam County Park",
       "park_type": "county",
-      "latitude": 44.0973,
-      "longitude": -94.0664,
+      "latitude": 44.095568,
+      "longitude": -94.109812,
       "managing_agency": "Blue Earth County Parks",
       "source": "curated_greater_mn_county",
       "source_id": "county:rapidan-dam-county-park",
@@ -2372,8 +2373,8 @@
     {
       "name": "Saint Croix Bluffs Regional Park",
       "park_type": "county",
-      "latitude": 44.800971,
-      "longitude": -92.787158,
+      "latitude": 44.803048,
+      "longitude": -92.791293,
       "managing_agency": "Washington County",
       "source": "metrogis_collaborative_parks",
       "source_id": "163-3362",
@@ -2426,8 +2427,8 @@
     {
       "name": "Shager Park",
       "park_type": "county",
-      "latitude": 44.3542,
-      "longitude": -93.2681,
+      "latitude": 44.260948,
+      "longitude": -93.343208,
       "managing_agency": "Rice County Parks",
       "source": "curated_greater_mn_county",
       "source_id": "county:shager-park",
@@ -3167,8 +3168,8 @@
     {
       "name": "Saint Croix National Scenic Riverway",
       "park_type": "national",
-      "latitude": 45.700192,
-      "longitude": -92.361267,
+      "latitude": 45.418205,
+      "longitude": -92.653095,
       "managing_agency": "National Park Service",
       "source": "nps_api",
       "source_id": "sacn",
@@ -4656,8 +4657,8 @@
     {
       "name": "Cascade River State Park",
       "park_type": "state",
-      "latitude": 47.710959,
-      "longitude": -90.505919,
+      "latitude": 47.700841,
+      "longitude": -90.553544,
       "managing_agency": "Minnesota DNR Parks & Trails",
       "source": "mn_dnr_state_parks",
       "source_id": "SPK00133",
@@ -4828,8 +4829,8 @@
     {
       "name": "Franz Jevne State Park",
       "park_type": "state",
-      "latitude": 48.641689,
-      "longitude": -94.058496,
+      "latitude": 48.640406,
+      "longitude": -94.058695,
       "managing_agency": "Minnesota DNR Parks & Trails",
       "source": "mn_dnr_state_parks",
       "source_id": "SPK00157",
@@ -5836,8 +5837,8 @@
     {
       "name": "William O'Brien State Park",
       "park_type": "state",
-      "latitude": 45.225346,
-      "longitude": -92.763574,
+      "latitude": 45.218471,
+      "longitude": -92.775729,
       "managing_agency": "Minnesota DNR Parks & Trails",
       "source": "mn_dnr_state_parks",
       "source_id": "SPK00283",
@@ -5955,5 +5956,6 @@
       "in_minnesota": true,
       "retrieved_at": "2026-09-21T02:20:06.575416+00:00"
     }
-  ]
+  ],
+  "geo_checked_at": "2026-10-19T18:05:28.677941+00:00"
 }

@@ -3,6 +3,7 @@ class Park < ApplicationRecord
   SHIPPED_PATH = Rails.root.join("db/data/parks.json")
   DARK_SKY_PATH = Rails.root.join("db/data/dark_sky.json")
   REVIEWS_PATH = Rails.root.join("db/data/park_reviews.json")
+  GEO_PATH = Rails.root.join("db/data/park_geo.json")
 
   has_many :park_user_states, dependent: :destroy
 
@@ -19,7 +20,7 @@ class Park < ApplicationRecord
   end
 
   # Inventory source of truth is the committed JSON files. Remote GIS / DarkSky /
-  # NPS campgrounds are only contacted by rake refresh tasks, never by boot.
+  # NPS / Nominatim are only contacted by rake refresh tasks, never by boot.
   def self.ingest_shipped!
     payload = shipped_payload
     parks = payload.fetch("parks")
