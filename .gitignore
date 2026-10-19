@@ -11,6 +11,9 @@
 !/tmp/storage/.keep
 /config/master.key
 /public/assets
+/public/index.html
+/public/spa-assets
+/public/favicon.svg
 *.log
 
 # Node

@@ -10,6 +10,11 @@ export default defineConfig({
       "@": path.resolve(import.meta.dirname, "./src"),
     },
   },
+  build: {
+    // Hashed JS/CSS land in /spa-assets so they never collide with Rails /assets.
+    assetsDir: "spa-assets",
+    emptyOutDir: true,
+  },
   server: {
     host: "0.0.0.0",
     port: 4174,

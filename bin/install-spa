@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# Copy the Vite production build into public/ without wiping Rails error pages.
+# Vite writes hashed JS/CSS to spa-assets/ so they never collide with Propshaft /assets.
+set -o errexit
+set -o nounset
+set -o pipefail
+
+root="$(cd "$(dirname "$0")/.." && pwd)"
+dist="$root/web/dist"
+public="$root/public"
+
+if [[ ! -f "$dist/index.html" ]]; then
+  echo "SPA build missing: $dist/index.html (run: npm --prefix web run build)" >&2
+  exit 1
+fi
+
+cp "$dist/index.html" "$public/index.html"
+
+rm -rf "$public/spa-assets"
+if [[ -d "$dist/spa-assets" ]]; then
+  cp -R "$dist/spa-assets" "$public/spa-assets"
+fi
+
+# favicon, robots from Vite public/, etc. Skip hashed asset dirs and Vite internals.
+shopt -s nullglob
+for entry in "$dist"/*; do
+  base="$(basename "$entry")"
+  case "$base" in
+    index.html|spa-assets|assets|.vite) continue ;;
+  esac
+  dest="$public/$base"
+  if [[ -d "$entry" ]]; then
+    rm -rf "$dest"
+    cp -R "$entry" "$dest"
+  else
+    cp "$entry" "$dest"
+  fi
+done
+
+echo "Installed SPA → public/index.html + public/spa-assets/"

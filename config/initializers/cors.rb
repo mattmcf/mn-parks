@@ -2,10 +2,11 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   origins = [
-    ENV.fetch("FRONTEND_ORIGIN", "http://127.0.0.1:4174"),
+    ENV["FRONTEND_ORIGIN"].presence,
+    ENV["RENDER_EXTERNAL_URL"].presence,
     "http://127.0.0.1:4174",
     "http://localhost:4174"
-  ].uniq
+  ].compact.uniq
 
   allow do
     origins(*origins)

@@ -19,4 +19,10 @@ Rails.application.routes.draw do
       patch :user_state, on: :member
     end
   end
+
+  # Vite SPA in production (bin/install-spa copies web/dist → public/).
+  root "spa#index"
+  get "*path", to: "spa#index", constraints: ->(req) {
+    !req.path.start_with?("/api", "/up", "/rails", "/assets", "/spa-assets")
+  }
 end

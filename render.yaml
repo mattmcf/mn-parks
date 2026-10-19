@@ -1,0 +1,46 @@
+# MN Parks on Render (default hobby host).
+# Matthew: New → Blueprint → this repo → Approve. No secrets are committed.
+# https://dashboard.render.com/blueprints
+#
+# Floor: $0/mo on Hobby + Free web + Free Postgres (spins down; DB expires in 30 days).
+# Durable: bump both plans to Starter ($7 web + $6 Postgres = $13/mo).
+
+previews:
+  generation: manual
+
+services:
+  - type: web
+    name: mn-parks
+    runtime: ruby
+    plan: free
+    region: ohio
+    buildCommand: "./bin/render-build.sh"
+    startCommand: "./bin/rails server"
+    healthCheckPath: /up
+    envVars:
+      - key: RAILS_ENV
+        value: production
+      - key: RAILS_LOG_TO_STDOUT
+        value: "true"
+      - key: RAILS_SERVE_STATIC_FILES
+        value: "true"
+      - key: NODE_VERSION
+        value: "22"
+      - key: WEB_CONCURRENCY
+        value: "1"
+      - key: RAILS_MAX_THREADS
+        value: "3"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: mn-parks-db
+          property: connectionString
+      # Render generates this at Blueprint create. Never commit it.
+      - key: SECRET_KEY_BASE
+        generateValue: true
+
+databases:
+  - name: mn-parks-db
+    databaseName: mn_parks
+    plan: free
+    region: ohio
+    ipAllowList: [] # private network only; the web service uses the internal URL

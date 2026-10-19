@@ -1,0 +1,15 @@
+.git
+.github
+log/*
+tmp/*
+storage/*
+web/node_modules
+web/dist
+vendor/bundle
+.env
+.env.*
+!.env.example
+*.log
+agent-tools
+docs
+.DS_Store

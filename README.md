@@ -7,7 +7,7 @@ This is a monorepo:
 - Rails 8 JSON API + Postgres + Devise (`/`)
 - Vite + React + TypeScript + Tailwind + shadcn/ui + MapLibre GL JS (`web/`)
 
-The map is a React SPA. Rails does not render it.
+The map is a React SPA. In development Vite serves it on **4174**. In production Rails serves the Vite build from `public/` (same origin as `/api`).
 
 ## Run locally
 
@@ -73,6 +73,20 @@ Set `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`. Callback URL:
 `http://127.0.0.1:3451/api/auth/google_oauth2/callback`
 
 Without those env vars, Google is omitted. The map still works.
+
+## Production (Render)
+
+Default host is **Render** (Hobby workspace, **$0/month** floor). The agent already committed `render.yaml`, the SPA production build, and secret wiring. You create the account and click Approve.
+
+Exact clicks, pricing, and what not to use (GitHub Pages cannot run Rails/Postgres): **[docs/deploy.md](docs/deploy.md)**.
+
+Local production-like SPA build (does not deploy):
+
+```bash
+npm --prefix web ci
+npm --prefix web run build
+./bin/install-spa          # copies web/dist → public/index.html + public/spa-assets/
+```
 
 ## Data: shipped inventory
 
@@ -180,8 +194,9 @@ Current asset: **66** parks with a camping score, **68** with some camping intel
 - Park polygons, clustering
 - Address search and driving time
 - Named lists, account deletion, Rails admin
-- Scheduled re-ingest, production host
+- Scheduled re-ingest
 - Google OAuth until keys are provided
+- Custom domain / paid Render plans (optional; see docs/deploy.md)
 
 ## API (JSON)
 
