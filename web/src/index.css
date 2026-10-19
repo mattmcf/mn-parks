@@ -82,7 +82,7 @@ body {
   cursor: pointer;
   display: grid;
   place-items: center;
-  filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.45));
+  overflow: visible;
 }
 
 .park-marker__dot {
@@ -96,6 +96,31 @@ body {
   pointer-events: none;
   transform-origin: center;
   transition: transform 120ms ease;
+  filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.45));
+}
+
+.park-marker__name {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% - 4px);
+  z-index: 1;
+  max-width: 14rem;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.4rem;
+  background: hsl(var(--card));
+  color: hsl(var(--foreground));
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.18);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(-50%);
 }
 
 .park-marker__dot svg {
@@ -117,9 +142,27 @@ body {
   clip-path: polygon(50% 4%, 96% 50%, 50% 96%, 4% 50%);
 }
 
-.park-marker:hover .park-marker__dot,
+.park-marker.is-selected {
+  z-index: 4;
+}
+
+.park-marker.is-hover,
+.park-marker:focus-visible {
+  z-index: 6;
+}
+
+.park-marker:focus-visible {
+  outline: none;
+}
+
+.park-marker.is-hover .park-marker__dot,
 .park-marker:focus-visible .park-marker__dot {
   transform: scale(1.18);
+}
+
+.park-marker.is-hover .park-marker__name,
+.park-marker:focus-visible .park-marker__name {
+  opacity: 1;
 }
 
 .park-marker.is-selected .park-marker__dot {
