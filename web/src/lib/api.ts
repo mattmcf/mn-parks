@@ -1,4 +1,14 @@
 import type { ParksPayload, SessionPayload, Park } from "@/types"
+import type { Trip, TripStatus } from "@/lib/trips"
+
+export type TripWrite = {
+  name?: string
+  notes?: string | null
+  status?: TripStatus
+  public?: boolean
+  starts_on?: string | null
+  ends_on?: string | null
+}
 
 async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
   const headers = new Headers(init.headers)
@@ -38,4 +48,26 @@ export const api = {
       method: "PATCH",
       body: JSON.stringify(body),
     }),
+  myTrips: () => request<{ trips: Trip[] }>("/api/trips"),
+  publicTrips: () => request<{ trips: Trip[] }>("/api/trips/public"),
+  trip: (id: number) => request<{ trip: Trip }>(`/api/trips/${id}`),
+  createTrip: (body: TripWrite) =>
+    request<{ trip: Trip }>("/api/trips", {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+  updateTrip: (id: number, body: TripWrite) =>
+    request<{ trip: Trip }>(`/api/trips/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(body),
+    }),
+  deleteTrip: (id: number) =>
+    request<Record<string, never>>(`/api/trips/${id}`, { method: "DELETE" }),
+  addTripPark: (tripId: number, parkId: number) =>
+    request<{ trip: Trip }>(`/api/trips/${tripId}/parks`, {
+      method: "POST",
+      body: JSON.stringify({ park_id: parkId }),
+    }),
+  removeTripPark: (tripId: number, parkId: number) =>
+    request<{ trip: Trip }>(`/api/trips/${tripId}/parks/${parkId}`, { method: "DELETE" }),
 }

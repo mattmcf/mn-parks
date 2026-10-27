@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_19_183000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_27_133000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -56,6 +56,33 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_19_183000) do
     t.index ["source", "source_id"], name: "index_parks_on_source_and_source_id", unique: true
   end
 
+  create_table "trip_parks", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "park_id", null: false
+    t.integer "position", default: 0, null: false
+    t.bigint "trip_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["park_id"], name: "index_trip_parks_on_park_id"
+    t.index ["trip_id", "park_id"], name: "index_trip_parks_on_trip_id_and_park_id", unique: true
+    t.index ["trip_id", "position"], name: "index_trip_parks_on_trip_id_and_position"
+    t.index ["trip_id"], name: "index_trip_parks_on_trip_id"
+  end
+
+  create_table "trips", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.date "ends_on"
+    t.boolean "listed_public", default: false, null: false
+    t.string "name", null: false
+    t.text "notes"
+    t.date "starts_on"
+    t.string "status", default: "planned", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["listed_public"], name: "index_trips_on_listed_public"
+    t.index ["user_id", "updated_at"], name: "index_trips_on_user_id_and_updated_at"
+    t.index ["user_id"], name: "index_trips_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email", default: "", null: false
@@ -73,4 +100,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_19_183000) do
 
   add_foreign_key "park_user_states", "parks"
   add_foreign_key "park_user_states", "users"
+  add_foreign_key "trip_parks", "parks"
+  add_foreign_key "trip_parks", "trips"
+  add_foreign_key "trips", "users"
 end

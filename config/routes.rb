@@ -18,6 +18,11 @@ Rails.application.routes.draw do
       get :random, on: :collection
       patch :user_state, on: :member
     end
+
+    get "trips/public", to: "trips#public_index"
+    resources :trips, only: [ :index, :show, :create, :update, :destroy ] do
+      resources :parks, only: [ :create, :destroy ], controller: "trip_parks"
+    end
   end
 
   # Vite SPA in production (bin/install-spa copies web/dist → public/).

@@ -40,7 +40,7 @@ export function AuthDialog({ open, googleOAuth, onOpenChange, onAuthed }: Props)
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent title={mode === "login" ? "Sign in" : "Create an account"}>
         <p className="mb-4 text-sm text-[hsl(var(--muted-foreground))]">
-          Browse the map without an account. Sign in to save favorites and mark parks visited.
+          Browse the map and public trip lists without an account. Sign in to save favorites, mark parks visited, and create your own lists.
         </p>
         <form className="space-y-3" onSubmit={submit}>
           <div className="space-y-1.5">

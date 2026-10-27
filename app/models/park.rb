@@ -6,6 +6,7 @@ class Park < ApplicationRecord
   GEO_PATH = Rails.root.join("db/data/park_geo.json")
 
   has_many :park_user_states, dependent: :destroy
+  has_many :trip_parks, dependent: :destroy
 
   def self.shipped_payload
     JSON.parse(SHIPPED_PATH.read)

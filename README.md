@@ -1,6 +1,6 @@
 # MN Parks
 
-Map-first website of **parks inside Minnesota**. Browse type-colored markers on a statewide map, search parks by name in the header, filter by type and amenities, open details, jump to a random park, and — once you sign in — save favorites and mark parks visited.
+Map-first website of **parks inside Minnesota**. Browse type-colored markers on a statewide map, search parks by name in the header, filter by type and amenities, open details, jump to a random park, and — once you sign in — save favorites, mark parks visited, and keep named trip lists. Public trip lists are readable logged out.
 
 This is a monorepo:
 
@@ -52,7 +52,7 @@ Start both processes with **`bin/dev`** (Foreman reads `Procfile.dev`; uncommon 
 bin/dev
 ```
 
-Then open the **map** at **http://127.0.0.1:4174**. The Rails JSON API is **http://127.0.0.1:3451** (Vite proxies `/api` to it). The map, list, details, filters, and Random work logged out. Favorite and Visited prompt for sign-in.
+Then open the **map** at **http://127.0.0.1:4174**. The Rails JSON API is **http://127.0.0.1:3451** (Vite proxies `/api` to it). The map, list, details, filters, Random, and **public trip lists** work logged out. Favorite, Visited, and creating or editing your own lists prompt for sign-in. Open `/trips` in the SPA, or click **Trips** in the header.
 
 `bin/dev` installs the `foreman` gem if it is missing, then runs:
 
@@ -195,7 +195,8 @@ Current asset: **66** parks with a camping score, **68** with some camping intel
 - Random → zoom + details
 - Distance origin: browser GPS + draggable From pin (pin overrides GPS)
 - Devise email/password; map works logged out; favorite/visited persist when logged in
-- Loading, empty inventory, API error, no-filter-match
+- Named **trip lists** (planned / want to go / gone) with parks, notes, optional dates, and a public/private flag. Creating requires login; public lists are visible logged out; private lists are owner-only
+- Loading, empty inventory, API error, no-filter-match, empty/error trip lists
 - Desktop sidebar + mobile map-first with a bottom sheet list
 
 **Deferred**
@@ -203,7 +204,7 @@ Current asset: **66** parks with a camping score, **68** with some camping intel
 - City / municipal parks
 - Park polygons, clustering
 - Address search and driving time
-- Named lists, account deletion, Rails admin
+- Account deletion, Rails admin
 - Scheduled re-ingest
 - Google OAuth until keys are provided
 - Custom domain / paid Render plans (optional; see docs/deploy.md)
@@ -216,6 +217,14 @@ Current asset: **66** parks with a camping score, **68** with some camping intel
 | GET | `/api/parks/:id` | Detail |
 | GET | `/api/parks/random` | Uniform among ingested parks |
 | PATCH | `/api/parks/:id/user_state` | `{ favorited, visited }` — auth required |
+| GET | `/api/trips/public` | Public trip lists (logged in or out) |
+| GET | `/api/trips` | Current user’s lists — auth required |
+| GET | `/api/trips/:id` | One list if it is public or yours. Private lists 404 for everyone else |
+| POST | `/api/trips` | Create `{ name, notes, status, public, starts_on, ends_on }` — auth required |
+| PATCH | `/api/trips/:id` | Update own list |
+| DELETE | `/api/trips/:id` | Delete own list |
+| POST | `/api/trips/:id/parks` | `{ park_id }` add a park to your list |
+| DELETE | `/api/trips/:id/parks/:park_id` | Remove a park from your list |
 | GET | `/api/me` | Session + whether Google is enabled |
 | POST | `/api/signup` `/api/login` | Email/password |
 | DELETE | `/api/logout` | |
@@ -233,4 +242,4 @@ bin/rails test                  # Postgres; `mn_parks_test`
 python3 scripts/test_park_geo.py  # pip install -r scripts/requirements.txt
 ```
 
-The SPA tests are Node’s built-in runner (`park-search`, `park-camera`). The only Rails test today is `test/spa_cache_headers_test.rb` (also runnable as `ruby test/spa_cache_headers_test.rb` without booting Rails). Geo tests are offline.
+The SPA tests are Node’s built-in runner (`park-search`, `park-camera`, `trips`). Rails tests cover trip list visibility plus `test/spa_cache_headers_test.rb` (also runnable as `ruby test/spa_cache_headers_test.rb` without booting Rails). Geo tests are offline.

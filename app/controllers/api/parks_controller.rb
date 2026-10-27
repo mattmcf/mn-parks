@@ -3,7 +3,9 @@ module Api
   # loaded the committed JSON artifacts. Index never calls DNR, NPS, DarkSky,
   # or review sites.
   class ParksController < BaseController
-    before_action :authenticate_user_json!, only: :user_state
+    before_action only: :user_state do
+      authenticate_user_json!("Sign in to save favorites and visited parks.")
+    end
 
     def index
       parks = Park.in_state.order(:name)

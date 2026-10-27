@@ -7,6 +7,7 @@ import {
   List,
   LocateFixed,
   LogOut,
+  Luggage,
   Pin,
   X,
 } from "lucide-react"
@@ -16,11 +17,13 @@ import { MapCanvas } from "@/components/MapCanvas"
 import { ParkDetail } from "@/components/ParkDetail"
 import { ParkList } from "@/components/ParkList"
 import { ParkSearch } from "@/components/ParkSearch"
+import { TripsPanel } from "@/components/TripsPanel"
 import { Button } from "@/components/ui/button"
 import { api } from "@/lib/api"
 import { TYPE_COLORS, TYPE_LABELS } from "@/lib/constants"
 import { formatMiles, haversineMiles } from "@/lib/geo"
 import { lngLatOfPark } from "@/lib/park-camera"
+import { parseTripPath, tripListPath, tripPath } from "@/lib/trips"
 import { cn } from "@/lib/utils"
 import type { Filters, Origin, Park, SessionUser } from "@/types"
 
@@ -65,6 +68,10 @@ export default function App() {
   const [authOpen, setAuthOpen] = useState(false)
   const [gpsBusy, setGpsBusy] = useState(false)
   const [gpsError, setGpsError] = useState<string | null>(null)
+  const [path, setPath] = useState(() => window.location.pathname)
+  const [pendingParkId, setPendingParkId] = useState<number | null>(null)
+  const tripRoute = parseTripPath(path)
+  const tripsOpen = tripRoute.kind !== "none"
 
   useEffect(() => {
     let cancelled = false
@@ -93,6 +100,19 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem(ORIGIN_KEY, JSON.stringify({ gps: gpsOrigin, pin: pinOrigin }))
   }, [gpsOrigin, pinOrigin])
+
+  useEffect(() => {
+    const onPop = () => setPath(window.location.pathname)
+    window.addEventListener("popstate", onPop)
+    return () => window.removeEventListener("popstate", onPop)
+  }, [])
+
+  const navigate = (next: string) => {
+    if (window.location.pathname !== next) {
+      window.history.pushState({}, "", next)
+    }
+    setPath(next)
+  }
 
   const distances = useMemo(() => {
     const map = new Map<number, number>()
@@ -131,6 +151,7 @@ export default function App() {
   }, [filtered, viewportIds, origin, distances])
 
   const selected = parks.find((park) => park.id === selectedId) ?? null
+  const pendingPark = parks.find((park) => park.id === pendingParkId) ?? null
   const noFilterMatch = !loading && parks.length > 0 && filtered.length === 0
   const mapParks = useMemo(() => {
     if (!selected || filtered.some((park) => park.id === selected.id)) return filtered
@@ -232,6 +253,10 @@ export default function App() {
           />
         </div>
         <div className="ml-auto flex shrink-0 items-center gap-2">
+          <Button variant="outline" size="sm" onClick={() => navigate(tripListPath())}>
+            <Luggage />
+            <span className="hidden sm:inline">Trips</span>
+          </Button>
           <Button variant="outline" size="sm" onClick={() => setFiltersOpen(true)}>
             <Filter />
             Filters
@@ -309,6 +334,10 @@ export default function App() {
                       onClose={() => setSelectedId(null)}
                       onNeedAuth={() => setAuthOpen(true)}
                       onToggle={toggleState}
+                      onAddToTrip={() => {
+                        if (selected) setPendingParkId(selected.id)
+                        navigate(tripListPath())
+                      }}
                     />
                   </div>
                 )}
@@ -455,6 +484,11 @@ export default function App() {
                   onClose={() => setSelectedId(null)}
                   onNeedAuth={() => setAuthOpen(true)}
                   onToggle={toggleState}
+                  onAddToTrip={() => {
+                    if (selected) setPendingParkId(selected.id)
+                    setMobileListOpen(false)
+                    navigate(tripListPath())
+                  }}
                 />
               )}
               <ParkList
@@ -495,6 +529,27 @@ export default function App() {
           </div>
         </div>
       )}
+
+      <TripsPanel
+        open={tripsOpen}
+        route={tripRoute}
+        user={user}
+        parks={parks}
+        pendingPark={pendingPark}
+        onClose={() => {
+          setPendingParkId(null)
+          navigate("/")
+        }}
+        onNeedAuth={() => setAuthOpen(true)}
+        onOpenList={() => navigate(tripListPath())}
+        onOpenTrip={(id) => navigate(tripPath(id))}
+        onSelectPark={(park) => {
+          setPendingParkId(null)
+          selectParkFromMap(park)
+          navigate("/")
+        }}
+        onClearPendingPark={() => setPendingParkId(null)}
+      />
 
       <AuthDialog
         open={authOpen}

@@ -1,4 +1,4 @@
-import { Check, Heart, Moon, Tent, X } from "lucide-react"
+import { Check, Heart, Luggage, Moon, Tent, X } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { labelFor, TYPE_COLORS, TYPE_LABELS } from "@/lib/constants"
@@ -13,9 +13,10 @@ type Props = {
   onClose: () => void
   onNeedAuth: () => void
   onToggle: (field: "favorited" | "visited", value: boolean) => void
+  onAddToTrip: () => void
 }
 
-export function ParkDetail({ park, origin, miles, user, onClose, onNeedAuth, onToggle }: Props) {
+export function ParkDetail({ park, origin, miles, user, onClose, onNeedAuth, onToggle, onAddToTrip }: Props) {
   return (
     <div className="flex h-full flex-col">
       <div className="flex items-start justify-between gap-3 border-b border-[hsl(var(--border))] px-4 py-3">
@@ -185,6 +186,14 @@ export function ParkDetail({ park, origin, miles, user, onClose, onNeedAuth, onT
         >
           <Check />
           {park.visited ? "Visited" : "Mark visited"}
+        </Button>
+        <Button
+          className="col-span-2"
+          variant="outline"
+          onClick={() => (user ? onAddToTrip() : onNeedAuth())}
+        >
+          <Luggage />
+          Add to a trip
         </Button>
       </div>
     </div>
