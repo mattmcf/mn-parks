@@ -1,3 +1,4 @@
+import type { AiChatRequestMessage, AiChatResponse } from "@/lib/ai-chat"
 import type { ParksPayload, SessionPayload, Park } from "@/types"
 import type { Trip, TripStatus } from "@/lib/trips"
 
@@ -70,4 +71,12 @@ export const api = {
     }),
   removeTripPark: (tripId: number, parkId: number) =>
     request<{ trip: Trip }>(`/api/trips/${tripId}/parks/${parkId}`, { method: "DELETE" }),
+  aiChat: (body: {
+    messages: AiChatRequestMessage[]
+    origin?: { latitude: number; longitude: number }
+  }) =>
+    request<AiChatResponse>("/api/ai/chat", {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
 }

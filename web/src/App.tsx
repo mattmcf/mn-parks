@@ -9,8 +9,10 @@ import {
   LogOut,
   Luggage,
   Pin,
+  Star,
   X,
 } from "lucide-react"
+import { AiChatPanel } from "@/components/AiChatPanel"
 import { AuthDialog } from "@/components/AuthDialog"
 import { FilterPanel, defaultFilters } from "@/components/FilterPanel"
 import { MapCanvas } from "@/components/MapCanvas"
@@ -66,6 +68,7 @@ export default function App() {
   const [mobileListOpen, setMobileListOpen] = useState(false)
   const [filtersOpen, setFiltersOpen] = useState(false)
   const [authOpen, setAuthOpen] = useState(false)
+  const [aiOpen, setAiOpen] = useState(false)
   const [gpsBusy, setGpsBusy] = useState(false)
   const [gpsError, setGpsError] = useState<string | null>(null)
   const [path, setPath] = useState(() => window.location.pathname)
@@ -243,17 +246,39 @@ export default function App() {
             State, national, regional, and county parks inside Minnesota
           </p>
         </div>
-        <div className="order-last min-w-0 w-full md:order-none md:w-auto md:min-w-0 md:flex-1 md:px-3">
-          <ParkSearch
-            parks={parks}
-            loading={loading}
-            error={error}
-            selectedId={selectedId}
-            onSelect={selectParkFromMap}
-          />
+        <div className="order-last flex min-w-0 w-full items-center gap-2 md:order-none md:w-auto md:min-w-0 md:flex-1 md:px-3">
+          <div className="min-w-0 flex-1">
+            <ParkSearch
+              parks={parks}
+              loading={loading}
+              error={error}
+              selectedId={selectedId}
+              onSelect={selectParkFromMap}
+            />
+          </div>
+          <Button
+            variant={aiOpen ? "accent" : "outline"}
+            size="sm"
+            aria-label="Ask AI"
+            aria-pressed={aiOpen}
+            onClick={() => {
+              if (tripsOpen) navigate("/")
+              setAiOpen((open) => !open)
+            }}
+          >
+            <Star />
+            <span className="hidden lg:inline">Ask AI</span>
+          </Button>
         </div>
         <div className="ml-auto flex shrink-0 items-center gap-2">
-          <Button variant="outline" size="sm" onClick={() => navigate(tripListPath())}>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => {
+              setAiOpen(false)
+              navigate(tripListPath())
+            }}
+          >
             <Luggage />
             <span className="hidden sm:inline">Trips</span>
           </Button>
@@ -529,6 +554,22 @@ export default function App() {
           </div>
         </div>
       )}
+
+      <AiChatPanel
+        open={aiOpen}
+        user={user}
+        origin={origin}
+        onClose={() => setAiOpen(false)}
+        onNeedAuth={() => setAuthOpen(true)}
+        onSelectPark={(park) => {
+          selectParkFromMap(park)
+          if (window.matchMedia("(max-width: 767px)").matches) setAiOpen(false)
+        }}
+        onSavedTrip={(id) => {
+          setAiOpen(false)
+          navigate(tripPath(id))
+        }}
+      />
 
       <TripsPanel
         open={tripsOpen}
