@@ -1,9 +1,19 @@
 import { Checkbox } from "@/components/ui/checkbox"
 import { labelFor, TYPE_LABELS } from "@/lib/constants"
+import { cn } from "@/lib/utils"
 import type { Filters, Origin, ParkType } from "@/types"
 
 const TYPES: ParkType[] = ["national", "state", "wilderness", "regional", "county"]
 const DISTANCES = [15, 30, 60, 120]
+
+function chipClass(active: boolean) {
+  return cn(
+    "inline-flex min-h-8 items-center rounded-full border px-2.5 py-1.5 text-xs leading-5",
+    active
+      ? "border-[hsl(var(--primary))] bg-[hsl(var(--primary))] text-white"
+      : "border-[hsl(var(--border))]",
+  )
+}
 
 type Props = {
   filters: Filters
@@ -58,14 +68,10 @@ export function FilterPanel({
         <legend className="mb-2 text-xs font-semibold uppercase tracking-wide text-[hsl(var(--muted-foreground))]">
           Night sky
         </legend>
-        <div className="flex flex-wrap gap-1.5">
+        <div className="flex flex-wrap content-start items-center gap-x-1.5 gap-y-2 overflow-visible py-0.5">
           <button
             type="button"
-            className={`rounded-full border px-2.5 py-1 text-xs ${
-              filters.darkSky
-                ? "border-[hsl(var(--primary))] bg-[hsl(var(--primary))] text-white"
-                : "border-[hsl(var(--border))]"
-            }`}
+            className={chipClass(filters.darkSky)}
             onClick={() => onChange({ ...filters, darkSky: !filters.darkSky })}
             aria-pressed={filters.darkSky}
           >
@@ -82,10 +88,10 @@ export function FilterPanel({
           Distance
         </legend>
         {origin ? (
-          <div className="flex flex-wrap gap-1.5">
+          <div className="flex flex-wrap content-start items-center gap-x-1.5 gap-y-2 overflow-visible py-0.5">
             <button
               type="button"
-              className={`rounded-full border px-2.5 py-1 text-xs ${filters.maxMiles == null ? "border-[hsl(var(--primary))] bg-[hsl(var(--primary))] text-white" : "border-[hsl(var(--border))]"}`}
+              className={chipClass(filters.maxMiles == null)}
               onClick={() => onChange({ ...filters, maxMiles: null })}
             >
               Any
@@ -94,7 +100,7 @@ export function FilterPanel({
               <button
                 key={miles}
                 type="button"
-                className={`rounded-full border px-2.5 py-1 text-xs ${filters.maxMiles === miles ? "border-[hsl(var(--primary))] bg-[hsl(var(--primary))] text-white" : "border-[hsl(var(--border))]"}`}
+                className={chipClass(filters.maxMiles === miles)}
                 onClick={() => onChange({ ...filters, maxMiles: miles })}
               >
                 {miles} mi
@@ -182,7 +188,7 @@ function ChipFilter({
       {options.length === 0 ? (
         <p className="text-[hsl(var(--muted-foreground))]">None listed in the current inventory.</p>
       ) : (
-        <div className="flex max-h-36 flex-wrap gap-1.5 overflow-y-auto">
+        <div className="flex flex-wrap content-start items-center gap-x-1.5 gap-y-2 overflow-visible py-0.5">
           {options.map((value) => {
             const active = selected.includes(value)
             return (
@@ -190,11 +196,7 @@ function ChipFilter({
                 key={value}
                 type="button"
                 onClick={() => onToggle(value)}
-                className={`rounded-full border px-2.5 py-1 text-xs ${
-                  active
-                    ? "border-[hsl(var(--primary))] bg-[hsl(var(--primary))] text-white"
-                    : "border-[hsl(var(--border))]"
-                }`}
+                className={chipClass(active)}
               >
                 {labelFor(kind, value)}
               </button>
