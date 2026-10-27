@@ -1,6 +1,6 @@
 # MN Parks
 
-Map-first website of **parks inside Minnesota**. Browse type-colored markers on a statewide map, search parks by name in the header, filter by type and amenities, open details, jump to a random park, and — once you sign in — save favorites, mark parks visited, and keep named trip lists. Public trip lists are readable logged out.
+Map-first website of **parks inside Minnesota**. Browse type-colored markers on a statewide map, search parks by name in the header, or open the header **star** and describe a trip in plain language. Filter by type and amenities, open details, jump to a random park, and — once you sign in — save favorites, mark parks visited, and keep named trip lists (including ones the star chat suggests). Public trip lists are readable logged out.
 
 This is a monorepo:
 
@@ -52,7 +52,9 @@ Start both processes with **`bin/dev`** (Foreman reads `Procfile.dev`; uncommon 
 bin/dev
 ```
 
-Then open the **map** at **http://127.0.0.1:4174**. The Rails JSON API is **http://127.0.0.1:3451** (Vite proxies `/api` to it). The map, list, details, filters, Random, and **public trip lists** work logged out. Favorite, Visited, and creating or editing your own lists prompt for sign-in. Open `/trips` in the SPA, or click **Trips** in the header.
+Then open the **map** at **http://127.0.0.1:4174**. The Rails JSON API is **http://127.0.0.1:3451** (Vite proxies `/api` to it). The map, list, details, filters, Random, name search, **star chat**, and **public trip lists** work logged out. Favorite, Visited, creating lists, and **Save trip** from the star chat prompt for sign-in. Open `/trips` in the SPA, or click **Trips** in the header.
+
+**Try the star chat:** click the star next to header search (`aria-label`: Ask AI) → type something like `dark sky` or `a North Shore weekend` → Send → click a park to frame it, or **Save trip** (sign in if needed). Chat history is this browser tab only; **Clear chat** starts over. No paid LLM key: the local planner reads `Park` JSON. Set `AI_LLM_PROVIDER=mock` (or leave it unset).
 
 `bin/dev` installs the `foreman` gem if it is missing, then runs:
 
@@ -196,8 +198,9 @@ Current asset: **66** parks with a camping score, **68** with some camping intel
 - Distance origin: browser GPS + draggable From pin (pin overrides GPS)
 - Devise email/password; map works logged out; favorite/visited persist when logged in
 - Named **trip lists** (planned / want to go / gone) with parks, notes, optional dates, and a public/private flag. Creating requires login; public lists are visible logged out; private lists are owner-only
-- Loading, empty inventory, API error, no-filter-match, empty/error trip lists
-- Desktop sidebar + mobile map-first with a bottom sheet list
+- Header **star** opens a session AI chat: written criteria against the ingested park JSON (no live GIS, Google, or AllTrails). Optional proposed trip; **Save trip** uses `POST /api/trips` then `POST /api/trips/:id/parks` when logged in. Tab `sessionStorage` history + Clear.
+- Loading, empty inventory, API error, no-filter-match, empty/error trip lists, chat empty/loading/error
+- Desktop sidebar + mobile map-first with a bottom sheet list; star chat is a right panel on desktop and a full-screen sheet on mobile
 
 **Deferred**
 
@@ -206,6 +209,8 @@ Current asset: **66** parks with a camping score, **68** with some camping intel
 - Address search and driving time
 - Account deletion, Rails admin
 - Scheduled re-ingest
+- Paid LLM behind `AI_LLM_PROVIDER` (the mock/local planner is the Hobby default)
+- Multi-turn “add two more beaches,” ranking by favorite/visited, persisted chat threads
 - Google OAuth until keys are provided
 - Custom domain / paid Render plans (optional; see docs/deploy.md)
 
@@ -225,6 +230,7 @@ Current asset: **66** parks with a camping score, **68** with some camping intel
 | DELETE | `/api/trips/:id` | Delete own list |
 | POST | `/api/trips/:id/parks` | `{ park_id }` add a park to your list |
 | DELETE | `/api/trips/:id/parks/:park_id` | Remove a park from your list |
+| POST | `/api/ai/chat` | `{ messages, origin? }` → `{ message, parks, proposed_trip? }`. Guests allowed. Local planner; 20 posts / 10 minutes / IP |
 | GET | `/api/me` | Session + whether Google is enabled |
 | POST | `/api/signup` `/api/login` | Email/password |
 | DELETE | `/api/logout` | |
@@ -242,4 +248,4 @@ bin/rails test                  # Postgres; `mn_parks_test`
 python3 scripts/test_park_geo.py  # pip install -r scripts/requirements.txt
 ```
 
-The SPA tests are Node’s built-in runner (`park-search`, `park-camera`, `trips`). Rails tests cover trip list visibility plus `test/spa_cache_headers_test.rb` (also runnable as `ruby test/spa_cache_headers_test.rb` without booting Rails). Geo tests are offline.
+The SPA tests are Node’s built-in runner (`park-search`, `park-camera`, `trips`, `ai-chat`). Rails tests cover trip list visibility, the AI planner golden prompts, chat rate limits, plus `test/spa_cache_headers_test.rb` (also runnable as `ruby test/spa_cache_headers_test.rb` without booting Rails). Geo tests are offline.

@@ -23,6 +23,8 @@ Rails.application.routes.draw do
     resources :trips, only: [ :index, :show, :create, :update, :destroy ] do
       resources :parks, only: [ :create, :destroy ], controller: "trip_parks"
     end
+
+    post "ai/chat", to: "ai_chats#create"
   end
 
   # Vite SPA in production (bin/install-spa copies web/dist → public/).

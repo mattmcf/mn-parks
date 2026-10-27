@@ -12,15 +12,17 @@ module ActiveSupport
       User.create!(email: email, password: password, password_confirmation: password)
     end
 
-    def create_park(name: "Itasca State Park", park_type: "state")
+    def create_park(name: "Itasca State Park", park_type: "state", **attrs)
       Park.create!(
-        name: name,
-        park_type: park_type,
-        source: "test",
-        source_id: SecureRandom.hex(8),
-        latitude: 47.2,
-        longitude: -95.2,
-        in_minnesota: true
+        {
+          name: name,
+          park_type: park_type,
+          source: "test",
+          source_id: SecureRandom.hex(8),
+          latitude: 47.2,
+          longitude: -95.2,
+          in_minnesota: true
+        }.merge(attrs)
       )
     end
   end
