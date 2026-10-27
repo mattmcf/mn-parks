@@ -28,10 +28,14 @@ module Api
       park.as_api_json(user: current_user, state: current_states_by_park[park.id])
     end
 
-    def authenticate_user_json!
+    def authenticate_user_json!(message = "Sign in to continue.")
       return if user_signed_in?
 
-      render json: { error: "Sign in to save favorites and visited parks." }, status: :unauthorized
+      render json: { error: message }, status: :unauthorized
+    end
+
+    def not_found_trip
+      render json: { error: "That trip list was not found." }, status: :not_found
     end
 
     def google_oauth_enabled?

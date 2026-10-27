@@ -6,6 +6,7 @@ class User < ApplicationRecord
            through: :park_user_states, source: :park
   has_many :visited_parks, -> { where(park_user_states: { visited: true }) },
            through: :park_user_states, source: :park
+  has_many :trips, dependent: :destroy
 
   def self.from_omniauth(auth)
     email = auth.info.email.to_s.downcase
